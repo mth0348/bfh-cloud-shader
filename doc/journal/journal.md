@@ -22,6 +22,7 @@ Next meeting is scheduled for March 2nd, 2020 at 3pm.
 ## \#02: March 2, 2020
 ### Formal and technical questions
 * Meeting protocol okay in form of markdown?
+* Keep project requirement specification separate from main document?
 
 ### Meeting discussion
 tbd
