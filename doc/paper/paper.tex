@@ -1,18 +1,18 @@
 \documentclass[a4paper,11pt]{article}
 
-\usepackage{csquotes}
-\usepackage{kpfonts}
 \usepackage[hidelinks]{hyperref}
 
-\usepackage[absolute]{textpos}
+\usepackage[absolute]{textpos} % absolute positioned text blocks
 \setlength{\TPHorizModule}{1mm}
 \setlength{\TPVertModule}{1mm}
 
 % Images
-\usepackage{graphicx}
+\usepackage{graphicx} % used for images
 
 % Formatting
-\usepackage{geometry}
+\usepackage{geometry} % better margins for document
+\usepackage{tabularx} % better tables
+\usepackage{titlesec} % better control over title spacing 
 
 % Colors
 \RequirePackage{color}
@@ -29,26 +29,26 @@
 \author{\docauthor}
 \date{\versiondate} 
 
-\newcommand{\docsubtitle}{Real-time volumetric cloud rendering}
+\newcommand{\docsubtitle}{Requirement specification}
 \newcommand{\docauthor}{Matthias Thomann}
 \newcommand{\doctitle}{Procedural cloud shader}
 \newcommand{\fieldofstudies}{BSc in Computer Science}
 \newcommand{\specialisation}{Computer perception and virtual reality}
 \newcommand{\prof}{Prof. Urs K\"unzler}
 
-\providecommand{\versionnumber}{0.1}
-\providecommand{\versiondate}{\today}
+\newcommand{\versionnumber}{0.1}
+\newcommand{\versiondate}{\today}
+
+\titlespacing*{\section} {0pt}{7.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+\titlespacing*{\subsection} {0pt}{.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 \input{partials/title.tex}
 
 \tableofcontents
 \clearpage
 
-\section{Introduction}
-Here comes the content.
-
-\section{Introduction}
-Here comes the content.
+\section{No content}
+This document has no content.
 
 \clearpage
 

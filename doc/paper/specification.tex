@@ -1,18 +1,18 @@
 \documentclass[a4paper,11pt]{article}
 
-\usepackage{csquotes}
-\usepackage{kpfonts}
 \usepackage[hidelinks]{hyperref}
 
-\usepackage[absolute]{textpos}
+\usepackage[absolute]{textpos} % absolute positioned text blocks
 \setlength{\TPHorizModule}{1mm}
 \setlength{\TPVertModule}{1mm}
 
 % Images
-\usepackage{graphicx}
+\usepackage{graphicx} % used for images
 
 % Formatting
-\usepackage{geometry}
+\usepackage{geometry} % better margins for document
+\usepackage{tabularx} % better tables
+\usepackage{titlesec} % better control over title spacing 
 
 % Colors
 \RequirePackage{color}
@@ -36,18 +36,33 @@
 \newcommand{\specialisation}{Computer perception and virtual reality}
 \newcommand{\prof}{Prof. Urs K\"unzler}
 
-\providecommand{\versionnumber}{0.1}
-\providecommand{\versiondate}{\today}
+\newcommand{\versionnumber}{0.1}
+\newcommand{\versiondate}{\today}
+
+\titlespacing*{\section} {0pt}{7.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+\titlespacing*{\subsection} {0pt}{.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 \input{partials/title.tex}
 
 \tableofcontents
 \clearpage
 
-\section{Introduction}
-Here comes the content.
+\section{General}
 
-\section{Introduction}
+\subsection{Purpose}
+This document serves the purpose of defining and clarifying the goals, which the project 'Procedural cloud shader' is supposed to achieve. Furthermore, the requirement specification allows for a more accurate evaluation of the achievement of objectives and of the result itself.
+
+\subsection{Revision history}
+
+\begin{tabularx}{\textwidth}{|c|c|c|X|}
+    \hline
+    Version & Date & Name & Comment \\ 
+    \hline
+    0.1 & February 29, 2020 & Matthias Thomann & Initial draft \\ 
+    \hline
+\end{tabularx}
+
+\section{Scope of work}
 Here comes the content.
 
 \clearpage
