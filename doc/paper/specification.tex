@@ -1,7 +1,5 @@
 \documentclass[a4paper, 11pt]{article}
 
-\usepackage[hidelinks]{hyperref}
-
 \usepackage[absolute]{textpos} % absolute positioned text blocks
 \setlength{\TPHorizModule}{1mm}
 \setlength{\TPVertModule}{1mm}
@@ -13,6 +11,9 @@
 \usepackage{geometry} % better margins for document
 \usepackage{titlesec} % better control over title spacing 
 \usepackage{tabularx} % better tables
+
+% Gantt charts
+\usepackage{pgfgantt}
 
 \geometry{
 	a4paper,
@@ -35,7 +36,10 @@
 \usepackage[backend=biber, style=ieee]{biblatex}
 \addbibresource{specification.bib}
 
+
 \begin{document}
+
+\color{black}
 
 \title{\doctitle}
 \author{\docauthor}
@@ -67,7 +71,11 @@
 \input{partials/chapter2-scope.tex}
 \clearpage
 
-\input{partials/chapter3-results.tex}
+\input{partials/chapter3-planning.tex}
+\clearpage
+\clearpage
+
+\input{partials/chapter4-results.tex}
 \clearpage
 
 \printglossaries
