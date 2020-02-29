@@ -1,4 +1,4 @@
-\documentclass[a4paper,11pt]{article}
+\documentclass[a4paper, 11pt]{article}
 
 \usepackage[hidelinks]{hyperref}
 
@@ -11,8 +11,8 @@
 
 % Formatting
 \usepackage{geometry} % better margins for document
-\usepackage{tabularx} % better tables
 \usepackage{titlesec} % better control over title spacing 
+\usepackage{tabularx} % better tables
 
 \geometry{
 	a4paper,
@@ -27,9 +27,13 @@
 \definecolor{bfhgrey}{rgb}{0.41,0.49,0.57}
 
 % Glossary
-\usepackage[toc,section=section]{glossaries}
-\makeglossaries
+\usepackage[toc]{glossaries}
 \input{partials/glossary.tex}
+\makeglossaries
+
+% Bibliography
+\usepackage[backend=biber, style=ieee]{biblatex}
+\addbibresource{specification.bib}
 
 \begin{document}
 
@@ -48,62 +52,28 @@
 \newcommand{\versiondate}{\today}
 
 \titlespacing*{\section} {0pt}{7.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
-\titlespacing*{\subsection} {0pt}{2.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\titlespacing*{\subsection} {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 \input{partials/title.tex}
+
+
 
 \tableofcontents
 \clearpage
 
-\section{General}
-
-\subsection{Purpose}
-This document serves the purpose of defining and clarifying the goals, which the project 'Procedural cloud shader' is supposed to achieve. Furthermore, the requirement specification allows for a more accurate evaluation of the achievement of objectives and of the result itself.
-
-\subsection{Revision history}
-
-\begin{tabularx}{\textwidth}{|c|c|c|X|}
-    \hline
-    Version & Date & Name & Comment \\ 
-    \hline
-    0.1 & February 29, 2020 & Matthias Thomann & Initial draft \\ 
-    \hline
-\end{tabularx}
-
+\input{partials/chapter1-general.tex}
 \clearpage
 
-\section{Scope of work}
+\input{partials/chapter2-scope.tex}
+\clearpage
 
-\subsection{Initial situation}
-With shaders making up a large part of visual effects in games and in game development generally, they have become more and more important throughout the years. Due to their high flexibility, it is possible to create a wide variation of implementations as well as cheap alternatives to otherwise highly complex and computationally demanding simulations, such as simulating water, fire or clouds.
-\\
-This project specifically focuses on clouds. But to achieve a realistic look and feel of the clouds, certain methods and knowledge are required. The motivation for this project is to implement such a shader based on information gathered during the given period.
-
-\subsection{Goals}
-The primary goal of the project is to research and document rendering techniques for real-time procedural cloud shaders. Additionally, a prototype is to be implemented based on the newly discovered knowledge.
-
-\subsubsection{Mandatory goals}
-The following tasks must be accomplished during the project:
-\begin{itemize}
-\item Understanding of the basic nature of clouds
-\item Understanding of what makes good clouds in games
-\item Research common methods and algorithms involved in rendering procedural clouds, including...
-\begin{itemize}
-    \item volumetric rendering
-    \item procedural noise generation algorithms
-    \item the concept of ray-marching
-    \end{itemize}
-\end{itemize}
-\subsubsection{Optional goals}
-For further optional research, these tasks can be looked into:
-\begin{itemize}
-    \item Light scattering illumination and sub-surface scattering
-    \item Performance optimization
-    \item Simulation of gas
-\end{itemize}
+\input{partials/chapter3-results.tex}
+\clearpage
 
 \printglossaries
+\clearpage
 
+\printbibliography[heading=bibintoc]
 \clearpage
 
 \end{document}
