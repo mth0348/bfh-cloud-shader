@@ -1,0 +1,4 @@
+rendered-clouds-01: http://www.shadowmint.com/articles/code-volumetric-shader-1/
+rendered-clouds-02: https://100assets.ru/product/weather-maker-unity-weather-system-sky-water-volumetric-clouds-and-light/
+
+photographic-clouds-01: https://www.mnn.com/earth-matters/climate-weather/stories/types-of-clouds

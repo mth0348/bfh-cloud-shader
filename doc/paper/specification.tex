@@ -6,6 +6,8 @@
 
 % Images
 \usepackage{graphicx} % used for images
+\graphicspath{ {./../img/} }
+\usepackage[labelfont=bf]{caption}
 
 % Formatting
 \usepackage{geometry} % better margins for document
@@ -36,7 +38,6 @@
 \usepackage[backend=biber, style=ieee]{biblatex}
 \addbibresource{partials/specification.bib}
 
-
 \begin{document}
 
 \color{black}
@@ -60,9 +61,7 @@
 
 \input{partials/title.tex}
 
-
-
-\tableofcontents
+\tableofcontents 
 \clearpage
 
 \input{partials/chapter1-general.tex}
@@ -74,7 +73,10 @@
 \input{partials/chapter3-planning.tex}
 \clearpage
 
-\input{partials/chapter4-results.tex}
+\input{partials/chapter4-requirements.tex}
+\clearpage
+
+\input{partials/chapter5-results.tex}
 \clearpage
 
 \printglossaries
