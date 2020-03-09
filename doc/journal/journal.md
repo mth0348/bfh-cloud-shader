@@ -17,6 +17,14 @@ Gitlab repository [cloud-shader](https://gitlab.ti.bfh.ch/cpvr-students/cloud-sh
 
 Next meeting is scheduled for March 2, 2020 at 3pm.
 
+**Time log**
+
+| Task | time spent |
+|----|---|
+| Setup of latex work environment | 4h |
+| Initial draft of specification document | 4h |
+| Research on existing papers about cloud rendering | 1h |
+
 &nbsp;
 
 &nbsp;
@@ -28,10 +36,12 @@ Next meeting is scheduled for March 2, 2020 at 3pm.
 * When is the deadline of the project submission?
 
 ### Meeting discussion
-One of the meetings has to be moved from 13.04.2020 to **14.04.2020 at 15:30**.
 
 **Tasks**
 * Rename the repository from "cloud-shader" to "2020-cloud-shader".
+* The meeting of April 13th, 2020 will be moved to **April 14th, 2020 at 3:30 pm**.
+* Finish final draft of specification.tex by March 13th, 2020 and send it to the tutor.
+
 
 **Remarks about the specification.tex**
 * In "Scope of Work", add subsection "Vision". This should contain a short description of what this project could be followed with / long-term goals.
@@ -42,11 +52,17 @@ One of the meetings has to be moved from 13.04.2020 to **14.04.2020 at 15:30**.
 * In "Results", add subsection "Presentation". This should contain information about the presentation occuring on the second last friday of the term, during school time.
 * Add more images. At least in "Vision", add an image showing how I would like the prototypes to look like.
 
-Next meeting is scheduled for March 9, 2020 at 3pm.
+Next meeting is scheduled for March 16, 2020 at 3pm.
 
+
+**Time log**
+
+| Task | time spent |
+|----|---|
+| Updated document in regards of the discussed remarks | 8h |
 &nbsp;
 
 &nbsp;
 
 
-## \#03: March 9, 2020
+## \#03: March 16, 2020
