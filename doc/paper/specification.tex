@@ -34,7 +34,7 @@
 % Glossary
 \usepackage[toc]{glossaries}
 \input{partials/glossary.tex}
-\makeglossaries
+\makenoidxglossaries
 
 % Bibliography
 \usepackage[backend=biber, style=ieee]{biblatex}
@@ -57,6 +57,7 @@
 
 \newcommand{\versionnumber}{0.1}
 \newcommand{\versiondate}{\today}
+\newcommand{\sectionref}[1]{\autoref{#1}}
 
 \titlespacing*{\section} {0pt}{7.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
 \titlespacing*{\subsection} {0pt}{4.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
@@ -86,7 +87,7 @@
 \input{partials/chapter5-results.tex}
 \clearpage
 
-\printglossaries
+\printnoidxglossary
 \printbibliography[heading=bibintoc]
 \clearpage
 
