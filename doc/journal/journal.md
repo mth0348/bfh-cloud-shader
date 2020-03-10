@@ -59,7 +59,7 @@ Next meeting is scheduled for March 16, 2020 at 3pm.
 
 | Task | time spent |
 |----|---|
-| Updated document in regards of the discussed remarks | 8h |
+| Updated document in regards of the discussed remarks | 10h |
 &nbsp;
 
 &nbsp;
