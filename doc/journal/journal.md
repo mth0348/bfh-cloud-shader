@@ -51,6 +51,7 @@ Next meeting is scheduled for March 2, 2020 at 3pm.
 * Add section "Testing"
 * In "Results", add subsection "Presentation". This should contain information about the presentation occuring on the second last friday of the term, during school time.
 * Add more images. At least in "Vision", add an image showing how I would like the prototypes to look like.
+* Add milestones to section "Planning"
 
 Next meeting is scheduled for March 16, 2020 at 3pm.
 
