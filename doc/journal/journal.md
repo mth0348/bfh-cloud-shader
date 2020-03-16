@@ -53,17 +53,25 @@ Next meeting is scheduled for March 2, 2020 at 3pm.
 * Add more images. At least in "Vision", add an image showing how I would like the prototypes to look like.
 * Add milestones to section "Planning"
 
-Next meeting is scheduled for March 16, 2020 at 3pm.
+~~Next meeting is scheduled for March 16, 2020 at 3pm.~~ (moved due to conficting schedule)  
+Next meeting is scheduled for March 17, 2020 at 2:30pm.
 
 
 **Time log**
 
 | Task | time spent |
 |----|---|
-| Updated document in regards of the discussed remarks | 10h |
+| Updated document in regards of the discussed points | 10h |
 &nbsp;
 
 &nbsp;
 
 #
-## \#03: March 16, 2020
+## \#03: March 17, 2020
+*(meeting was moved from March 16th to March 17th)*
+
+### Formal and technical topics
+* Begin main paper
+    * Working on achieving research requirements / research goals
+
+### Meeting discussion
