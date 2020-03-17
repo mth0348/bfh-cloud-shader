@@ -75,3 +75,28 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
     * Working on achieving research requirements / research goals
 
 ### Meeting discussion
+* Add version to title page.
+* 2.5 Add "LaTeX documentation" to Visual Studio Code. c# for Unity.
+    * rename to "Used Software and Tools"
+* 3: Project Management
+    * 3.1 Schedule
+    * 3.2 Project organization
+        * Meetings, every 2 weeks, video conference
+    * 3.3 Results
+
+* Planning: Add "documentation" to Gantt chart 
+
+* Research requirement
+    * R.3 simplify and rewrite.
+
+
+Testing: 
+* Add "Visual comparison with photographic reference".
+* Add "Performance Testing"
+    * Influence on performance of parameters / variables 
+
+* Glossary:
+    * Shortly explain Rendering techniques
+
+
+**Until end of the week: Send definitive version of req. specification to tutor.**
