@@ -4,6 +4,7 @@
 \setlength{\TPHorizModule}{1mm}
 \setlength{\TPVertModule}{1mm}
 \usepackage[english]{babel}
+\usepackage{csquotes}
 
 % Images
 \usepackage{graphicx} % used for images
@@ -15,6 +16,7 @@
 \usepackage{titlesec} % better control over title spacing 
 \usepackage{tabularx} % better tables
 \usepackage[hidelinks]{hyperref} % hrefs
+\usepackage{totcount}
 
 % Gantt charts
 \usepackage{pgfgantt}
@@ -49,6 +51,7 @@
 \date{\versiondate} 
 
 \newcounter{requirements}
+\newtotcounter{versionnumber}
 \newcommand{\docsubtitle}{Requirement specification}
 \newcommand{\docauthor}{Matthias Thomann}
 \newcommand{\doctitle}{Procedural cloud shader}
@@ -56,7 +59,6 @@
 \newcommand{\specialisation}{Computer perception and virtual reality}
 \newcommand{\prof}{Prof. Urs K\"unzler}
 
-\newcommand{\versionnumber}{0.1}
 \newcommand{\versiondate}{\today}
 \newcommand{\sectionref}[1]{\autoref{#1}}
 
@@ -79,16 +81,13 @@
 \input{partials/chapter2-scope.tex}
 \clearpage
 
-\input{partials/chapter3-planning.tex}
+\input{partials/chapter3-projectmanagement.tex}
 \clearpage
 
 \input{partials/chapter4-requirements.tex}
-\clearpage
-
-\input{partials/chapter5-testing.tex}
 %intential no clearpage
 
-\input{partials/chapter6-results.tex}
+\input{partials/chapter5-testing.tex}
 \clearpage
 
 \printnoidxglossary
