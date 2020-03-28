@@ -1,18 +1,25 @@
 \documentclass[a4paper, 11pt]{article}
 
-\usepackage[hidelinks]{hyperref}
-
 \usepackage[absolute]{textpos} % absolute positioned text blocks
 \setlength{\TPHorizModule}{1mm}
 \setlength{\TPVertModule}{1mm}
+\usepackage[english]{babel}
+\usepackage{csquotes}
 
 % Images
 \usepackage{graphicx} % used for images
+\graphicspath{ {./../img/} }
+\usepackage[labelfont=bf]{caption}
 
 % Formatting
 \usepackage{geometry} % better margins for document
 \usepackage{titlesec} % better control over title spacing 
 \usepackage{tabularx} % better tables
+\usepackage[hidelinks]{hyperref} % hrefs
+\usepackage{totcount}
+
+% Gantt charts
+\usepackage{pgfgantt}
 
 \geometry{
 	a4paper,
@@ -22,50 +29,57 @@
     bottom=30mm
 }
 
-% Colors
+% Colors 
 \RequirePackage{color}
 \definecolor{bfhgrey}{rgb}{0.41,0.49,0.57}
 
 % Glossary
 \usepackage[toc]{glossaries}
 \input{partials/glossary.tex}
-\makeglossaries
+\makenoidxglossaries
 
 % Bibliography
 \usepackage[backend=biber, style=ieee]{biblatex}
-\addbibresource{specification.bib}
+\addbibresource{partials/specification.bib}
 
 \begin{document}
+
+\color{black}
 
 \title{\doctitle}
 \author{\docauthor}
 \date{\versiondate} 
 
-\newcommand{\docsubtitle}{Requirement specification}
+\newcounter{requirements}
+\newtotcounter{versionnumber}
+\newcommand{\docsubtitle}{Project documentation}
 \newcommand{\docauthor}{Matthias Thomann}
 \newcommand{\doctitle}{Procedural cloud shader}
 \newcommand{\fieldofstudies}{BSc in Computer Science}
 \newcommand{\specialisation}{Computer perception and virtual reality}
 \newcommand{\prof}{Prof. Urs K\"unzler}
 
-\newcommand{\versionnumber}{0.1}
 \newcommand{\versiondate}{\today}
+\newcommand{\sectionref}[1]{\autoref{#1}}
 
 \titlespacing*{\section} {0pt}{7.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
 \titlespacing*{\subsection} {0pt}{4.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
+\pagenumbering{roman}
+\setcounter{page}{3}
+
 \input{partials/title.tex}
 
-\tableofcontents
+\tableofcontents 
 \clearpage
 
-\section{No content}
-This document has no content.
+\pagenumbering{arabic}
 
+\input{partials/paper/chapter1-general.tex}
 \clearpage
 
-\printglossaries
-
+\printnoidxglossary
+\printbibliography[heading=bibintoc]
 \clearpage
 
 \end{document}
