@@ -54,24 +54,47 @@ Their distinctive cotton-like look makes them easy to recognize, which is also w
 In games, the formation as well as the composition of clouds are irrelevant, as they are essentially only used for cinematic ambience or as a medium to enhance the atmosphere. This leaves just the rendering technique to worry about.
 
 \subsubsection{Rendering techniques}
-A widespread solution for rendering clouds in games is not rendering them separately at all, but instead using a set of polar sky dome images, also known as the skybox. This is a six-sided cube which is rendered around the whole game world. On each inward looking face of the cube, one of the sky dome images is rendered, creating a seemless sky around the complete box.
+\paragraph{Skybox}
+A widespread solution for representing clouds in games is not rendering them separately at all, but instead using a set of polar sky dome images, also known as the skybox. This is a six-sided cube which is rendered around the whole game world. On each inward looking face of the cube, one of the sky dome images is rendered, creating a seemless sky around the inner side of the box.
 
 \begin{figure}[ht]
     \centering
         \begin{minipage}{0.47\linewidth}
             \includegraphics{edits/skybox}
-            \captionof{figure}{Three sides of a six-sided skybox cube and a ball representing the game world}
-            \label{img:edits:skybox}            
-        \end{minipage}        
+            \captionof{figure}{The skybox cube as it used in games.}
+            \label{img:edits:skybox}
+        \end{minipage}
     \hfill
-        \begin{minipage}{0.47\linewidth}
+        \begin{minipage}{0.45\linewidth}
             \includegraphics[width=\linewidth]{edits/skybox_layedout}
-            \captionof{figure}{Photographic reference of stratocumulus cloudscape\protect\cite{img:cloudforms:stratocumulus}.}
-            \label{img:edits:skybox_layedout}        
-        \end{minipage}  
+            \captionof{figure}{The polar sky dome images, layed out.}
+            \label{img:edits:skybox_layedout}
+        \end{minipage}
 \end{figure}
 
+\noindent
+Besides showing the sky, this of course allows clouds to be drawn right into the background. Also, in terms of performance, this is extremely cheap and efficient. On the other hand, it removes the ability for the clouds to move. They also have no volumetric body and no way of interaction with the game world whatsoever.
+\\
+This method does indeed give the scenery a more cloudy look, but what is missing is the "feel", or in other words the motion, interaction and lifelikeness.
+\pagebreak
 
+\paragraph{Billboards}
+Another rather simple way of rendering clouds is by only showing 2D images. When always facing the main camera, those are called \gls{billboard}s.
+
+\begin{figure}[ht]
+    \centering
+        \begin{minipage}{0.48\linewidth}
+            \includegraphics{edits/billboards}
+            \captionof{figure}{A collection of 2D cloud billboards facing the camera}
+            \label{img:edits:billboards}
+        \end{minipage}
+    \hfill
+        \begin{minipage}{0.45\linewidth}
+            \includegraphics[width=\linewidth]{edits/billboards_rendered}
+            \captionof{figure}{The rendered result of the image to the left}
+            \label{img:edits:billboards_rendered}
+        \end{minipage}
+\end{figure}
 
 
 \begin{figure}[ht]

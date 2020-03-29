@@ -42,13 +42,20 @@
 \usepackage[backend=biber, style=ieee]{biblatex}
 \addbibresource{partials/specification.bib}
 
+% add another lavel of headings
+\setcounter{secnumdepth}{4}
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
 \begin{document}
 
 \color{black}
 
 \title{\doctitle}
 \author{\docauthor}
-\date{\versiondate} 
+\date{\versiondate}
 
 \newcounter{requirements}
 \newtotcounter{versionnumber}
