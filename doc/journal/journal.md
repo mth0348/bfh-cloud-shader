@@ -101,10 +101,14 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 | Task | time spent |
 |----|---|
 | Updated document in regards of the discussed points | 4h |
+| Started paper.tex | 4h |
+| Added first research results about clouds | 8h |
 &nbsp;
 
 &nbsp;
 
 #
 ## \#04: March 30, 2020
-
+### Formal and technical topics
+* Reference self-made images?
+* Abbreviations for CT and MRI?
