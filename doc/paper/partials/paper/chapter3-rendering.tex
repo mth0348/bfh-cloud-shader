@@ -10,11 +10,11 @@ This especically comes to use for visual effects that are volumetric in nature, 
 In addition to rendering such effects, volumetric rendering has become essential to scientific applications like medical imaging, for which a typical 3D data volume is a set of 2D slice images acquired by a CT or MRI scanner.
 \emptyline
 The data volume is also called a \textit{scalar field}, which associates a scalar value, or \textit{voxel}, to every point in the defined space.
-This can be imagined like a 3D grid, where each point holds a single number. This number could, for example, represent the density of a cloud at this very point.
+This can be imagined like a 3D grid, where each point holds a single number. This number could, for example, represent the density of a cloud at that very point.
 A voxel may also consist of more than just a single value, but rather a set, like an RGB color.
 
 \subsubsection{Traditional Ray Marching}
-To actually render the volume data, a method called \textit{\gls{raymarching}} is used. With it, the surface distance of the volumetric data is approximated by creating a ray from the camera to the object for each fragment. The ray is then extended into the volume of the object and stepped forward until the surface is (almost) reached.
+To actually render the volume data, a method called \textit{\gls{raymarching}} is used. With it, the surface distance of the volumetric data is approximated by creating a ray from the camera to the object for each fragment processed in the fragment shader. The ray is then extended into the volume of the object and stepped forward until the surface is (almost) reached.
 
 \begin{figure}[H]
     \centering

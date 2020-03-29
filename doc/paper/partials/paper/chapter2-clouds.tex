@@ -13,7 +13,7 @@ For now, those factors are regarded as nature's randomness. However, an approxim
 
 \subsection{Types of clouds}
 \label{section:cloud-types}
-Cloudscapes are classified in multiple groups, mainly differing depending in their altitude, meaning the distance from the earth's surface to the cloud formation.
+Cloudscapes are classified in multiple groups, mainly differing in altitude, meaning the distance from the earth's surface to the cloud formation.
 The following four cloud genera stand out due to their distinctiveness. A realistic simulation of a cloud system would consist of a combination of these types, which is why they are displayed here.
 \begin{figure}[ht]
     \centering
@@ -51,7 +51,7 @@ The following four cloud genera stand out due to their distinctiveness. A realis
 Depicted in \autoref{img:photo:cloudforms-altocumulus} and \autoref{img:photo:cloudforms-stratocumulus} of \sectionref{section:cloud-types} are clouds of the genus \textit{cumulus}, which translated to English means \textit{heap} or \textit{pile}.
 Their distinctive cotton-like look makes them easy to recognize, which is also why they are often used in games as a reference for "normal" clouds. 
 \\
-In games, the formation as well as the composition of clouds are irrelevant, as they are essentially only used for cinematic ambience or as a medium to enhance the atmosphere. This leaves just the rendering technique to worry about.
+In games, the formation as well as the natural composition of clouds are irrelevant, as they are essentially only used for cinematic ambience or as a medium to enhance the atmosphere. This leaves just the rendering technique and performance to worry about.
 
 \subsubsection{Skyboxes}
 A widespread solution for representing clouds in games is not rendering them separately at all, but instead using a set of polar sky dome images, also known as the skybox. This is a six-sided cube which is rendered around the whole game world. On each inward looking face of the cube, one of the sky dome images is displayed, creating a seemless sky around the inner side of the box.
@@ -59,26 +59,26 @@ A widespread solution for representing clouds in games is not rendering them sep
     \centering
         \begin{minipage}{0.47\linewidth}
             \includegraphics{edits/skybox}
-            \captionof{figure}{The skybox cube as it used in games.}
+            \captionof{figure}{The skybox cube as it is used in games.}
             \label{img:edits:skybox}
         \end{minipage}
     \hfill
         \begin{minipage}{0.45\linewidth}
             \includegraphics[width=\linewidth]{edits/skybox_layedout}
-            \captionof{figure}{The polar sky dome images, layed out.}
+            \captionof{figure}{The polar sky dome images, folded out.}
             \label{img:edits:skybox_layedout}
         \end{minipage}
 \end{figure}
 
 \noindent
-Besides showing the sky, this of course allows clouds to be drawn right into the background. Also, in terms of performance, this is extremely cheap and efficient. On the other hand, it removes the ability for the clouds to move. 
+Besides rendering the sky, this of course allows clouds to be drawn right into the background. Also, in terms of performance, this is extremely cheap and efficient. On the other hand, it removes the ability for the clouds to move. 
 They also have no volumetric body and no way of interaction with the game world whatsoever.
 \\
-This method does indeed give the scenery a more cloudy look, but what is missing is the "feel", or in other words the motion, interaction and lifelikeness.
+This method does indeed give the scenery a more cloudy look, but what is missing is the "feel", or in other words the motion, interaction and lifelikeness of the clouds.
 
 \subsubsection{Billboards}
-Similar to the approach with the skybox, this technique also only uses 2D images of clouds. They are rendered individually and are always facing the camera. This is called \gls{billboard}ing.
-Now that each cloud is represented by its own game object, thus having a position in \gls{worldspace}, a scale and many other properties, it is possible to animate the clouds. For example, by moving the game objects in a circle around the world, the clouds seemingly "pass by".
+Similar to the approach with the skybox, this technique also only uses 2D images of clouds. They are rendered individually and are always facing the camera. This is called \textit{\gls{billboard}ing}.
+Now that each cloud is represented by its own game object, having a position in \gls{worldspace} as well as a scale and many other properties, it is possible to animate the clouds. For example, by moving the game objects in a circle around the world, the clouds seemingly "pass by".
 \begin{figure}[H]
     \centering
         \begin{minipage}{0.48\linewidth}
@@ -97,7 +97,7 @@ Now that each cloud is represented by its own game object, thus having a positio
 Due to billboarding, the orientation is already given, making the overall time and effort of this technique quite advantageous to others.
 \\
 The major flaw of using billboards is of course that they are still 2D images, meaning they cannot really change appearance and therefore, do not evolve at all. 
-Still, for many games, this technique suffices in the required diversity of background scenery and the does not exceed the allowed performance share for such a task.
+Still, for many games, this technique suffices in the required diversity of background scenery and does not exceed the allowed performance share for such a task.
 
 \subsubsection{Mesh-based objects}
 It is imaginable to simply use a \gls{polymesh} shaped like a cloud and render that like any other game object. By adding a texture, this would make for some decent looking clouds.
@@ -114,7 +114,7 @@ If a similarly complex mesh is to be used for every cloud, a massive overhead is
 \noindent
 Apart from the performance impact, this method offers a volumetric, possibly interactable object just like any other 3D model does.
 When massively decreasing the polygon count and therefore relinquishing the realistic look, mesh-based objects are a viable solution for some \gls{lowpoly} games.
-Otherwise, it is not reasonalbe to use this method.
+Otherwise, it is not reasonable to use this method.
 
 \subsubsection{Volumetric clouds}
 Finally, clouds can be rendered via a technique called \textit{volumetric rendering}. The image below shows volumetric cloudscapes as seen in popular AAA titles.
