@@ -44,11 +44,12 @@
 \addbibresource{partials/specification.bib}
 
 % add another lavel of headings
-\setcounter{secnumdepth}{4}
-\titleformat{\paragraph}
-{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
-\titlespacing*{\paragraph}
-{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+% % \setcounter{secnumdepth}{3}
+% % \setcounter{tocdepth}{3}
+% % \titleformat{\paragraph}
+% % {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+% % \titlespacing*{\paragraph}
+% % {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 \begin{document}
 
@@ -78,7 +79,7 @@
 
 \input{partials/title.tex}
 
-\tableofcontents 
+\tableofcontents
 \clearpage
 
 \pagenumbering{arabic}
@@ -87,6 +88,12 @@
 \clearpage
 
 \input{partials/paper/chapter2-clouds.tex}
+\clearpage
+
+\input{partials/paper/chapter3-rendering.tex}
+\clearpage
+
+\input{partials/paper/chapter4-algorithms.tex}
 \clearpage
 
 \printnoidxglossary

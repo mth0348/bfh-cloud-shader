@@ -8,7 +8,7 @@ This composition of particles creates the pleasant look of a white-grayish "fluf
 Due to certain factors like altitude or water source, different types of cloudscapes can be formed. They vary in shape, \gls{convection}, density and more.
 That makes different cloudscapes highly unique in terms of appearance.
 \\
-For now, those factors are regarded as nature's randomness. However, an approximation of randomness will be covered in section \sectionref{section:noise_generation}.
+For now, those factors are regarded as nature's randomness. However, an approximation of randomness will be covered in \sectionref{section:noise-generation}.
 
 
 \subsection{Types of clouds}
@@ -53,8 +53,7 @@ Their distinctive cotton-like look makes them easy to recognize, which is also w
 \\
 In games, the formation as well as the composition of clouds are irrelevant, as they are essentially only used for cinematic ambience or as a medium to enhance the atmosphere. This leaves just the rendering technique to worry about.
 
-\subsubsection{Rendering techniques}
-\paragraph{Skybox}
+\subsubsection{Skyboxes}
 A widespread solution for representing clouds in games is not rendering them separately at all, but instead using a set of polar sky dome images, also known as the skybox. This is a six-sided cube which is rendered around the whole game world. On each inward looking face of the cube, one of the sky dome images is rendered, creating a seemless sky around the inner side of the box.
 \begin{figure}[H]
     \centering
@@ -76,7 +75,7 @@ Besides showing the sky, this of course allows clouds to be drawn right into the
 \\
 This method does indeed give the scenery a more cloudy look, but what is missing is the "feel", or in other words the motion, interaction and lifelikeness.
 
-\paragraph{Billboards}
+\subsubsection{Billboards}
 Similar to the approach with the skybox, this technique also only uses 2D images of clouds. They are rendered individually and are always facing the camera. This is called \gls{billboard}ing.
 Now that each cloud is represented by its own game object, thus having a position in \gls{worldspace}, a scale and many other properties, it is possible to animate the clouds. For example, by moving the game objects in a circle around the world, the clouds seemingly "pass by".
 \begin{figure}[H]
@@ -99,7 +98,7 @@ Due to billboarding, the orientation is already given, making the overall time a
 The major flaw of using billboards is of course that they are still 2D images, meaning they cannot really change appearance and therefore, do not evolve at all. 
 Still, for many games, this technique suffices in the required diversity of background scenery and the does not exceed the allowed performance share for such a task.
 
-\paragraph{Mesh-based objects}
+\subsubsection{Mesh-based objects}
 It is imaginable to simply use a \gls{polymesh} shaped like a cloud and render that like any other game object. By adding a texture, this would make for some decent looking clouds.
 \\
 However, the level of detail of such a polymesh is directly connected to the amount of vertices and faces that have to be processed every frame.
@@ -114,9 +113,11 @@ If a similarly complex mesh is to be used for every cloud, a massive overhead is
 \noindent
 Apart from the performance impact, this method offers a volumetric, possibly interactable object just like any other 3D model does.
 When massively decreasing the polygon count and therefore relinquishing the realistic look, mesh-based objects are a viable solution for some \gls{lowpoly} games.
+Otherwise, it is not reasonalbe to use this method.
 
-\paragraph{Volumetric rendering}
-Yay.
+\subsubsection{Volumetric clouds}
+Finally, clouds can be rendered via a technique called \textit{volumetric rendering}. The image below shows volumetric cloudscapes as seen in popular AAA titles.
+The method itself is explained in detail in \sectionref{section:volumetric-rendering}.
 
 \begin{figure}[H]
     \centering
