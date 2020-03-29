@@ -56,8 +56,7 @@ In games, the formation as well as the composition of clouds are irrelevant, as 
 \subsubsection{Rendering techniques}
 \paragraph{Skybox}
 A widespread solution for representing clouds in games is not rendering them separately at all, but instead using a set of polar sky dome images, also known as the skybox. This is a six-sided cube which is rendered around the whole game world. On each inward looking face of the cube, one of the sky dome images is rendered, creating a seemless sky around the inner side of the box.
-
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
         \begin{minipage}{0.47\linewidth}
             \includegraphics{edits/skybox}
@@ -76,30 +75,52 @@ A widespread solution for representing clouds in games is not rendering them sep
 Besides showing the sky, this of course allows clouds to be drawn right into the background. Also, in terms of performance, this is extremely cheap and efficient. On the other hand, it removes the ability for the clouds to move. They also have no volumetric body and no way of interaction with the game world whatsoever.
 \\
 This method does indeed give the scenery a more cloudy look, but what is missing is the "feel", or in other words the motion, interaction and lifelikeness.
-\pagebreak
 
 \paragraph{Billboards}
-Another rather simple way of rendering clouds is by only showing 2D images. When always facing the main camera, those are called \gls{billboard}s.
-
-\begin{figure}[ht]
+Similar to the approach with the skybox, this technique also only uses 2D images of clouds. They are rendered individually and are always facing the camera. This is called \gls{billboard}ing.
+Now that each cloud is represented by its own game object, thus having a position in \gls{worldspace}, a scale and many other properties, it is possible to animate the clouds. For example, by moving the game objects in a circle around the world, the clouds seemingly "pass by".
+\begin{figure}[H]
     \centering
         \begin{minipage}{0.48\linewidth}
             \includegraphics{edits/billboards}
-            \captionof{figure}{A collection of 2D cloud billboards facing the camera}
+            \captionof{figure}{A collection of 2D cloud billboards facing the camera.}
             \label{img:edits:billboards}
         \end{minipage}
     \hfill
         \begin{minipage}{0.45\linewidth}
             \includegraphics[width=\linewidth]{edits/billboards_rendered}
-            \captionof{figure}{The rendered result of the image to the left}
+            \captionof{figure}{The rendered result of the image to the left.}
             \label{img:edits:billboards_rendered}
         \end{minipage}
 \end{figure}
+\noindent
+Due to billboarding, the orientation is already given, making the overall time and effort of this technique quite advantageous to others.
+\\
+The major flaw of using billboards is of course that they are still 2D images, meaning they cannot really change appearance and therefore, do not evolve at all. 
+Still, for many games, this technique suffices in the required diversity of background scenery and the does not exceed the allowed performance share for such a task.
 
+\paragraph{Mesh-based objects}
+It is imaginable to simply use a \gls{polymesh} shaped like a cloud and render that like any other game object. By adding a texture, this would make for some decent looking clouds.
+\\
+However, the level of detail of such a polymesh is directly connected to the amount of vertices and faces that have to be processed every frame.
+As seen in \autoref{img:rendered:cloud-mesh}, there are hundreds of polygons required to merely represent the basic shape of a realistic cloud.
+If a similarly complex mesh is to be used for every cloud, a massive overhead is generated for objects that usually only contribute to the background of a game.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{rendered-cloud-mesh}
+    \captionof{figure}{A \gls{polymesh} in the shape of an altocumulus cloud\cite{img:rendered:cloud-mesh}.}
+    \label{img:rendered:cloud-mesh}
+\end{figure}
+\noindent
+Apart from the performance impact, this method offers a volumetric, possibly interactable object just like any other 3D model does.
+When massively decreasing the polygon count and therefore relinquishing the realistic look, mesh-based objects are a viable solution for some \gls{lowpoly} games.
 
-\begin{figure}[ht]
+\paragraph{Volumetric rendering}
+Yay.
+
+\begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{rendered-clouds-zerodawn}
     \captionof{figure}{Several volumetric cloudscapes from the game \textit{Horizon: Zero Dawn}, drawn in real time\protect\cite{img:rendered:clouds-zerodawn}.}
-    \label{img:rendered:clouds-zerodawn}        
+    \label{img:rendered:clouds-zerodawn}
 \end{figure}
