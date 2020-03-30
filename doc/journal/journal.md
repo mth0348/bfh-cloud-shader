@@ -112,3 +112,4 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 ### Formal and technical topics
 * Reference self-made images?
 * Abbreviations for CT and MRI?
+* When prototyping results, when code snippets, when pseudo-code?
