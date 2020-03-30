@@ -110,6 +110,40 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 #
 ## \#04: March 30, 2020
 ### Formal and technical topics
-* Reference self-made images?
-* Abbreviations for CT and MRI?
-* When prototyping results, when code snippets, when pseudo-code?
+* Reference self-made images? - No.
+* Abbreviations for CT and MRI? - Maybe add abbrev. in brackets.
+* When prototyping results?, when code snippets?, when pseudo-code? - Maybe small real code, else pseudo-code.
+* Volumetric rendering = ray casting
+
+
+
+### Meeting discussion
+**Remarks about the paper.tex**
+* Add literature sources (pdfs, blogs, unity docs) in a separate section, next to "References".
+* Glossary records should not be too short. Don't be afraid to write one or two sentences.
+* Add Target audiance to chapter 1
+    * maybe add "3d computer graphics" knowledge as a requirement to understand this document
+* Add "voxel" and "scalar field" and "vector field" to the glossary
+* Add major chapters
+    * Project management, time management, retroperspectively written at the end of the project
+        * reasoning why D.1 and D.3 are the same
+    * Prototypes
+    * Results / evaluation
+* List code in "Attachments" if the code is too large.
+
+**Notes**
+* Voxel = Volume Element
+* scalar field has scalar values
+* vector field has vector values
+
+
+**Time log**
+
+&nbsp;
+
+&nbsp;
+
+#
+## \#04: April 14th, 2020
+### Formal and technical topics
+**The meeting was moved to **April 14th, 2020 at 2:30 pm**.
