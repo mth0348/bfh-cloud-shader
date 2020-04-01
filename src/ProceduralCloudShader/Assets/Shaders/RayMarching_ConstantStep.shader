@@ -50,7 +50,7 @@
 				for (int i = 0; i < MAX_STEPS; i++)
 				{
 					if (sphereHit(position))
-					return fixed4(1,0,0,1);
+						return fixed4(1,0,0,1);
 					
 					position += normalize(direction) * STEP_SIZE;
 				}

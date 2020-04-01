@@ -77,6 +77,35 @@ Once the ray is inside the actual volume, the functions returns the distance for
     \caption{The function returns the evaluated surface distance, the precision of which being directly dependent on the step size.}
 \end{figure}
 
+\noindent
+An implementation of this algorithm can be seen in \autoref{lst:shader:raymarch:spherehit}. Note that the volume to be rendered in this example is just a simple sphere.
+So in order to check if the ray is inside the volume, the function \lstinline[language=HLSL]{sphereHit()} is used.
+\begin{lstlisting}[language=HLSL, numbers=left, caption=The function returns true if the ray is inside the volume.,captionpos=b, label=lst:shader:raymarch:constantstep]
+bool sphereHit(float3 position) {
+    float4 sphere = float4(0, 1, 0, 1);
+    return distance(sphere.xyz, position) < sphere.w;
+}
+\end{lstlisting}
+
+\noindent
+\newline 
+With that given, the raymarch function is implemented like so:
+
+\begin{lstlisting}[language=HLSL, numbers=left, caption=Ray march function with constant step.,captionpos=b, label=lst:shader:raymarch:spherehit]
+fixed4 raymarch(float3 position, float3 direction)
+{
+    for (int i = 0; i < MAX_STEPS; i++)
+    {
+        if (sphereHit(position))
+            return fixed4(1,0,0,1);
+        
+        position += normalize(direction) * STEP_SIZE;
+    }
+    
+    return fixed4(0,0,0,1);
+}
+\end{lstlisting}
+
 
 \subsubsection{Traditional Ray Marching}
 It is obvious to see that, for a constant step ray march to result in an accurate approximation of the surface distance, the step size is required to be relatively small.
@@ -121,3 +150,28 @@ Once the step size falls below a certain threshold, the distance approximation i
         \end{tikzpicture}
     \caption{The function returns the distance for this ray, which is the amount of steps times the step size.}
 \end{figure}
+
+\begin{lstlisting}[language=HLSL, numbers=left, caption=Traditional ray march function with converging surface distance approximation.,captionpos=b, label=lst:shader:raymarch:traditional]
+fixed4 raymarch(float3 position, float3 direction)
+{
+    float stepSize = STEP_SIZE;
+    float dirMultiplier = 1;
+    for (int i = 0; i < MAX_STEPS; i++)
+    {
+        if (stepSize < MINIMUM_STEP_SIZE)
+            return fixed4(1,0,0,1);
+
+        if (sphereHit(position)) {
+            // reduce step size by half and invert marching direction.
+            stepSize /= 2;
+            dirMultiplier = -1;
+        } else {
+            dirMultiplier = 1;
+        }
+        
+        position += normalize(direction) * stepSize * dirMultiplier;
+    }
+    
+    return fixed4(0,0,0,1);
+}
+\end{lstlisting}
