@@ -22,31 +22,33 @@
 % Code listings
 \usepackage{listings}
 \usepackage{xcolor}
-\definecolor{codekeyword}{rgb}{0.95,0.42,0.458}
-\definecolor{javagreen}{rgb}{0.25,0.5,0.35}
-\definecolor{codenumber}{rgb}{0.737,0.47,0.823}
-\definecolor{codefunction}{rgb}{0.337,0.713,0.760}
+\definecolor{codered}{rgb}{0.95,0.42,0.458}
+\definecolor{javagreen}{rgb}{0.8,0.8,0.8}
+\definecolor{codepink}{rgb}{0.737,0.47,0.823}
+\definecolor{codeblue}{rgb}{0.227,0.572,0.937}
+\definecolor{codegreen}{rgb}{0.541,0.764,0.4}
 \definecolor{codestring}{rgb}{0.58,0,0.82}
 \definecolor{backcolor}{rgb}{0.95,0.95,0.95}
 \lstdefinelanguage{HLSL}{
 	morekeywords=[1]{
 		fixed2,fixed3,fixed4,float,float2,float3,float4,
-		for,int,bool,return
+        for,int,bool,return,if
+        %position,sphere,direction
 	},
 	morekeywords=[2]{
 		distance,normalize,
-		sphereHit
+		sphereHit,raymarch
 	},
 	morekeywords=[3]{
 		STEP_SIZE,MAX_STEPS,MINIMUM_STEP_SIZE
 	},
-    keywordstyle=[1]\color{codekeyword},
-    keywordstyle=[2]\color{codefunction},
-    keywordstyle=[3]\color{codenumber},
+    keywordstyle=[1]\color{codeblue},
+    keywordstyle=[2]\color{codegreen},
+    keywordstyle=[3]\color{codepink},
 	morestring=[b]", % defines that strings are enclosed in double quotes
 	morestring=[b]', % defines that strings are enclosed in single quotes
 	backgroundcolor=\color{backcolor},
-    stringstyle=\color{codestring},
+    stringstyle=\color{codered},
     basicstyle=\ttfamily\footnotesize,
     breakatwhitespace=false,
     breaklines=true,
