@@ -7,11 +7,11 @@
 \Gls{volumetricrendering} describes a technique for generating a visual representation of data that is stored in a 3D volume. 
 This especically comes to use for visual effects that are volumetric in nature, like fluids, clouds, fire, smoke, fog and dust, which all are extremely difficult or even impossible to model with geometric primitives.
 \\
-In addition to rendering such effects, volumetric rendering has become essential to scientific applications like medical imaging, for which a typical 3D data volume is a set of 2D slice images acquired by a CT or MRI scanner.
+In addition to rendering such effects, volumetric rendering has become essential to scientific applications like medical imaging, for which a typical 3D data volume is a set of 2D slice images acquired by a CT (computed tomography) or MRI (magnetic resonance imaging) scanner.
 \emptyline
-The data volume is also called a \textit{scalar field}, which associates a scalar value, or \textit{voxel}, to every point in the defined space.
+The data volume is also called a \textit{\gls{scalarfield}} or \textit{\gls{vectorfield}}, which associates a scalar value, or \textit{\gls{voxel}}, to every point in the defined space.
 This can be imagined like a 3D grid, where each point holds a single number. This number could, for example, represent the density of a cloud at that very point.
-A voxel may also consist of more than just a single value, but rather a set, like an RGB color.
+A \gls{voxel} may also consist of more than just a single value, but rather a set, like an RGB color.
 
 \subsubsection{Ray Marching with constant step}
 To actually render the volume data, a method called \textit{\gls{raymarching}} is used. With it, the surface distance of the volumetric data is approximated by creating a ray from the camera to the object for each fragment processed in the fragment shader. The ray is then extended into the volume of the object and stepped forward until the surface is reached.
