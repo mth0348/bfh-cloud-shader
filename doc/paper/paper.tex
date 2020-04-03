@@ -31,14 +31,14 @@
 \definecolor{backcolor}{rgb}{0.95,0.95,0.95}
 \lstdefinelanguage{HLSL}{
 	morekeywords=[1]{
-        position,sphere,direction,stepSize,dirMultiplier,
+        position,sphere,direction,stepSize,dirMultiplier,distanceScene,distanceOrigin,
 	},
 	morekeywords=[2]{
 		distance,normalize,
-		sphereHit,raymarch,sphereDistance
+		sphereHit,raymarch,sphereDistance,
 	},
 	morekeywords=[3]{
-		STEP_SIZE,MAX_STEPS,MINIMUM_STEP_SIZE
+		STEP_SIZE,MAX_STEPS,MINIMUM_STEP_SIZE,SURFACE_DISTANCE,MAX_DISTANCE,
     },
     keywordstyle=[1]\color{codeblue},
     keywordstyle=[2]\color{codered},
@@ -139,6 +139,8 @@
 
 \nocite{online:realtime-volumetric-cloudscapes}
 \nocite{online:volumetric-cloudscapes}
+\nocite{online:raymarching-sdf}
+\nocite{online:volumetric-rendering}
 
 \input{partials/paper/chapter1-general.tex}
 \clearpage
@@ -152,7 +154,7 @@
 \input{partials/paper/chapter4-algorithms.tex}
 \clearpage
 
-\printnoidxglossary
+\printnoidxglossary 
 \clearpage
 \printbibliography[heading=bibintoc]
 \clearpage

@@ -184,14 +184,14 @@ fixed4 raymarch(float3 position, float3 direction)
 \pagebreak
 \subsubsection{Sphere Tracing}
 An even better approach to approximate the intersection of the ray and the volume is called \textit{\gls{spheretracing}}. 
-Instead of evaluating if the ray is inside the volume or not, an exact distance is measured to the scene. This distance is the minimum amount of space the algorithm can march along its ray without colliding with anything.
+Instead of evaluating if the ray is inside the volume or not, an exact distance to the scene is measured. This distance is the minimum amount of space the algorithm can march along its ray without colliding with anything.
 For that, a function group called \textit{\gls{sdf}s} is used.
 
 \paragraph{Signed Distance Functions}
-A \gls{sdf} returns the shortest distance from that a given point in space to some surface.
+A \gls{sdf} (SDF) returns the shortest distance from that a given point in space to some surface.
 The sign of the returned value indicates wether that point is inside the surface or outside, hence the name.
 \\
-The \gls{sdf} $sdf$ for a point $p=(p_1, p_2, p_3)$ to the surface of a sphere $s=(s_1, s_2, s_3)$ with radius $R$ looks like this:
+For example, the \gls{sdf} $sdf$ for a point $p=(p_1, p_2, p_3)$ to the surface of a sphere $s=(s_1, s_2, s_3)$ with radius $R$ looks like this:
 $$ sdf(p) = \sqrt{(s_1 - p_1)^2 + (s_2 - p_2)^2 + (s_3 - p_3)^2} - R $$
 
 \noindent
@@ -204,9 +204,118 @@ float sphereDistance(float3 position) {
 \end{lstlisting}
 
 \noindent
-With the sphere in the example being at the origin with radius 1, a positive distance is returned for points outside the sphere and a negative distance if the point is inside the sphere.
+With the sphere in the example being at the origin and having $R = 1$, a positive distance is returned for points outside the sphere and a negative distance if the point is inside the sphere.
 \begin{lstlisting}[language=HLSL]
 float d1 = sphereDistance(float3(2, 0, 0)); // d1 = 1.0
 float d2 = sphereDistance(float3(0, 0.5, 0)); // d2 = -0.5
 float d3 = sphereDistance(float3(5, -5, 5)); // d3 = 7.66
 \end{lstlisting}
+
+\paragraph{Sphere Tracing with SDFs}
+If the distance to the scene can be calculated with a \gls{sdf}, the algorithm becomes rather straight forward. The distance to the scene is evaluated at the start, then one can freely march along the ray for that amount of distance. Once arrived at the new point, the process is reapeted until the SDF returns a small enough value.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.2]
+        \tikzset{edge/.style = {-{Latex[length=3mm]}}}
+        \tikzset{smalledge/.style = {-{Latex[length=2mm]}}}
+
+        % ray
+        \draw[edge] (0,2) node[above,sloped,xshift=1cm]{ray} -- (10,3);
+        \node (1) at (2,    2.2) {\textbullet};
+        \node (2) at (2.5,  2.25) {\textbullet};
+        \node (3) at (2.75, 2.275) {\textbullet};
+        \node (4) at (3.05, 2.305) {\textbullet};
+        \node (5) at (3.42, 2.342) {\textbullet};
+        \node (6) at (3.88, 2.388) {\textbullet};
+        \node (7) at (4.44, 2.444) {\textbullet};
+        \node (8) at (5.18, 2.518) {\textbullet};
+        \node (9) at (6.14, 2.614) {\textbullet};
+        \node (10) at (6.99, 2.699) {\textbullet};
+
+        \draw (1) circle  (0.5);
+        \draw (2) circle  (0.25);
+        \draw (3) circle  (0.3);
+        \draw (4) circle  (0.37);
+        \draw (5) circle  (0.46);
+        \draw (6) circle  (0.56);
+        \draw (7) circle  (0.74);
+        \draw (8) circle  (0.96);
+        \draw (9) circle  (0.85);
+        \draw (10) circle (0.49);
+
+        % surf dist
+        \draw[red] (2,1.5) -- (2.5,2) -- (4,1.8) -- (5,1.5) -- (7.4,2) -- (7.7,4) -- (9,4.3);
+
+        % distance small enough
+        \node[cyan] (11) at (7.48, 2.748) {\textbullet};
+        \draw[cyan, shorten <=-0.2cm] (11) -- (9,3.7) -- (11,3.7) node[xshift=-1cm,above]{scene distance small enough};
+        
+        \end{tikzpicture}
+    \caption{Ray marching with SDF-based sphere tracing.}
+    \label{hlsl:raymarch:spheretracing}
+\end{figure}
+
+\noindent
+As seen in \autoref{hlsl:raymarch:spheretracing}, the result is highly accurate.
+For the previous example with just one single sphere as a volume, the algorithm can be implemented like in \autoref{lst:shader:raymarch:spheretracing}.
+
+\begin{lstlisting}[language=HLSL, caption=Implementation of ray marching with sphere tracing., label=lst:shader:raymarch:spheretracing]
+fixed4 raymarch (float3 position, float3 direction)
+{
+    float distanceOrigin = 0.0;
+    for (int i = 0; i < MAX_STEPS; i++)
+    {
+        float distanceScene = sphereDistance(position);
+        distanceOrigin += distanceScene;
+        if (distanceScene < SURFACE_DISTANCE || distanceScene > MAX_DISTANCE)
+            break;
+
+        position += distanceScene * direction;
+    }
+    return totalDistance;
+}
+\end{lstlisting}
+
+\noindent
+In order to save on performance, it is imperative to break the loop when \lstinline[language=HLSL]{distanceScene} exceeds \lstinline[language=HLSL]{MAX_DISTANCE}. This way, the distance evaluation for that ray can be stopped earlier than waiting for the loop to complete.
+Another example why this check is important can be seen in the next figure. The ray is terminated early, because it does not collide and never reaches the minimum surface distance.
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.2]
+        \tikzset{edge/.style = {-{Latex[length=3mm]}}}
+        \tikzset{smalledge/.style = {-{Latex[length=2mm]}}}
+
+        % ray
+        \draw[edge] (0,2) node[above,sloped,xshift=1cm]{ray} -- (10,3);
+        \node (1) at (2.50,  2.250) {\textbullet};
+        \node (2) at (3.85,  2.385) {\textbullet};
+        \node (3) at (4.50,  2.450) {\textbullet};
+        \node (4) at (5.00,  2.500) {\textbullet};
+        \node (5) at (5.51,  2.551) {\textbullet};
+        \node (6) at (6.10,  2.610) {\textbullet};
+        \node (7) at (6.92,  2.692) {\textbullet};
+
+        \draw (1) circle  (1.35);
+        \draw (2) circle  (0.65);
+        \draw (3) circle  (0.50);
+        \draw (4) circle  (0.51);
+        \draw (5) circle  (0.59);
+        \draw (6) circle  (0.82);
+        \draw (7) circle  (1.33);
+        
+        \node[cyan] (8) at (8.25,  2.825) {\textbullet};
+        \draw (8) circle  (2.3);
+
+        % surf dist
+        \begin{scope}
+            \clip (3,0.5) rectangle (7,2);
+            \draw[red] (5,0) circle (2);
+        \end{scope}
+
+        % distance small enough
+        \draw[cyan, shorten <=-0.2cm] (8) -- (9,3.7) -- (11,3.7) node[xshift=-1cm,above]{scene too far away};
+
+        \end{tikzpicture}
+    \caption{Ray marching with SDF-based sphere tracing, without collision.}
+\end{figure}
