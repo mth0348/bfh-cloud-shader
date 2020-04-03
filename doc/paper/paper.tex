@@ -46,8 +46,9 @@
 	commentstyle=\color{codegrey},
 	morestring=[b]", % defines that strings are enclosed in double quotes
 	morestring=[b]', % defines that strings are enclosed in single quotes
-	backgroundcolor=\color{backcolor},
+    backgroundcolor=\color{backcolor},
     stringstyle=\color{codered},
+    numberstyle=\tiny,
     basicstyle=\ttfamily\footnotesize,
     breakatwhitespace=false,
     breaklines=true,
@@ -152,9 +153,17 @@
 \clearpage
 
 \printnoidxglossary
-\printbibliography[heading=bibintoc]
-\lstlistoflistings
-
 \clearpage
+\printbibliography[heading=bibintoc]
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{Listings}
+\phantomsection
+\addcontentsline{toc}{subsection}{Figures}
+\listoffigures
+\clearpage
+\phantomsection
+\addcontentsline{toc}{subsection}{Code Listings}
+\lstlistoflistings
 
 \end{document}

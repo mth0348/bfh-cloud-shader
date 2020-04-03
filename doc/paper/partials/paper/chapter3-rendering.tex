@@ -198,7 +198,15 @@ $$ sdf(p) = \sqrt{(s_1 - p_1)^2 + (s_2 - p_2)^2 + (s_3 - p_3)^2} - R $$
 This translates into a simple code snippet, mostly identical to the function \lstinline[language=HLSL]{sphereHit()} in \autoref{lst:shader:raymarch:spherehit}, except the distance is returned instead of a boolean.
 \begin{lstlisting}[language=HLSL, caption=Implementation of a signed distance function for a sphere., label=lst:shader:raymarch:spheredistance]
 float sphereDistance(float3 position) {
-    float4 sphere = float4(0, 1, 0, 1);
+    float4 sphere = float4(0, 0, 0, 1);
     return distance(sphere.xyz, position) - sphere.w;
 }
+\end{lstlisting}
+
+\noindent
+With the sphere in the example being at the origin with radius 1, a positive distance is returned for points outside the sphere and a negative distance if the point is inside the sphere.
+\begin{lstlisting}[language=HLSL]
+float d1 = sphereDistance(float3(2, 0, 0)); // d1 = 1.0
+float d2 = sphereDistance(float3(0, 0.5, 0)); // d2 = -0.5
+float d3 = sphereDistance(float3(5, -5, 5)); // d3 = 7.66
 \end{lstlisting}
