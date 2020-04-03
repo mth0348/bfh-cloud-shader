@@ -26,14 +26,13 @@
 \definecolor{codegrey}{rgb}{0.7,0.7,0.7}
 \definecolor{codepink}{rgb}{0.737,0.47,0.823}
 \definecolor{codeblue}{rgb}{0.227,0.572,0.937}
-\definecolor{codegreen}{rgb}{0.441,0.664,0.3}
+\definecolor{codegreen}{rgb}{0.341,0.664,0.2}
 \definecolor{codestring}{rgb}{0.58,0,0.82}
 \definecolor{backcolor}{rgb}{0.95,0.95,0.95}
 \lstdefinelanguage{HLSL}{
 	morekeywords=[1]{
-		%fixed2,fixed3,fixed4,float,float2,float3,float4,
-        %for,int,bool,return,if
-        position,sphere,direction,stepSize,dirMultiplier,
+        fixed2,fixed3,fixed4,float,float2,float3,float4,
+        for,int,bool,return,if
 	},
 	morekeywords=[2]{
 		distance,normalize,
@@ -41,10 +40,11 @@
 	},
 	morekeywords=[3]{
 		STEP_SIZE,MAX_STEPS,MINIMUM_STEP_SIZE
-	},
-    keywordstyle=[1]\color{codeblue},
-    keywordstyle=[2]\color{codered},
+    },
+    keywordstyle=[1]\color{codered},
+    keywordstyle=[2]\color{codeblue},
     keywordstyle=[3]\color{codepink},
+	commentstyle=\color{codegrey},
 	morestring=[b]", % defines that strings are enclosed in double quotes
 	morestring=[b]', % defines that strings are enclosed in single quotes
 	backgroundcolor=\color{backcolor},
@@ -60,7 +60,6 @@
     showstringspaces=false,
     showtabs=false,
 	tabsize=2,
-	commentstyle=\color{codegrey},
     sensitive=false, % keywords are not case-sensitive
     morecomment=[l]{//}, % l is for line comment
     morecomment=[s]{/*}{*/}, % s is for start and end delimiter
