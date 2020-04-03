@@ -31,18 +31,17 @@
 \definecolor{backcolor}{rgb}{0.95,0.95,0.95}
 \lstdefinelanguage{HLSL}{
 	morekeywords=[1]{
-        fixed2,fixed3,fixed4,float,float2,float3,float4,
-        for,int,bool,return,if
+        position,sphere,direction,stepSize,dirMultiplier,
 	},
 	morekeywords=[2]{
 		distance,normalize,
-		sphereHit,raymarch
+		sphereHit,raymarch,sphereDistance
 	},
 	morekeywords=[3]{
 		STEP_SIZE,MAX_STEPS,MINIMUM_STEP_SIZE
     },
-    keywordstyle=[1]\color{codered},
-    keywordstyle=[2]\color{codeblue},
+    keywordstyle=[1]\color{codeblue},
+    keywordstyle=[2]\color{codered},
     keywordstyle=[3]\color{codepink},
 	commentstyle=\color{codegrey},
 	morestring=[b]", % defines that strings are enclosed in double quotes
@@ -63,6 +62,8 @@
     sensitive=false, % keywords are not case-sensitive
     morecomment=[l]{//}, % l is for line comment
     morecomment=[s]{/*}{*/}, % s is for start and end delimiter
+    belowskip=2.5em,
+    aboveskip=1em,
 }
 
 % Gantt charts
@@ -94,12 +95,12 @@
 \addbibresource{partials/specification.bib}
 
 % add another lavel of headings
-% % \setcounter{secnumdepth}{4}
-% % \setcounter{tocdepth}{3}
-% % \titleformat{\paragraph}
-% % {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
-% % \titlespacing*{\paragraph}
-% % {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{3}
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 \begin{document}
 

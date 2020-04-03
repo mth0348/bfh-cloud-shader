@@ -74,13 +74,13 @@ Once the ray is inside the actual volume, the functions returns the distance for
         \draw[cyan, shorten <=-0.2cm] (7) -- (9,3.7) -- (11,3.7) node[xshift=-1cm,above]{function returns};
         
         \end{tikzpicture}
-    \caption{The function returns the evaluated surface distance, the precision of which being directly dependent on the step size.}
+    \caption{Traditional ray marching, the precision of which being directly dependent on the step size.}
 \end{figure}
 
 \noindent
-An implementation of this algorithm can be seen in \autoref{lst:shader:raymarch:spherehit}. Note that the volume to be rendered in this example is just a simple sphere.
+An implementation of this algorithm can be seen in \autoref{lst:shader:raymarch:constantstep}. Note that the volume to be rendered in this example is just a simple sphere.
 So in order to check if the ray is inside the volume, the function \lstinline[language=HLSL]{sphereHit()} is used.
-\begin{lstlisting}[language=HLSL, numbers=left, caption=The function returns true if the ray is inside the volume.,captionpos=b, label=lst:shader:raymarch:constantstep]
+\begin{lstlisting}[language=HLSL, numbers=left, caption=Implementation of a volume distance function for a sphere.,captionpos=b, label=lst:shader:raymarch:spherehit]
 bool sphereHit(float3 position) {
     float4 sphere = float4(0, 1, 0, 1);
     return distance(sphere.xyz, position) < sphere.w;
@@ -88,10 +88,9 @@ bool sphereHit(float3 position) {
 \end{lstlisting}
 
 \noindent
-\newline 
 With that given, the raymarch function is implemented like so:
 
-\begin{lstlisting}[language=HLSL, numbers=left, caption=Ray march function with constant step.,captionpos=b, label=lst:shader:raymarch:spherehit]
+\begin{lstlisting}[language=HLSL, numbers=left, caption=Ray march function with constant step.,captionpos=b, label=lst:shader:raymarch:constantstep]
 fixed4 raymarch(float3 position, float3 direction)
 {
     for (int i = 0; i < MAX_STEPS; i++)
@@ -107,6 +106,7 @@ fixed4 raymarch(float3 position, float3 direction)
 \end{lstlisting}
 
 
+\pagebreak
 \subsubsection{Traditional Ray Marching}
 It is obvious to see that, for a constant step ray march to result in an accurate approximation of the surface distance, the step size is required to be relatively small.
 This has a direct impact on performance and thus, is not a viable solution for the problem.
@@ -151,6 +151,11 @@ Once the step size falls below a certain threshold, the distance approximation i
     \caption{The function returns the distance for this ray, which is the amount of steps times the step size.}
 \end{figure}
 
+\noindent
+As clearly visible, the traditional \gls{raymarching} ends up with a more precise result and the amount of steps per ray could be relatively lower, ultimately saving performance. 
+\\
+However, there is still an issue. The algorithm may jump in and out of the volume, even if it would already be precise enough, essentially taking unnecessary steps.
+
 \begin{lstlisting}[language=HLSL, numbers=left, caption=Traditional ray march function with converging surface distance approximation.,captionpos=b, label=lst:shader:raymarch:traditional]
 fixed4 raymarch(float3 position, float3 direction)
 {
@@ -173,5 +178,27 @@ fixed4 raymarch(float3 position, float3 direction)
     }
     
     return fixed4(0,0,0,1);
+}
+\end{lstlisting}
+
+\pagebreak
+\subsubsection{Sphere Tracing}
+An even better approach to approximate the intersection of the ray and the volume is called \textit{\gls{spheretracing}}. 
+Instead of evaluating if the ray is inside the volume or not, an exact distance is measured to the scene. This distance is the minimum amount of space the algorithm can march along its ray without colliding with anything.
+For that, a function group called \textit{\gls{sdf}s} is used.
+
+\paragraph{Signed Distance Functions}
+A \gls{sdf} returns the shortest distance from that a given point in space to some surface.
+The sign of the returned value indicates wether that point is inside the surface or outside, hence the name.
+\\
+The \gls{sdf} $sdf$ for a point $p=(p_1, p_2, p_3)$ to the surface of a sphere $s=(s_1, s_2, s_3)$ with radius $R$ looks like this:
+$$ sdf(p) = \sqrt{(s_1 - p_1)^2 + (s_2 - p_2)^2 + (s_3 - p_3)^2} - R $$
+
+\noindent
+This translates into a simple code snippet, mostly identical to the function \lstinline[language=HLSL]{sphereHit()} in \autoref{lst:shader:raymarch:spherehit}, except the distance is returned instead of a boolean.
+\begin{lstlisting}[language=HLSL, caption=Implementation of a signed distance function for a sphere., label=lst:shader:raymarch:spheredistance]
+float sphereDistance(float3 position) {
+    float4 sphere = float4(0, 1, 0, 1);
+    return distance(sphere.xyz, position) - sphere.w;
 }
 \end{lstlisting}
