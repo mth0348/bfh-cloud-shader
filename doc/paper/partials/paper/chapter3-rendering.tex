@@ -424,3 +424,21 @@ float3 estimateNormal(float3 p) {
     ));
 }
 \end{lstlisting}
+
+\noindent
+The only thing left is to shade the volume. In this example, the Phong Illumination Model is used. 
+
+\begin{figure}[H]
+    \centering
+        \begin{minipage}{0.47\linewidth}
+            \includegraphics[width=\linewidth]{unity captures/sphere tracing shaded}
+            \captionof{figure}{A 3D cube with a volumetric shader.}
+            \label{img:captures:spheretracing}
+        \end{minipage}
+    \hfill
+        \begin{minipage}{0.47\linewidth}
+            \includegraphics[width=\linewidth]{unity captures/sphere tracing shaded result}
+            \captionof{figure}{The shaded sphere rendered volumetrically.}
+            \label{img:captures:spheretracing_rendered}
+        \end{minipage}
+\end{figure}
