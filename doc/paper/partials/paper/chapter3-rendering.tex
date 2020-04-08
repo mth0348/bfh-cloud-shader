@@ -261,7 +261,7 @@ As seen in \autoref{hlsl:raymarch:spheretracing}, the result is highly accurate.
 For the previous example with just one single sphere as a volume, the algorithm can be implemented like in \autoref{lst:shader:raymarch:spheretracing}.
 
 \begin{lstlisting}[language=HLSL, caption=Implementation of ray marching with sphere tracing., label=lst:shader:raymarch:spheretracing]
-fixed4 raymarch (float3 position, float3 direction)
+float raymarch (float3 position, float3 direction)
 {
     float distanceOrigin = 0.0;
     for (int i = 0; i < MAX_STEPS; i++)
@@ -273,7 +273,7 @@ fixed4 raymarch (float3 position, float3 direction)
 
         position += distanceScene * direction;
     }
-    return totalDistance;
+    return distanceOrigin;
 }
 \end{lstlisting}
 
@@ -319,3 +319,108 @@ Another example why this check is important can be seen in the next figure. The 
         \end{tikzpicture}
     \caption{Ray marching with SDF-based sphere tracing, without collision.}
 \end{figure}
+
+
+\subsubsection{Surface Normals and Lighting}
+As it is the case for many other lighting models, the \gls{surfacenormal}s are used to calculate lighting in \gls{volumetricrendering}. 
+if the object is defined with a \gls{polymesh}, the \gls{surfacenormal}s are usually specified for each vertex. The normals for any given point on the surface can then be calculated by interpolating the adjacent vertex normals. 
+\\
+Since there is no \gls{polymesh} in \gls{volumetricrendering}, another solution has to be found for calculating the \gls{surfacenormal}s for a scene defined by \gls{sdf}s.
+Because of that, it is not possible to explicitly calculate the normals and therefore, an approximation is used. 
+
+\paragraph{Surface Normal Estimation}
+To approximate the normal vectors in a 3D data volume, the \textit{\gls{gradient}} is used. The \gls{gradient} represents the direction of greatest change of a scalar function.
+In \autoref{img:edits:gradient}, the red arrows indicate the gradient for the points at the start of the arrows. 
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \tikzset{smalledge/.style = {-{Latex[length=2mm]}}}
+        
+        \node (gradient) at (0,0)
+        {\includegraphics{edits/gradient}};
+        
+        \node (A1) at (-2,-1.5) {};
+        \node (A2) at (-1,-1.5) {};
+        \node (B1) at (-0.5,-1.5) {};
+        \node (B2) at (0.5,-1.5) {};
+        \node (C1) at (1,-1.5) {};
+        \node (C2) at (2,-1.5) {};
+        
+        \node (D1) at (-2,-0.5) {};
+        \node (D2) at (-1,-0.5) {};
+        \node (E1) at (-0.5,-0.5) {};
+        \node (E2) at (0.5,-0.5) {};
+        \node (F1) at (1,-0.5) {};
+        \node (F2) at (2,-0.5) {};
+
+        \node (G1) at (-2,0.5) {};
+        \node (G2) at (-1,0.5) {};
+        \node (H1) at (-0.5,0.5) {};
+        \node (H2) at (0.5,0.5) {};
+        \node (I1) at (1,0.5) {};
+        \node (I2) at (2,0.5) {};
+
+        \node (J1) at (-2,1.5) {};
+        \node (J2) at (-1,1.5) {};
+        \node (K1) at (-0.5,1.5) {};
+        \node (K2) at (0.5,1.5) {};
+        \node (L1) at (1,1.5) {};
+        \node (L2) at (2,1.5) {};
+
+        \draw[smalledge, red] (A1) edge node{} (A2);
+        \draw[smalledge, red] (B1) edge node{} (B2);
+        \draw[smalledge, red] (C1) edge node{} (C2);
+
+        \draw[smalledge, red] (D1) edge node{} (D2);
+        \draw[smalledge, red] (E1) edge node{} (E2);
+        \draw[smalledge, red] (F1) edge node{} (F2);
+
+        \draw[smalledge, red] (G1) edge node{} (G2);
+        \draw[smalledge, red] (H1) edge node{} (H2);
+        \draw[smalledge, red] (I1) edge node{} (I2);
+
+        \draw[smalledge, red] (J1) edge node{} (J2);
+        \draw[smalledge, red] (K1) edge node{} (K2);
+        \draw[smalledge, red] (L1) edge node{} (L2);
+
+        \end{tikzpicture}
+    \caption{Gradient in a 2D scalar field.}
+    \label{img:edits:gradient}
+\end{figure}
+
+\noindent
+Mathematically, the \gls{gradient} of a function $f$ at point $p=(x,y,z)$ defines the direction to move in from $p$ to most rapidly increase the value of $f$. 
+It is written as $\nabla f$.
+$$
+\nabla f = \left( \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}, \frac{\partial f}{\partial z} \right)
+$$
+
+\noindent
+Instead of calculating the real derivative of the SDF, an approximation is used to estimate the normal vectors.
+As previously declared, the \gls{sdf} returns zero for a point on the surface, greater than zero if the point is outside and less than zero if it is inside the volume. 
+\\
+The estimation is done by sampling some points around the point on the surface and take their difference, which comes close to the real derivative and suffices for most cases.
+$$
+\overrightarrow{n} = 
+\left[
+    \begin{matrix}
+        f(x + \epsilon, y, z) - f(x - \epsilon, y, z) \\
+        f(x, y + \epsilon, z) - f(x, y - \epsilon, z) \\
+        f(x, y, z + \epsilon) - f(x, y, z - \epsilon)
+       \end{matrix}
+\right]
+$$
+
+\noindent
+The implementation of surface normal estimation looks like this:
+
+\begin{lstlisting}[language=HLSL, caption=Implementation of surface normal estimation., label=lst:shader:surfacenormal]
+float3 estimateNormal(float3 p) {
+    return normalize(float3(
+        sdf(float3(p.x + E, p.y, p.z)) - sdf(float3(p.x - E, p.y, p.z)),
+        sdf(float3(p.x, p.y + E, p.z)) - sdf(float3(p.x, p.y - E, p.z)),
+        sdf(float3(p.x, p.y, p.z + E)) - sdf(float3(p.x, p.y, p.z - E))
+    ));
+}
+\end{lstlisting}
