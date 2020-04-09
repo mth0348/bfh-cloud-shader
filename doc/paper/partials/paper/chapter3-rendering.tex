@@ -148,7 +148,7 @@ Once the step size falls below a certain threshold, the distance approximation i
         \draw[cyan, shorten <=-0.2cm] (6) -- (9,3.7) -- (11,3.7) node[xshift=-1cm,above]{step size small enough};
         
         \end{tikzpicture}
-    \caption{The function returns the distance for this ray, which is the amount of steps times the step size.}
+    \caption{Traditional ray marching.}
 \end{figure}
 
 \noindent
@@ -399,8 +399,9 @@ $$
 \noindent
 Instead of calculating the real derivative of the SDF, an approximation is used to estimate the normal vectors.
 As previously declared, the \gls{sdf} returns zero for a point on the surface, greater than zero if the point is outside and less than zero if it is inside the volume. 
+Therefore, the direction at the surface which will go from negative to positive most quickly will be orthogonal to the surface.
 \\
-The estimation is done by sampling some points around the point on the surface and take their difference, which comes close to the real derivative and suffices for most cases.
+The estimation $\overrightarrow{n}$ is done by sampling some points around the point on the surface and take their difference, the result of which is the approximate \gls{surfacenormal}.
 $$
 \overrightarrow{n} = 
 \left[
@@ -417,16 +418,16 @@ The implementation of surface normal estimation looks like this:
 
 \begin{lstlisting}[language=HLSL, caption=Implementation of surface normal estimation., label=lst:shader:surfacenormal]
 float3 estimateNormal(float3 p) {
-    return normalize(float3(
-        sdf(float3(p.x + E, p.y, p.z)) - sdf(float3(p.x - E, p.y, p.z)),
-        sdf(float3(p.x, p.y + E, p.z)) - sdf(float3(p.x, p.y - E, p.z)),
-        sdf(float3(p.x, p.y, p.z + E)) - sdf(float3(p.x, p.y, p.z - E))
-    ));
+  return normalize(float3(
+    sceneSDF(p + float3(EPSILON,0,0)) - sceneSDF(p - float3(EPSILON,0,0)),
+    sceneSDF(p + float3(0,EPSILON,0)) - sceneSDF(p - float3(0,EPSILON,0)),
+    sceneSDF(p + float3(0,0,EPSILON)) - sceneSDF(p - float3(0,0,EPSILON)),
+  ));
 }
 \end{lstlisting}
 
 \noindent
-The only thing left is to shade the volume. In this example, the Phong Illumination Model is used. 
+Now that the normal vectors can be calculated for the volume, the object can be shaded. In this example, the Phong Illumination Model\cite{online:phong} is used. 
 
 \begin{figure}[H]
     \centering
