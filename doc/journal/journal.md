@@ -138,6 +138,10 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 
 
 **Time log**
+| Added research results about volumetric rendering | 4h |
+| Added research results about ray marching | 4h |
+| Added research results sphere tracing | 6h |
+| Added research results shadow casting | 6h |
 
 &nbsp;
 

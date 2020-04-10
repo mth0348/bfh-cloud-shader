@@ -31,13 +31,16 @@
 \definecolor{backcolor}{rgb}{0.95,0.95,0.95}
 \lstdefinelanguage{HLSL}{
 	morekeywords=[1]{
-        position,sphere,direction,stepSize,dirMultiplier,distanceScene,distanceOrigin,p,
+        % variables
+        position,sphere,direction,stepSize,dirMultiplier,dScene,dOrigin,p,dMin,dMax,result,k,
 	},
 	morekeywords=[2]{
-		distance,normalize,
-		sphereHit,raymarch,sphereDistance,sceneSDF,estimateNormal,
+        % methods and functions
+		distance,normalize,min,max,dot,pow,
+		sphereHit,raymarch,sphereDistance,sceneSDF,estimateNormal,hardshadow,softshadow
 	},
 	morekeywords=[3]{
+        % CONSTANTS
 		STEP_SIZE,MAX_STEPS,MINIMUM_STEP_SIZE,SURFACE_DISTANCE,MAX_DISTANCE,EPSILON,
     },
     keywordstyle=[1]\color{codeblue},
@@ -72,8 +75,9 @@
 
 % drawings
 \usepackage{tikz}
+\usepackage{fontawesome}
+\usetikzlibrary{positioning}
 \usetikzlibrary{arrows.meta}
-
 \geometry{
 	a4paper,
 	left=28mm,
@@ -97,7 +101,7 @@
 
 % add another lavel of headings
 \setcounter{secnumdepth}{4}
-\setcounter{tocdepth}{3}
+\setcounter{tocdepth}{4}
 \titleformat{\paragraph}
 {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
 \titlespacing*{\paragraph}

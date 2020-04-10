@@ -191,13 +191,13 @@ For that, a function group called \textit{\gls{sdf}s} is used.
 A \gls{sdf} (SDF) returns the shortest distance from that a given point in space to some surface.
 The sign of the returned value indicates wether that point is inside the surface or outside, hence the name.
 \\
-For example, the \gls{sdf} $sdf$ for a point $p=(p_1, p_2, p_3)$ to the surface of a sphere $s=(s_1, s_2, s_3)$ with radius $R$ looks like this:
-$$ sdf(p) = \sqrt{(s_1 - p_1)^2 + (s_2 - p_2)^2 + (s_3 - p_3)^2} - R $$
+For example, the \gls{sdf} $f(p)$ for a point $p=(p_1, p_2, p_3)$ to the surface of a sphere $s=(s_1, s_2, s_3)$ with radius $R$ looks like this:
+$$ f(p) = \sqrt{(s_1 - p_1)^2 + (s_2 - p_2)^2 + (s_3 - p_3)^2} - R $$
 
 \noindent
 This translates into a simple code snippet, mostly identical to the function \lstinline[language=HLSL]{sphereHit()} in \autoref{lst:shader:raymarch:spherehit}, except the distance is returned instead of a boolean.
 \begin{lstlisting}[language=HLSL, caption=Implementation of a signed distance function for a sphere., label=lst:shader:raymarch:spheredistance]
-float sphereDistance(float3 position) {
+float sceneSDF(float3 position) {
     float4 sphere = float4(0, 0, 0, 1);
     return distance(sphere.xyz, position) - sphere.w;
 }
@@ -206,9 +206,9 @@ float sphereDistance(float3 position) {
 \noindent
 With the sphere in the example being at the origin and having $R = 1$, a positive distance is returned for points outside the sphere and a negative distance if the point is inside the sphere.
 \begin{lstlisting}[language=HLSL]
-float d1 = sphereDistance(float3(2, 0, 0)); // d1 = 1.0
-float d2 = sphereDistance(float3(0, 0.5, 0)); // d2 = -0.5
-float d3 = sphereDistance(float3(5, -5, 5)); // d3 = 7.66
+float d1 = sceneSDF(float3(2, 0, 0)); // d1 = 1.0
+float d2 = sceneSDF(float3(0, 0.5, 0)); // d2 = -0.5
+float d3 = sceneSDF(float3(5, -5, 5)); // d3 = 7.66
 \end{lstlisting}
 
 \paragraph{Sphere Tracing with SDFs}
@@ -253,27 +253,26 @@ If the distance to the scene can be calculated with a \gls{sdf}, the algorithm b
         
         \end{tikzpicture}
     \caption{Ray marching with SDF-based sphere tracing.}
-    \label{hlsl:raymarch:spheretracing}
+    \label{img:tikz:rendering:spheretracing}
 \end{figure}
 
 \noindent
-As seen in \autoref{hlsl:raymarch:spheretracing}, the result is highly accurate.
+As seen in \autoref{img:tikz:rendering:spheretracing}, the result is highly accurate.
 For the previous example with just one single sphere as a volume, the algorithm can be implemented like in \autoref{lst:shader:raymarch:spheretracing}.
 
 \begin{lstlisting}[language=HLSL, caption=Implementation of ray marching with sphere tracing., label=lst:shader:raymarch:spheretracing]
 float raymarch (float3 position, float3 direction)
 {
-    float distanceOrigin = 0.0;
+    float dOrigin = 0.0;
     for (int i = 0; i < MAX_STEPS; i++)
     {
-        float distanceScene = sphereDistance(position);
-        distanceOrigin += distanceScene;
-        if (distanceScene < SURFACE_DISTANCE || distanceScene > MAX_DISTANCE)
+        float dScene = sceneSDF(position + dOrigin * direction);
+        if (dScene < SURFACE_DISTANCE || dScene > MAX_DISTANCE)
             break;
 
-        position += distanceScene * direction;
+        dOrigin += dScene;
     }
-    return distanceOrigin;
+    return dOrigin;
 }
 \end{lstlisting}
 
@@ -320,7 +319,7 @@ Another example why this check is important can be seen in the next figure. The 
     \caption{Ray marching with SDF-based sphere tracing, without collision.}
 \end{figure}
 
-
+\clearpage
 \subsubsection{Surface Normals and Lighting}
 As it is the case for many other lighting models, the \gls{surfacenormal}s are used to calculate lighting in \gls{volumetricrendering}. 
 if the object is defined with a \gls{polymesh}, the \gls{surfacenormal}s are usually specified for each vertex. The normals for any given point on the surface can then be calculated by interpolating the adjacent vertex normals. 
@@ -330,7 +329,7 @@ Because of that, it is not possible to explicitly calculate the normals and ther
 
 \paragraph{Surface Normal Estimation}
 To approximate the normal vectors in a 3D data volume, the \textit{\gls{gradient}} is used. The \gls{gradient} represents the direction of greatest change of a scalar function.
-In \autoref{img:edits:gradient}, the red arrows indicate the gradient for the points at the start of the arrows. 
+In \autoref{img:tikz:rendering:gradient}, the red arrows indicate the gradient for the points at the start of the arrows. 
 
 \begin{figure}[H]
     \centering
@@ -386,7 +385,7 @@ In \autoref{img:edits:gradient}, the red arrows indicate the gradient for the po
 
         \end{tikzpicture}
     \caption{Gradient in a 2D scalar field.}
-    \label{img:edits:gradient}
+    \label{img:tikz:rendering:gradient}
 \end{figure}
 
 \noindent
@@ -401,6 +400,7 @@ Instead of calculating the real derivative of the SDF, an approximation is used 
 As previously declared, the \gls{sdf} returns zero for a point on the surface, greater than zero if the point is outside and less than zero if it is inside the volume. 
 Therefore, the direction at the surface which will go from negative to positive most quickly will be orthogonal to the surface.
 \\
+\begin{minipage}{\linewidth}
 The estimation $\overrightarrow{n}$ is done by sampling some points around the point on the surface and take their difference, the result of which is the approximate \gls{surfacenormal}.
 $$
 \overrightarrow{n} = 
@@ -425,6 +425,7 @@ float3 estimateNormal(float3 p) {
   ));
 }
 \end{lstlisting}
+\end{minipage}
 
 \noindent
 Now that the normal vectors can be calculated for the volume, the object can be shaded. In this example, the Phong Illumination Model\cite{online:phong} is used. 
@@ -441,5 +442,122 @@ Now that the normal vectors can be calculated for the volume, the object can be 
             \includegraphics[width=\linewidth]{unity captures/sphere tracing shaded result}
             \captionof{figure}{The shaded sphere rendered volumetrically.}
             \label{img:captures:spheretracing_rendered}
+        \end{minipage}
+\end{figure}
+
+\clearpage
+\subsubsection{Shadow Casting}
+In \gls{raymarching}, adding shadows to the scene is not difficult. As defined in \autoref{lst:shader:raymarch:spheretracing}, the \lstinline[language=HLSL]{raymarch()} function moves along the given ray and returns the distance to the nearest intersection of ray and volume.
+Therefore, when a surface point has been determined, a second ray march can be started from the newly found point in the opposite direction the primary light source is facing. If anything is hit on the way, the surface point lies in the shadow of the second hit object and should be darkened.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.2]
+        \tikzset{edge/.style = {-{Latex[length=3mm]},shorten >= -4pt}}
+        \tikzset{shadowedge/.style = {-{Latex[length=3mm]},shorten <=-4pt,shorten >= -4pt}}
+        \tikzset{topshadowedge/.style = {-{Latex[length=3mm]},shorten <=-4pt}}
+        \tikzset{icon/.style = {font=\Large}}
+
+        % surf dist
+        \draw[red] (5,2.5) circle (1);
+        \draw[red] (-2,0) -- (7,0) -- (8,0.5);
+
+        \node (rOrigin) at (0.2,2) {};
+        \node[cyan] (r1hit) at (4.05,2.8) {\textbullet};
+        \node[cyan] (r2hit) at (5.5,0) {\textbullet};
+        \node[cyan] (r2light) at (5.35,1.55) {\textbullet};
+
+        % icons
+        \node[icon] (cam) at (0,2) {\faVideoCamera};
+        \node at (0,2.6) {camera};
+        \node[icon] (light) at (1,5) {\faLightbulbO};
+        \node at (1,5.4) {light direction};
+        \draw[edge] (light) -- ($ (light) - (-0.11,1) $);
+        \draw[edge] ($ (light) + (0.5,0) $) -- ($ (light) + (0.61,-1) $);
+        \draw[edge] ($ (light) - (0.5,0) $) -- ($ (light) + (-0.41,-1) $);
+
+        % rays
+        \draw[edge] (rOrigin) -- (r1hit) node[midway,above,sloped]{$r1$};
+        \draw[topshadowedge, cyan] (r1hit) -- ($ (r1hit) + (-0.16,1.5) $) node[midway,above,sloped]{$s1$};
+        
+        \draw[edge] (rOrigin) -- (r2hit) node[midway,above,sloped]{$r2$};
+        \draw[shadowedge, cyan] (r2hit) -- (r2light) node[midway,above,sloped]{$s2$};
+        \draw[loosely dashed, cyan] (r2light) -- ($ (r2light) + (-0.16,1.5) $);
+
+        \end{tikzpicture}
+    \caption{Shadow casting in ray marching.}
+    \label{img:tikz:rendering:shadowcasting}
+\end{figure}
+
+\noindent
+As seen in the figure above, the ray $r1$ hits the volumetric sphere, then checks if anything is between the ray intersection and the negative light source direction.
+In this case, $s1$ does not collide with anything and the surface is shaded normally. 
+For the other ray $r2$ however, the shadow ray march returns a distance $s2 > 0$ and $s2 < $\lstinline[language=HLSL]{ MAX_DISTANCE}, meaning some object is inbetween the hit point and the light source, casting a shadow.
+\\
+\begin{lstlisting}[language=HLSL, caption=Implementation of hard shadow casting., label=lst:shader:shadowcasting:hard]
+float hardshadow(float3 position, float3 direction, float dMin, float dMax)
+{
+    float dOrigin = dMin;
+    for (int i = 0; i < MAX_STEPS; i++) {
+        float dScene = sceneSDF(position + direction * dOrigin);
+        if (dScene < SURFACE_DISTANCE)
+            return 0.0;
+        if (dScene > dMax)
+            return 1.0;
+        
+        dOrigin += dScene;
+    }
+    return 1.0;
+}
+\end{lstlisting}
+
+\noindent
+It is very clearly similar to SDF-based sphere tracing, except that only 0 or 1 is returned instead of the distance.
+The final color is then multiplied by this output. For 0, this results in a total black, hence the name \textit{hard} shadows.
+
+\paragraph{Soft Shadows}
+The method described in \autoref{img:tikz:rendering:shadowcasting} evaluates only if any given point is directly covered by any other object. 
+It does not account for diffuse shadows with soft edges, called \textit{\gls{penumbra}} or simply \textit{soft} shadows. But there is an easy and also cost-effective solution to that problem.
+Instead of strictly returning 0 when an object is covered by another, the shortest distance to scene qualified by some factor $k$ is returned.
+
+\begin{lstlisting}[language=HLSL, caption=Implementation of hard shadow casting., label=lst:shader:shadowcasting:hard]
+float softshadow(float3 position, float3 direction, float dMin, float dMax, float k)
+{
+    float result = 1.0;
+    float dOrigin = dMin;
+    for (int i = 0; i < MAX_STEPS; i++) {
+        float dScene = sceneSDF(position + direction * dOrigin);
+        if (dScene < SURFACE_DISTANCE)
+            return 0;
+        if (dOrigin > dMax)
+            return result;
+        
+        result = min(result, k * dScene / dOrigin);
+        dOrigin += dScene;
+    }
+    return result;
+}
+\end{lstlisting}
+
+\noindent
+Those are the resulting renders with a sphere and a flat box as the volumetric scene.
+\begin{figure}[H]
+    \centering
+        \begin{minipage}{0.3\linewidth}
+            \includegraphics[width=\linewidth]{unity captures/shadow casting hard}
+            \captionof{figure}{Hard shadows only.}
+            \label{img:captures:shadows:hard}
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.3\linewidth}
+            \includegraphics[width=\linewidth]{unity captures/shadow casting soft 7}
+            \captionof{figure}{Soft shadows with $k=7.0$.}
+            \label{img:captures:shadows:soft2}
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.3\linewidth}
+            \includegraphics[width=\linewidth]{unity captures/shadow casting soft 1.2}
+            \captionof{figure}{Soft shadows with $k=1.2$.}
+            \label{img:captures:shadows:soft1}
         \end{minipage}
 \end{figure}
