@@ -32,16 +32,18 @@
 \lstdefinelanguage{HLSL}{
 	morekeywords=[1]{
         % variables
-        position,sphere,direction,stepSize,dirMultiplier,dScene,dOrigin,p,dMin,dMax,result,k,
+        position,sphere,direction,stepSize,dirMultiplier,dScene,dOrigin,p,dMin,dMax,result,k,d1,d2,i,ao,
 	},
 	morekeywords=[2]{
         % methods and functions
 		distance,normalize,min,max,dot,pow,
-		sphereHit,raymarch,sphereDistance,sceneSDF,estimateNormal,hardshadow,softshadow
+        sphereHit,raymarch,sphereDistance,sceneSDF,estimateNormal,hardshadow,softshadow,blend,sphereSDF,boxSDF,
+        difference,union,intersection,ambientOcclusion,
 	},
 	morekeywords=[3]{
         % CONSTANTS
-		STEP_SIZE,MAX_STEPS,MINIMUM_STEP_SIZE,SURFACE_DISTANCE,MAX_DISTANCE,EPSILON,
+        STEP_SIZE,MAX_STEPS,MINIMUM_STEP_SIZE,SURFACE_DISTANCE,MAX_DISTANCE,EPSILON,
+        AO_ITERATIONS,AO_INTENSITY,AO_STEP_SIZE,
     },
     keywordstyle=[1]\color{codeblue},
     keywordstyle=[2]\color{codered},

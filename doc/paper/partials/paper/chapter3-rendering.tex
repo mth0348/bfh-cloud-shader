@@ -218,10 +218,10 @@ If the distance to the scene can be calculated with a \gls{sdf}, the algorithm b
     \centering
     \begin{tikzpicture}[scale=1.2]
         \tikzset{edge/.style = {-{Latex[length=3mm]}}}
-        \tikzset{smalledge/.style = {-{Latex[length=2mm]}}}
 
         % ray
-        \draw[edge] (0,2) node[above,sloped,xshift=1cm]{ray} -- (10,3);
+        \node (cam) at (0,2) {\faVideoCamera};
+        \draw[edge] (cam) node[above,sloped,xshift=1cm]{ray} -- (10,3);
         \node (1) at (2,    2.2) {\textbullet};
         \node (2) at (2.5,  2.25) {\textbullet};
         \node (3) at (2.75, 2.275) {\textbullet};
@@ -286,7 +286,8 @@ Another example why this check is important can be seen in the next figure. The 
         \tikzset{smalledge/.style = {-{Latex[length=2mm]}}}
 
         % ray
-        \draw[edge] (0,2) node[above,sloped,xshift=1cm]{ray} -- (10,3);
+        \node (cam) at (0,2) {\faVideoCamera};
+        \draw[edge] (cam) node[above,sloped,xshift=1cm]{ray} -- (10,3);
         \node (1) at (2.50,  2.250) {\textbullet};
         \node (2) at (3.85,  2.385) {\textbullet};
         \node (3) at (4.50,  2.450) {\textbullet};
@@ -468,7 +469,7 @@ Therefore, when a surface point has been determined, a second ray march can be s
         \node[cyan] (r2light) at (5.35,1.55) {\textbullet};
 
         % icons
-        \node[icon] (cam) at (0,2) {\faVideoCamera};
+        \node (cam) at (0,2) {\faVideoCamera};
         \node at (0,2.6) {camera};
         \node[icon] (light) at (1,5) {\faLightbulbO};
         \node at (1,5.4) {light direction};
@@ -561,3 +562,107 @@ Those are the resulting renders with a sphere and a flat box as the volumetric s
             \label{img:captures:shadows:soft1}
         \end{minipage}
 \end{figure}
+
+\clearpage
+\subsubsection{Shape Blending}
+Another thing that comes free with ray marching is \textit{\gls{shapeblending}}. It describes the concept of blending the \gls{sdf}s of mulitple shapes together with this simple method:
+\begin{lstlisting}[language=HLSL]
+float blend(float d1, float3 d2, float k)
+{
+    return k * d1 + (1 - k) * d2;
+}
+\end{lstlisting}
+
+\noindent
+Now two shapes can simply be blended like that:
+\begin{lstlisting}[language=HLSL]
+float sceneSDF(float3 position)
+{
+    return blend(sphereSDF(position), boxSDF(position), 0.5);
+}
+\end{lstlisting}
+
+\noindent
+The following image displays the two blended shapes. Due to the fact that the shadow is calculated live, no additional changes have to be made in this regard.
+\begin{figure}[H]
+    \includegraphics[width=\linewidth]{unity captures/shape blending 1}
+    \captionof{figure}{A blended sphere and box SDF with $k = 0.5$.}
+    \label{img:captures:shapeblending1}
+\end{figure}
+
+\clearpage
+\paragraph{Solid Primitive Operators}
+To create more interesting figures than a rounded box, solid primitive operators can be used. As seen in \autoref{img:captures:shapeblending2}, "holes" are cut into the geometry. This is done by taking the difference (or intersection) of the box and a cylinder that goes through the box.
+Like the \lstinline[language=HLSL]{blend()} function takes in two \gls{sdf} results, the following methods also compare the distances.
+
+\begin{lstlisting}[language=HLSL, caption=Implementation of solid primitive operations., label=lst:shader:shapeblending:primitiveoperations]
+float intersection(float d1, float d2)
+{
+    return max(d1, d2);
+}
+
+float union(float d1, float d2)
+{
+    return min(d1, d2);
+}
+
+float difference(float d1, float d2)
+{
+    return max(d1, -d2);
+}
+\end{lstlisting}
+
+\noindent
+In this example, the intersection was done three times, for each axis once.
+
+\begin{figure}[H]
+    \includegraphics[width=\linewidth]{unity captures/shape blending 2}
+    \captionof{figure}{A blended sphere and box with holes along each axis.}
+    \label{img:captures:shapeblending2}
+\end{figure}
+
+\clearpage
+\subsubsection{Ambient Occlusion}
+Shadow casting already looks quite realistic, but there is an important detail missing, called \textit{\gls{ambientocclusion}}. This method darkens areas around edges and crevices in the scene, making them look less exposed to the light and its environment.
+The algorithm for that is fairly uncomplicated and straightforward, given all the previously defined methods like \lstinline[language=HLSL]{sceneSDF()} and \lstinline[language=HLSL]{raymarch()} already exist.
+\\
+When the \lstinline[language=HLSL]{raymarch()} function returns a valid distance, a surface is hit. On that hit point $p_1$, the normal vector $\overrightarrow{n}$ is estimated. Now the distance to the nearest surface in the direction of $\overrightarrow{n}$ is evaluated.
+If on that ray a hit point $p_2$ is close, the color for the original hit point $p_1$ is darkened by some amount, in relation to how far apart those points are.
+
+\begin{lstlisting}[language=HLSL, caption=Implementation of ambient occlusion., label=lst:shader:ambientocclusion]
+float ambientOcclusion(float3 p, float3 direction) {
+    float ao = 0;
+    float dOrigin = 0;
+
+    for (int i = 1; i <= AO_ITERATIONS; i++) {
+        dOrigin = AO_STEP_SIZE * i;
+        ao += max(0, dOrigin - sceneSDF(p + direction * dOrigin)) / dOrigin;
+    }
+    return 1 - ao * AO_INTENSITY;
+}
+\end{lstlisting}
+
+\noindent
+This comes close to the constant step ray marching algorithm, since it is marched along the ray in a predefined step size.
+On line 7, the scene SDF is substracted from the total distance and then devided by it. This just puts the scene distance in relation to the total distance.
+Also, \lstinline[language=HLSL]{max()} is used because the SDF can return a negative number for points inside the surface, so in order to not brighten the scene at point \lstinline[language=HLSL]{p} when this is the case, 0 is added instead.
+\\
+With \lstinline[language=HLSL]{AO_STEP_SIZE = 0.1}, \lstinline[language=HLSL]{AO_ITERATIONS = 3} and \lstinline[language=HLSL]{AO_INTENSITY = 0.2}, the following output is produced.
+
+\begin{figure}[H]
+    \centering
+        \begin{minipage}{0.47\linewidth}
+            \includegraphics[width=\linewidth]{unity captures/ambient occlusion ON}
+            \captionof{figure}{Ambient occlusion applied to the scene.}
+            \label{img:captures:ambientocclusion:on}
+        \end{minipage}
+    \hfill
+        \begin{minipage}{0.47\linewidth}
+            \includegraphics[width=\linewidth]{unity captures/ambient occlusion only}
+            \captionof{figure}{Only the ambient occlusion part drawn in red.}
+            \label{img:captures:ambientocclusion:only}
+        \end{minipage}
+\end{figure}
+
+\noindent
+When comparing \autoref{img:captures:shapeblending2} with \autoref{img:captures:ambientocclusion:on}, the darker ground around the object clearly improves the scene.
