@@ -16,15 +16,15 @@ For this, the function $rnd(x) = fract(sin(x))$ is inspected, where $fract(x) = 
     \begin{tikzpicture}[scale=1.0]
         \begin{axis}[
             samples=500,
-            domain=-1*pi:4*pi,
+            domain=0:4*pi,
             axis lines=left,
             xlabel=$x$,
             ylabel={$rnd(x)$},
             height=3cm,
             width=14cm,
             ytick={0,1},
-            xtick={0,pi,2*pi,3*pi},
-            xticklabels={$0$,$\pi$,$2\pi$,$3\pi$}
+            xtick={0,pi,2*pi,3*pi,4*pi},
+            xticklabels={$0$,$\pi$,$2\pi$,$3\pi$,$4\pi$}
             ]
         \addplot[red] plot (\x, { sin(\x*1 r) - floor(sin(\x*1 r)) });
         \end{axis}
@@ -36,27 +36,27 @@ For this, the function $rnd(x) = fract(sin(x))$ is inspected, where $fract(x) = 
 The sine values fluctuate between $-1$ and $1$, but with $fract$, only the fractional part is evaluated, turning the negative values in positive ones.
 This effect can be used to get some pseudo-random values by "compressing" the function vertically or in other words, by increasing the frequency of the sine wave.
 \\
-The next figure displays the function $rnd(x) = fract(sin(x) * 10000)$.
+The next figure displays the function $rnd(x) = fract(sin(x) * 100000)$.
 
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[scale=1.0]
         \begin{axis}[
-            samples=899,
-            domain=-1*pi:4*pi,
+            samples=2000,
+            domain=0:4*pi,
             axis lines=left,
             xlabel=$x$,
             ylabel={$rnd(x)$},
             height=3cm,
             width=14cm,
             ytick={0,1},
-            xtick={0,pi,2*pi,3*pi},
-            xticklabels={$0$,$\pi$,$2\pi$,$3\pi$}
+            xtick={0,pi,2*pi,3*pi,4*pi},
+            xticklabels={$0$,$\pi$,$2\pi$,$3\pi$,$4\pi$},
             ]
-        \addplot[red] plot (\x, { sin(\x*10000 r) - floor(sin(\x*10000 r)) });
+        \addplot[red] plot (\x, { sin(\x*10000) - floor(sin(\x*10000)) });
         \end{axis}
     \end{tikzpicture}
-    \caption{Random numbers with the fractional value of sine of x multiplied by 10000.}
+    \caption{Random numbers with the fractional value of sine of x multiplied by 100000.}
 \end{figure}
 
 \noindent
