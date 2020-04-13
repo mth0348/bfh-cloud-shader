@@ -521,7 +521,7 @@ The method described in \autoref{img:tikz:rendering:shadowcasting} evaluates onl
 It does not account for diffuse shadows with soft edges, called \textit{\gls{penumbra}} or simply \textit{soft} shadows. But there is an easy and also cost-effective solution to that problem.
 Instead of strictly returning 0 when an object is covered by another, the shortest distance to scene qualified by some factor $k$ is returned.
 
-\begin{lstlisting}[language=HLSL, caption=Implementation of hard shadow casting., label=lst:shader:shadowcasting:hard]
+\begin{lstlisting}[language=HLSL, caption=Implementation of hard shadow casting., label=lst:shader:shadowcasting:soft]
 float softshadow(float3 position, float3 direction, float dMin, float dMax, float k)
 {
     float result = 1.0;
