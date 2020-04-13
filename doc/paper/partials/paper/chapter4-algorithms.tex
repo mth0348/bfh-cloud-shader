@@ -2,4 +2,19 @@
 
 \subsection{Noise Generation}
 \label{section:noise-generation}
-This section is empty.
+Nature's unpredictability and plays a big role in the diversity and appearance of cloudscapes. In shaders, an approach to that \textit{randomness} is used called \textit{\gls{noise}}.
+In order to be able to implement random \gls{noise}, several important topics need to be looked into. It is best to start with randomness in computer science and how it is handled inside a shader program.
+
+\subsubsection{Random Numbers}
+As expected, there is no magic function which returns a pure random number inside the seemingly predictable and rigid code environment.
+So the question arises how to generate randomness, or at least an approximation to it.
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.0]
+        \draw[very thin,color=lightgrey,step=1.046cm] (-0.1,-1.1) grid (10,1.5);
+        \draw[->] (-1,0) -- (10,0) node[right] {$x$};
+        \draw[->] (0,-1) -- (0,1.5) node[above] {$y$};
+        \draw[red] plot[domain=0:3*pi, samples=720] (\x,{ sin(\x r) - floor(sin(\x r)) });
+    \end{tikzpicture}
+    \caption{Stuff.}
+\end{figure}
