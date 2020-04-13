@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RayMarching_SphereTracing_HardShadows
-  m_Shader: {fileID: 4800000, guid: f1181dbff588e0c4fad1c965a3145663, type: 3}
+  m_Name: RayMarching_6_SphereTracing_ShapeBlending
+  m_Shader: {fileID: 4800000, guid: 026334d43d05cdf4198166f5ff0acd96, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -21,8 +21,10 @@ Material:
     m_TexEnvs: []
     m_Floats:
     - _ShadowIntensity: 1
-    - _ShadowMaxDistance: 14.53
+    - _ShadowMaxDistance: 15
     - _ShadowMinDistance: 0.1
-    - _ShadowPenubra: 6.1
+    - _ShadowPenubra: 15
+    - _ShapeBlend: 0.7
     m_Colors:
-    - _ShadowDistance: {r: 0, g: 20, b: 0, a: 1}
+    - _A: {r: 1, g: 1, b: 1, a: 1}
+    - _B: {r: -1, g: 1, b: 1, a: 1}

@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RayMarching_SphereTracing_Shaded
-  m_Shader: {fileID: 4800000, guid: 402f3d11023d1224abfcc716b2c7b79c, type: 3}
+  m_Name: RayMarching_2_Traditional
+  m_Shader: {fileID: 4800000, guid: 73701f3d78b32fc4881f72452dd14f42, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
