@@ -112,7 +112,7 @@ It is obvious to see that, for a constant step ray march to result in an accurat
 This has a direct impact on performance and thus, is not a viable solution for the problem.
 \\
 In traditional \gls{raymarching}, an optimization for that has been developed. The algorithm does not blindly step forward, but instead tries to get as close to the real distance as possible.
-After the volume is reached, the step size is decreased and the ray steps out of the volume again. It then tries to approximate the surface distance by stepping back and forward repeatedly in continuously smaller steps, thus converging towards the exact intersection.
+After the volume is reached, the step size is decreased and the ray steps out of the volume again. It then tries to approximate the surface distance by stepping back and forth repeatedly in continuously smaller steps, thus converging towards the exact intersection.
 Once the step size falls below a certain threshold, the distance approximation is assumed to be precise enough and the value is returned for that ray march.
 
 \begin{figure}[H]
