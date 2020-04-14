@@ -2,12 +2,12 @@
 
 \subsection{Noise Generation}
 \label{section:noise-generation}
-Nature's unpredictability and plays a big role in the diversity and appearance of cloudscapes. In shaders, an approach to that \textit{randomness} is used called \textit{\gls{noise}}.
+Nature's unpredictability plays a big role in the diversity and appearance of cloudscapes. In shaders, an approach to that \textit{randomness} is used called \textit{\gls{noise}}.
 In order to be able to implement random \gls{noise}, several important topics need to be looked into. It is best to start with randomness in computer science and how it is handled inside a shader program.
 
 \subsubsection{Random Numbers}
-As expected, there is no magic function which returns a pure random number inside the seemingly predictable and rigid code environment.
-So the question how to generate randomness arises. 
+Unfortunately, there is no magic function which returns a pure random number inside the seemingly predictable and rigid code environment.
+So the question arises as to how such randomness can be generated.
 \\
 For this, the function $rnd(x) = fract(sin(x))$ is inspected, where $fract(x) = x - floor(x)$.
 
@@ -33,7 +33,7 @@ For this, the function $rnd(x) = fract(sin(x))$ is inspected, where $fract(x) = 
 \end{figure}
 
 \noindent
-The sine values fluctuate between $-1$ and $1$, but with $fract$, only the fractional part is evaluated, turning the negative values in positive ones.
+The sine values fluctuate between $-1.0$ and $1.0$, but with $fract$, only the fractional part is evaluated, turning the negative values in positive ones.
 This effect can be used to get some pseudo-random values by "compressing" the function horizontally, or in other words by increasing the frequency of the sine wave.
 \\
 The next figure displays the function $rnd(x) = fract(sin(x) * 10000)$.
@@ -60,4 +60,4 @@ The next figure displays the function $rnd(x) = fract(sin(x) * 10000)$.
 \end{figure}
 
 \noindent
-It is clearly visible that the function $rnd(x)$ became chaotic and seemingly random. However, it is noteworthy that $rnd(x)$ is still a deterministic function, which means for example $rnd(1.0)$ is always going to return the same value.
+It is clearly visible that the function $rnd(x)$ became chaotic and returns practically random values. However, it is noteworthy that $rnd(x)$ is still a deterministic function, which means for example $rnd(1.0)$ is always going to return the same value.

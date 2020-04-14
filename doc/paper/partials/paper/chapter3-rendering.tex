@@ -519,7 +519,7 @@ The final color is then multiplied by this output. For 0, this results in a tota
 \paragraph{Soft Shadows}
 The method described in \autoref{img:tikz:rendering:shadowcasting} evaluates only if any given point is directly covered by any other object. 
 It does not account for diffuse shadows with soft edges, called \textit{\gls{penumbra}} or simply \textit{soft} shadows. But there is an easy and also cost-effective solution to that problem.
-Instead of strictly returning 0 when an object is covered by another, the shortest distance to scene qualified by some factor $k$ is returned.
+Instead of strictly returning 0 when an object is covered by another, the shortest distance to scene (qualified by some factor $k$) is returned.
 
 \begin{lstlisting}[language=HLSL, caption=Implementation of hard shadow casting., label=lst:shader:shadowcasting:soft]
 float softshadow(float3 position, float3 direction, float dMin, float dMax, float k)
@@ -627,7 +627,7 @@ Shadow casting already looks quite realistic, but there is an important detail m
 The algorithm for that is fairly uncomplicated and straightforward, given all the previously defined methods like \lstinline[language=HLSL]{sceneSDF()} and \lstinline[language=HLSL]{raymarch()} already exist.
 \\
 When the \lstinline[language=HLSL]{raymarch()} function returns a valid distance, a surface is hit. On that hit point $p_1$, the normal vector $\overrightarrow{n}$ is estimated. Now the distance to the nearest surface in the direction of $\overrightarrow{n}$ is evaluated.
-If on that ray a hit point $p_2$ is close, the color for the original hit point $p_1$ is darkened by some amount, in relation to how far apart those points are.
+If on that ray a hit point $p_2$ is close, the color for the original hit point $p_1$ is darkened by some amount, depending on how far apart those points are.
 
 \begin{lstlisting}[language=HLSL, caption=Implementation of ambient occlusion., label=lst:shader:ambientocclusion]
 float ambientOcclusion(float3 p, float3 direction) {
@@ -665,4 +665,4 @@ With \lstinline[language=HLSL]{AO_STEP_SIZE = 0.1}, \lstinline[language=HLSL]{AO
 \end{figure}
 
 \noindent
-When comparing \autoref{img:captures:shapeblending2} with \autoref{img:captures:ambientocclusion:on}, the darker ground around the object clearly improves the scene.
+When comparing the previous \autoref{img:captures:shapeblending2} with \autoref{img:captures:ambientocclusion:on}, the darker ground around the object clearly improves the scene.
