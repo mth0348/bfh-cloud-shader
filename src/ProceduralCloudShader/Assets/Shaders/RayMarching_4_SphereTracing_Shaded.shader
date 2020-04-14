@@ -81,6 +81,9 @@
 				float3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);
 
 				float distance = raymarch(_WorldSpaceCameraPos.xyz, viewDirection);
+				if (distance <= 0 || distance >= MAX_DISTANCE)
+					return fixed4(0,0,0,0);
+					
 				float3 normal = estimateNormal(_WorldSpaceCameraPos.xyz + viewDirection * distance);
 
 				fixed3 ambient = _LightColor0 * 0.2;
@@ -88,7 +91,7 @@
 				fixed3 specular = 0.1 * pow(max(dot(viewDirection, reflect(lightDirection, normal)), 0.0), 32) * _LightColor0;
 
 				fixed3 color = ambient + diffuse + specular;
-				return fixed4(color, distance / length(i.worldPos.xyz - _WorldSpaceCameraPos.xyz));
+				return fixed4(color, 1);
 			}
 
 			ENDCG

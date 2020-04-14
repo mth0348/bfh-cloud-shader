@@ -144,14 +144,14 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 | Added research results about ray marching | 4h |
 | Added research results sphere tracing | 6h |
 | Added research results shadow casting | 6h |
-| Added research results ambient occlusion | 3h |
+| Added research results ambient occlusion | 4h |
 
 &nbsp;
 
 &nbsp;
 
 #
-## \#04: April 14th, 2020
+## \#05: April 14th, 2020
 *(This meeting was moved to April 14th, 2020 at 2:30 pm.)*
 
 ### Formal and technical topics
@@ -166,3 +166,11 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
     * https://thebookofshaders.com/10/
 
 ### Meeting discussions
+* shadow casting is usually done from light source
+        * note that this is also possible
+* "Constructive solid geometry" additionally to "Solid primitive operators"
+* Random 2D
+    * citation/reference is ok
+
+
+## \06: April 27th, 2020
