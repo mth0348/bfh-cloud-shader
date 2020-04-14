@@ -2,13 +2,14 @@
 {
 	Properties
 	{
+		[Header(Shadow Casting)]
 		_ShadowIntensity("Shadow Intensity", Range(0,4)) = 0.5
 		_ShadowMinDistance("Shadow Min Distance", float) = 0.1
 		_ShadowMaxDistance("Shadow Max Distance", float) = 100
 		_ShadowPenubra("Shadow Penubra", Range(1,128)) = 1
+
+		[Header(Shape Blending)]
 		_ShapeBlend("Shape Blend Factor", Range(0,1)) = 1
-		// _A("A Factor", Vector) = (1,1,1)
-		// _B("B Factor", Vector) = (1,1,1)
 	}
 	SubShader
 	{
@@ -36,8 +37,6 @@
 			float _ShadowMaxDistance;
 			float _ShadowPenubra;
 			float _ShapeBlend;
-			// float3 _A;
-			// float3 _B;
 
 			struct appdata
 			{

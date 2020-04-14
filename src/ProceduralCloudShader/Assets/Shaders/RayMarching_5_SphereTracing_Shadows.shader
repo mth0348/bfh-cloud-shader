@@ -2,6 +2,7 @@
 {
 	Properties
 	{
+		[Header(Shadow Casting)]
 		_ShadowIntensity("Shadow Intensity", Range(0,4)) = 0.5
 		_ShadowMinDistance("Shadow Min Distance", float) = 0.1
 		_ShadowMaxDistance("Shadow Max Distance", float) = 100

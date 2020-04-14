@@ -2,14 +2,19 @@
 {
 	Properties
 	{
+		[Header(Shadow Casting)]
 		_ShadowIntensity("Shadow Intensity", Range(0,4)) = 0.5
 		_ShadowMinDistance("Shadow Min Distance", float) = 0.1
 		_ShadowMaxDistance("Shadow Max Distance", float) = 100
 		_ShadowPenubra("Shadow Penubra", Range(1,128)) = 1
+
+		[Header(Shape Blending)]
 		_ShapeBlend("Shape Blend Factor", Range(0,1)) = 1
-		_AOStepSize("AO Step Size", Range(0.01,1)) = 0.1
-		_AOIterations("AO Iterations", Range(1, 128)) = 10
-		_AOIntensity("AO Intensity", Range(0, 0.5)) = 1
+
+		[Header(Ambient Occlusion)]
+		_AOStepSize("Step Size", Range(0.01,1)) = 0.1
+		_AOIterations("Iterations", Range(1, 128)) = 10
+		_AOIntensity("Intensity", Range(0, 0.5)) = 1
 	}
 	SubShader
 	{
