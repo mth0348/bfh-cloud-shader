@@ -101,21 +101,25 @@
 			}
 
 			float sphereSDF(float3 position) {
-				float4 sphere = float4(0, 1.2, 0, 1.5);
+				float4 sphere = float4(0, 1.1, 0, 1.5);
 				float dSphere = distance(sphere.xyz, position) - sphere.w;
 				return dSphere;
 			}
 
 			float sceneSDF(float3 position) {
-				float dSphere = blend(sphereSDF(position), boxSDF(position, float3(0,1.2,0), float3(1.5,1.5,1.5)), _ShapeBlend);
+				float dSphereAndBox = blend(sphereSDF(position), boxSDF(position, float3(0,1.1,0), float3(1.5,1.5,1.5)), _ShapeBlend);
 
 				float3 q = abs(position) - float3(2, 0.05, 2);
   				float dGroundBox = length(max(q,0)) + min(max(q.x,max(q.y,q.z)),0);
 
-				dSphere = max(dSphere, -cylinderSDF(position, fixed3(3,1,1), fixed3(-3,1,1), 0.9, fixed3( 0, 0.2,-1)));
-				dSphere = max(dSphere, -cylinderSDF(position, fixed3(1,3,1), fixed3(1,-3,1), 0.9, fixed3(-1, 1.2,-1)));
-				dSphere = max(dSphere, -cylinderSDF(position, fixed3(1,1,3), fixed3(1,1,-3), 0.9, fixed3(-1, 0.2, 0)));
-				float sdf = min(dSphere, dGroundBox);
+				float dCylinder1 = cylinderSDF(position, fixed3(3,1,1), fixed3(-3,1,1), 0.9, fixed3( 0, 0.1,-1));
+				float dCylinder2 = cylinderSDF(position, fixed3(1,3,1), fixed3(1,-3,1), 0.9, fixed3(-1, 1.1,-1));
+				float dCylinder3 = cylinderSDF(position, fixed3(1,1,3), fixed3(1,1,-3), 0.9, fixed3(-1, 0.1, 0));
+
+				float sdf = min(dSphereAndBox, dGroundBox);
+				sdf = max(sdf, -dCylinder1);
+				sdf = max(sdf, -dCylinder2);
+				sdf = max(sdf, -dCylinder3);
 				
 				return sdf;
 			}
