@@ -162,5 +162,7 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
         * Perlin
         * Voronoi
     * 3D noise cube
+* In 2D random, the dot() product is chosen arbitrarily?
+    * https://thebookofshaders.com/10/
 
 ### Meeting discussions
