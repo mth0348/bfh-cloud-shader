@@ -24,7 +24,7 @@ Material:
     - _ShadowMaxDistance: 15
     - _ShadowMinDistance: 0.1
     - _ShadowPenubra: 15
-    - _ShapeBlend: 0.7
+    - _ShapeBlend: 0.935
     m_Colors:
     - _A: {r: 1, g: 1, b: 1, a: 1}
     - _B: {r: -1, g: 1, b: 1, a: 1}

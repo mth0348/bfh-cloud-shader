@@ -9,9 +9,8 @@ This especically comes to use for visual effects that are volumetric in nature, 
 \\
 In addition to rendering such effects, volumetric rendering has become essential to scientific applications like medical imaging, for which a typical 3D data volume is a set of 2D slice images acquired by a CT (computed tomography) or MRI (magnetic resonance imaging) scanner.
 \emptyline
-The data volume is also called a \textit{\gls{scalarfield}} or \textit{\gls{vectorfield}}, which associates a scalar value, or \textit{\gls{voxel}}, to every point in the defined space.
-This can be imagined like a 3D grid, where each point holds a single number. This number could, for example, represent the density of a cloud at that very point.
-A \gls{voxel} may also consist of more than just a single value, but rather a set, like an RGB color.
+The data volume is also called a \textit{\gls{scalarfield}} or \textit{\gls{vectorfield}}, which associates a scalar or vector value, called \textit{\gls{voxel}} (short for \textit{volume element}), to every point in the defined space.
+For a scalar field, it can be imagined like a 3D grid, where each point holds a single number. This number could, for example, represent the density of a cloud at that very point.
 
 \subsubsection{Ray Marching with constant step}
 To actually render the volume data, a method called \textit{\gls{raymarching}} is used. With it, the surface distance of the volumetric data is approximated by creating a ray from the camera to the object for each fragment processed in the fragment shader. The ray is then extended into the volume of the object and stepped forward until the surface is reached.
@@ -31,7 +30,7 @@ To actually render the volume data, a method called \textit{\gls{raymarching}} i
         \draw[thick,red] (-1.5,1) node[below right]{camera ray} -- (2.5,3);
 
     \end{tikzpicture}
-    \caption{A ray is created from the camera to the object. From there, it is extended into the volume.}
+    \caption{Ray marching concept visualized.}
 \end{figure}
 
 \pagebreak
@@ -41,7 +40,7 @@ In \gls{raymarching}, the algorithm only knows when it has reached the surface, 
 With this information, it is only possible to extend the ray in steps of a predefined length until the inside of the object is reached.
 With a constant step, the approximation of the surface distance is exactly as precise as the size of the constant step.
 \\
-Once the ray is inside the actual volume, the functions returns the distance for this ray.
+Once the ray is inside the actual volume, the functions returns the distance for this ray. The precision of the result is directly dependent on the step size.
 
 \begin{figure}[H]
     \centering
@@ -74,7 +73,7 @@ Once the ray is inside the actual volume, the functions returns the distance for
         \draw[cyan, shorten <=-0.2cm] (7) -- (9,3.7) -- (11,3.7) node[xshift=-1cm,above]{function returns};
         
         \end{tikzpicture}
-    \caption{Traditional ray marching, the precision of which being directly dependent on the step size.}
+    \caption{Traditional ray marching.}
 \end{figure}
 
 \noindent
@@ -90,7 +89,7 @@ bool sphereHit(float3 position) {
 \noindent
 With that given, the raymarch function is implemented like so:
 
-\begin{lstlisting}[language=HLSL, numbers=left, caption=Ray march function with constant step.,captionpos=b, label=lst:shader:raymarch:constantstep]
+\begin{lstlisting}[language=HLSL, numbers=left, caption=Implementation of a ray march function with constant step.,captionpos=b, label=lst:shader:raymarch:constantstep]
 fixed4 raymarch(float3 position, float3 direction)
 {
     for (int i = 0; i < MAX_STEPS; i++)
@@ -156,7 +155,7 @@ As clearly visible, the traditional \gls{raymarching} ends up with a more precis
 \\
 However, there is still an issue. The algorithm may jump in and out of the volume, even if it would already be precise enough, essentially taking unnecessary steps.
 
-\begin{lstlisting}[language=HLSL, numbers=left, caption=Traditional ray march function with converging surface distance approximation.,captionpos=b, label=lst:shader:raymarch:traditional]
+\begin{lstlisting}[language=HLSL, numbers=left, caption=Implementation of a traditional ray march function with converging surface distance approximation.,captionpos=b, label=lst:shader:raymarch:traditional]
 fixed4 raymarch(float3 position, float3 direction)
 {
     float stepSize = STEP_SIZE;

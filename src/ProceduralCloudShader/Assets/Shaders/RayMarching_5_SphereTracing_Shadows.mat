@@ -20,9 +20,9 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Floats:
-    - _ShadowIntensity: 1
+    - _ShadowIntensity: 2.73
     - _ShadowMaxDistance: 14.53
     - _ShadowMinDistance: 0.1
-    - _ShadowPenubra: 7
+    - _ShadowPenubra: 4.7
     m_Colors:
     - _ShadowDistance: {r: 0, g: 20, b: 0, a: 1}

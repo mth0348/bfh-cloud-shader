@@ -20,9 +20,9 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Floats:
-    - _AOIntensity: 0.2
-    - _AOIterations: 3
-    - _AOStepSize: 0.1
+    - _AOIntensity: 0.134
+    - _AOIterations: 6.7
+    - _AOStepSize: 0.143
     - _Accuracy: 1
     - _MaxIterations: 164
     - _ShadowIntensity: 1
