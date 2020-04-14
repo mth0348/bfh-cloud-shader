@@ -113,7 +113,7 @@
   				float dGroundBox = length(max(q,0)) + min(max(q.x,max(q.y,q.z)),0);
 
 				float dCylinder1 = cylinderSDF(position, fixed3(3,1,1), fixed3(-3,1,1), 0.9, fixed3( 0, 0.1,-1));
-				float dCylinder2 = cylinderSDF(position, fixed3(1,3,1), fixed3(1,-3,1), 0.9, fixed3(-1, 1.1,-1));
+				float dCylinder2 = cylinderSDF(position, fixed3(1,3,1), fixed3(1,-1,1), 0.9, fixed3(-1, 1.1,-1));
 				float dCylinder3 = cylinderSDF(position, fixed3(1,1,3), fixed3(1,1,-3), 0.9, fixed3(-1, 0.1, 0));
 
 				float sdf = min(dSphereAndBox, dGroundBox);

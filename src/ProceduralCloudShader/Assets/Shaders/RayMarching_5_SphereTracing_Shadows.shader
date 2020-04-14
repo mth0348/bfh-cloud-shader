@@ -1,4 +1,4 @@
-﻿Shader "Custom/RayMarching/SphereTracing Hard Shadows"
+﻿Shader "Custom/RayMarching/SphereTracing Shadows"
 {
 	Properties
 	{
