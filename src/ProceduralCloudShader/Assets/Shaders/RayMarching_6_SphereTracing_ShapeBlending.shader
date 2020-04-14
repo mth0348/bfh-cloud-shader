@@ -190,12 +190,13 @@
 				float3 hitPoint = _WorldSpaceCameraPos.xyz + viewDirection * distance;
 				float3 normal = estimateNormal(hitPoint);
 
+				// lighting.
 				fixed3 ambient = _LightColor0 * 0.2;
 				fixed3 diffuse = max(dot(normal, lightDirection), 0.0);
 				fixed3 specular = 0.1 * pow(max(dot(viewDirection, reflect(lightDirection, normal)), 0.0), 32) * _LightColor0;
-
 				fixed3 color = ambient + diffuse + specular;
 
+				// shadows.
 				float shadow = softshadow(hitPoint, lightDirection, _ShadowMinDistance, _ShadowMaxDistance, _ShadowPenubra) * 0.5 + 0.5;
 				color *= pow(shadow, _ShadowIntensity);
 
