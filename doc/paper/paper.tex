@@ -36,13 +36,14 @@
 \lstdefinelanguage{HLSL}{
 	morekeywords=[1]{
         % variables
-        position,sphere,direction,stepSize,dirMultiplier,dScene,dOrigin,p,dMin,dMax,result,k,d1,d2,i,ao,
+        position,sphere,direction,stepSize,dirMultiplier,dScene,dOrigin,p,dMin,dMax,result,k,d1,d2,i,ao,co,
 	},
 	morekeywords=[2]{
         % methods and functions
-		distance,normalize,min,max,dot,pow,
+		distance,normalize,min,max,dot,pow,sin,cos,tan,fract,
         sphereHit,raymarch,sphereDistance,sceneSDF,estimateNormal,hardshadow,softshadow,blend,sphereSDF,boxSDF,
         difference,union,intersection,ambientOcclusion,
+        random2d,random,random3d,
 	},
 	morekeywords=[3]{
         % CONSTANTS

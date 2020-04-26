@@ -447,7 +447,11 @@ Now that the normal vectors can be calculated for the volume, the object can be 
 
 \clearpage
 \subsubsection{Shadow Casting}
-In \gls{raymarching}, adding shadows to the scene is not difficult. As defined in \autoref{lst:shader:raymarch:spheretracing}, the \lstinline[language=HLSL]{raymarch()} function moves along the given ray and returns the distance to the nearest intersection of ray and volume.
+In \gls{raymarching}, rendering cast shadows  proves to be rather easy. Naturally, the light ray comes from the sun, bounces off in the world and eventually may hit the eye of the observer.
+Since only a minute fraction of those rays actually hit the observer (the camera), a huge amount of rays would be calculated for nothing.
+Consequently, the rays are not traced from the light source to the camera but the other way around instead.
+\\
+As defined in \autoref{lst:shader:raymarch:spheretracing}, the \lstinline[language=HLSL]{raymarch()} function moves along the given ray and returns the distance to the nearest intersection of ray and volume.
 Therefore, when a surface point has been determined, a second ray march can be started from the newly found point in the opposite direction the primary light source is facing. If anything is hit on the way, the surface point lies in the shadow of the second hit object and should be darkened.
 
 \begin{figure}[H]
