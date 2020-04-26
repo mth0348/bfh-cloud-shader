@@ -100,6 +100,8 @@
             }
 
             float perlin(float x, float y) {
+                // source of most:
+                // https://www.shadertoy.com/view/XdXGW8
 
                 // Determine grid cell coordinates
                 float2 i = float2(floor(x), floor(y));
