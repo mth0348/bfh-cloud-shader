@@ -102,6 +102,9 @@ It consists of the following three steps:
     \item Interpolation of those dot product values
 \end{itemize}
 
+\noindent
+Note that the following example refers to two-dimensional perlin noise generation, but with some tweaks, is very much applicable for higher dimensional noise generation.
+\\
 First, the 2D image space is split into a grid. For each vertex or corner point on this grid, a pseudo-random gradient vector is determined.
 
 \begin{figure}[H]
@@ -164,7 +167,7 @@ First, the 2D image space is split into a grid. For each vertex or corner point 
         
                 \end{tikzpicture}
                 \caption{Perlin grid with pseudo-random gradient vectors.}
-                \label{img:tikz:noise:gradient}
+                \label{img:tikz:noise:perlin:gradient}
         \end{minipage}
     \hfill
     \begin{minipage}{0.47\linewidth}
@@ -249,9 +252,158 @@ First, the 2D image space is split into a grid. For each vertex or corner point 
     
             \end{tikzpicture}
             \caption{Perlin grid with visualized gradient vectors.}
-            \label{img:tikz:noise:gradient_visualized}
+            \label{img:tikz:noise:perlin:gradient_visualized}
     \end{minipage}
 \end{figure}
 
+\clearpage
+\noindent
+For the next step, it is easier to only inspect a single cell. Given the algorithm currently processes the highlighted pixel $p$ in \autoref{img:tikz:noise:perlin:singlecell}, the next task is to determine the distance vectors from each adjacent corner point to the that pixel.
+Note that in $\mathbb{R}^2$, the amount of corners is four, while in $\mathbb{R}^3$, its eight.
 
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.47\linewidth}
+        \begin{tikzpicture}[scale=2, x=2cm,y=2cm]
+            \tikzset{c/.style = {shorten <=-4pt, shorten >=-4pt}}
+            \tikzset{smalledge/.style = {-{Latex[length=2mm]},shorten <=-4pt}}
+            
+            \node (x1y1) at (0,0) {\textbullet};
+            \node (x2y1) at (1,0) {\textbullet};
+            \node (x1y2) at (0,1) {\textbullet};
+            \node (x2y2) at (1,1) {\textbullet};
+    
+            \draw[c] (x1y1) edge node{} (x1y2);
+            \draw[c] (x1y1) edge node{} (x2y1);
+            \draw[c] (x2y2) edge node{} (x2y1);
+            \draw[c] (x2y2) edge node{} (x1y2);
+    
+            \node[cyan] (pixel) at (0.7,0.6) {\textbullet};
+            \draw[c, cyan] (pixel) -- (1.1,0.8) -- (1.3,0.8) node[xshift=-0.4cm,above]{pixel $p$};
+    
+            % arrows
+            \draw[smalledge, red] (x1y1) edge node{} ($ (x1y1) + (-0.45,0.15) $);
+            \draw[smalledge, red] (x2y1) edge node{} ($ (x2y1) + (0.3,0.3) $);
+            \draw[smalledge, red] (x1y2) edge node{} ($ (x1y2) + (0.225,-0.375) $);
+            \draw[smalledge, red] (x2y2) edge node{} ($ (x2y2) + (0.15,0.45) $);
+    
+        \end{tikzpicture}
+        \caption{Perlin grid cell with gradient vectors.}
+        \label{img:tikz:noise:perlin:singlecell}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.47\linewidth}
+        \begin{tikzpicture}[scale=2, x=2cm,y=2cm]
+            \tikzset{c/.style = {shorten <=-4pt, shorten >=-4pt}}
+            \tikzset{smalledge/.style = {-{Latex[length=2mm]},shorten <=-4pt}}
+            
+            \node (x1y1) at (0,0) {\textbullet};
+            \node (x2y1) at (1,0) {\textbullet};
+            \node (x1y2) at (0,1) {\textbullet};
+            \node (x2y2) at (1,1) {\textbullet};
+    
+            \draw[c] (x1y1) edge node{} (x1y2);
+            \draw[c] (x1y1) edge node{} (x2y1);
+            \draw[c] (x2y2) edge node{} (x2y1);
+            \draw[c] (x2y2) edge node{} (x1y2);
+    
+            \node[cyan] (pixel) at (0.7,0.6) {\textbullet};
+    
+            % arrows
+            \draw[smalledge, red] (x1y1) edge node[above]{$\overrightarrow{g_1}$} ($ (x1y1) + (-0.45,0.15) $);
+            \draw[smalledge, red] (x2y1) edge node[above]{$\overrightarrow{g_2}$} ($ (x2y1) + (0.3,0.3) $);
+            \draw[smalledge, red] (x2y2) edge node[left] {$\overrightarrow{g_3}$} ($ (x2y2) + (0.15,0.45) $);
+            \draw[smalledge, red] (x1y2) edge node[left] {$\overrightarrow{g_4}$} ($ (x1y2) + (0.225,-0.375) $);
+
+            % distance vectors
+            \draw[smalledge, cyan, shorten >=-4pt] (x1y1) edge node[above]{$\overrightarrow{d_1}$} (pixel);
+            \draw[smalledge, cyan, shorten >=-4pt] (x2y1) edge node[left] {$\overrightarrow{d_2}$} (pixel);
+            \draw[smalledge, cyan, shorten >=-4pt] (x2y2) edge node[left] {$\overrightarrow{d_3}$} (pixel);
+            \draw[smalledge, cyan, shorten >=-4pt] (x1y2) edge node[above]{$\overrightarrow{d_4}$} (pixel);
+    
+        \end{tikzpicture}
+        \caption{Perlin grid cell with distance vectors from each vertex to the pixel.}
+        \label{img:tikz:noise:perlin:distancevectors}
+    \end{minipage}
+\end{figure}
+
+\noindent
+Then, the dot product is calculated for each distance vector and its gradient vector. This qualifies how similar those two vectors are, returning a positive number if they face the same direction and a negative one for the opposite. The dot product is 0 if the vectors are perpendicular.
+$$ 
+\begin{array}{l}
+    s = g_1 * d_1,\\
+    t = g_2 * d_2,\\
+    u = g_3 * d_3,\\
+    v = g_4 * d_4.
+\end{array}
+$$
+
+\noindent
+The values $s, t, u, v$ represent the influences of the respective gradient on the final color of the pixel $p$. 
+When visualizing those values as vectors with their length being the influence, it looks like this:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=2, x=2cm,y=2cm]
+        \tikzset{c/.style = {shorten <=-6pt, shorten >=-6pt}}
+        \tikzset{smalledge/.style = {-{Latex[length=2mm]},shorten <=-6pt}}
+        
+        \node (x1y1) at (0,0) {\textbullet};
+        \node (x2y1) at (1,0) {\textbullet};
+        \node (x1y2) at (0.6,0.4) {\textbullet};
+        \node (x2y2) at (1.6,0.4) {\textbullet};
+
+        \node[above] at (x1y1) {$S$};
+        \node[below] at (x2y1) {$T$};
+        \node[below] at (x1y2) {$U$};
+        \node[above] at (x2y2) {$V$};
+
+        \draw[c] (x1y1) -- (x1y2);
+        \draw[c] (x1y2) -- (x2y2);
+        \draw[c] (x2y2) -- (x2y1);
+        \draw[c] (x2y1) -- (x1y1);
+
+        % arrows
+        \draw[smalledge, red] (x1y1) edge node[left]{$s$} ($(x1y1) + (0,-0.225)$);
+        \draw[smalledge, red] (x2y1) edge node[left]{$t$} ($(x2y1) + (0,0.1)$);
+        \draw[smalledge, red] (x2y2) edge node[left]{$u$} ($(x2y2) + (0,-0.225)$);
+        \draw[smalledge, red] (x1y2) edge node[left]{$v$} ($(x1y2) + (0,0.3075)$);
+
+    \end{tikzpicture}
+    \caption{Perlin grid cell with visualized influences of gradient vectors.}
+    \label{img:tikz:noise:perlin:influences}
+\end{figure}
+
+\noindent
+\begin{minipage}{\linewidth}
+It is clearly recognizable that the color of the pixel is influenced the most by $v$. Now those four numbers can be combined into one final number, the color value.
+For that, some sort of average calculation is used. For $\mathbb{R}^2$, the following ruleset applies:
+
+\begin{enumerate}
+    \item find the average of the first pair of numbers
+    \item find the average of the second pair of numbers
+    \item average those two numbers together
+\end{enumerate}
+\end{minipage}
+\vspace{\baselineskip}
+
+\noindent
+To get an accurate mean value of those influences, rather than using the arithmetic average, a weighted average calculation is used. The weight for that is how close $p$ is to the vertices.
+This means if $p$ is close to a corner point, the influence of that vertex should be weighted heavier than the influences of all other corner points.
+\\
+This is solved by linear interpolation.
+$$
+\begin{array}{l}
+    d_x = (T_x - p_x) / (T_x) - (S_x),\\
+    d_y = (U_y - p_y) / (U_x) - (S_x).\\
+    \\
+    w_1 = lerp(v, u, d_x),\\
+    w_2 = lerp(s, t, d_x),\\
+    w_{final} = lerp(w_1, w_2, d_y).
+\end{array}
+$$
+
+\noindent
+Both variables $d_x$ and $d_y$ represent the interpolation weight, being between 0 and 1. With $w_1$, the interpolation between $v$ and $u$ is done, depending on how far to the right the pixel is, related to its cell.
+This results in the first interpolation of the X-axis. Now $w_2$ is calculated, giving the second horizontal value inbetween $s$ and $t$.
+Finally, both $w_1$ and $w_2$ are linearly interpolated in relation th $d_y$, which givee the final average number.
 
