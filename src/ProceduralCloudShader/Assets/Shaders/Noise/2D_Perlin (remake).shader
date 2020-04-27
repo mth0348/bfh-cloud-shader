@@ -119,8 +119,8 @@
                 float v = dot(hash(i + float2(0,1)), f - float2(0,1));
                 float u = dot(hash(i + float2(1,1)), f - float2(1,1));
 
-                //float2 fd = float2(fade(f.x), fade(f.y));
-                float2 fd = f;
+                float2 fd = float2(fade(f.x), fade(f.y));
+                //float2 fd = f;
 
                 float w1 = lerp(s, t, fd.x);
                 float w2 = lerp(v, u, fd.x);
