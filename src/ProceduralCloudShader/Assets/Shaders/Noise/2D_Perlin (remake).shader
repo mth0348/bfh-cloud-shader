@@ -7,6 +7,9 @@
         _Octaves ("Octaves", Range(1,10)) = 1
         _Persistence ("Persistence", Range(0.1, 2)) = 0.5
         _Frequency ("Frequency", Range(0.1, 10)) = 1
+        _Amplitude ("_Amplitude", Range(0.1, 10)) = 1
+        _Min ("Min", Range(0,1)) = 0
+        _Max ("Max", Range(0,1)) = 1
     }
     SubShader
     {
@@ -42,6 +45,9 @@
             int _Octaves;
             float _Persistence;
             float _Frequency;
+            float _Amplitude;
+            float _Min;
+            float _Max;
 
             float fract(float x) {
                 return x - floor(x);
@@ -146,31 +152,50 @@
                 return o;
             }
 
+            // float getColor(float2 co, int octaves, float persistence) {
+            //     float total = 0;
+            //     float frequency = _Frequency;
+            //     float amplitude = _Amplitude;
+            //     float maxValue = 0;  // Used for normalizing result to 0.0 - 1.0
+            //     for(int i=0; i < octaves; i++) {
+            //         float current = perlin(co.x * frequency, co.y * frequency) * amplitude;
+            //         total += current;
+            //         maxValue = max(total, maxValue);
+                    
+            //         amplitude *= persistence;
+            //         frequency *= 2;
+            //     }
+                
+            //     return total/maxValue;
+            // }
+
             float getColor(float2 co, int octaves, float persistence) {
                 float total = 0;
                 float frequency = _Frequency;
-                float amplitude = 1;
+                float amplitude = _Amplitude;
                 float maxValue = 0;  // Used for normalizing result to 0.0 - 1.0
                 for(int i=0; i < octaves; i++) {
-                    total += perlin(co.x * frequency, co.y * frequency) * amplitude;
-                    
+                    float current = perlin(co.x * frequency, co.y * frequency) * amplitude;
+                    total += current;
                     maxValue += amplitude;
                     
                     amplitude *= persistence;
                     frequency *= 2;
                 }
                 
-                return total/maxValue;
+                return total/maxValue*1;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
+                //float2 co = float2(i.uv.x + _Time.y/4, i.uv.y + sin(_Time.y)/16) *_Scale;
                 float2 co = float2(i.uv.x, i.uv.y) *_Scale;
 
                 float f = getColor(co.xy, (int)_Octaves, _Persistence);
                 f = 0.5 + 0.5*f;
 
-                fixed4 col = fixed4(f,f,f,1);
+                fixed4 col = fixed4(0,0,0,1);
+                col += smoothstep(_Min, _Max, f);
                 return col;
             }
             ENDCG
