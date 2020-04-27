@@ -312,14 +312,14 @@ Note that in $\mathbb{R}^2$, the amount of corners is four, while in $\mathbb{R}
             % arrows
             \draw[smalledge, red] (x1y1) edge node[above]{$\overrightarrow{g_1}$} ($ (x1y1) + (-0.45,0.15) $);
             \draw[smalledge, red] (x2y1) edge node[above]{$\overrightarrow{g_2}$} ($ (x2y1) + (0.3,0.3) $);
-            \draw[smalledge, red] (x2y2) edge node[left] {$\overrightarrow{g_3}$} ($ (x2y2) + (0.15,0.45) $);
-            \draw[smalledge, red] (x1y2) edge node[left] {$\overrightarrow{g_4}$} ($ (x1y2) + (0.225,-0.375) $);
+            \draw[smalledge, red] (x1y2) edge node[left] {$\overrightarrow{g_3}$} ($ (x1y2) + (0.225,-0.375) $);
+            \draw[smalledge, red] (x2y2) edge node[left] {$\overrightarrow{g_4}$} ($ (x2y2) + (0.15,0.45) $);
 
             % distance vectors
             \draw[smalledge, cyan, shorten >=-4pt] (x1y1) edge node[above]{$\overrightarrow{d_1}$} (pixel);
             \draw[smalledge, cyan, shorten >=-4pt] (x2y1) edge node[left] {$\overrightarrow{d_2}$} (pixel);
-            \draw[smalledge, cyan, shorten >=-4pt] (x2y2) edge node[left] {$\overrightarrow{d_3}$} (pixel);
-            \draw[smalledge, cyan, shorten >=-4pt] (x1y2) edge node[above]{$\overrightarrow{d_4}$} (pixel);
+            \draw[smalledge, cyan, shorten >=-4pt] (x1y2) edge node[above]{$\overrightarrow{d_3}$} (pixel);
+            \draw[smalledge, cyan, shorten >=-4pt] (x2y2) edge node[left] {$\overrightarrow{d_4}$} (pixel);
     
         \end{tikzpicture}
         \caption{Perlin grid cell with distance vectors from each vertex to the pixel.}
@@ -365,8 +365,8 @@ When visualizing those values as vectors with their length being the influence, 
         % arrows
         \draw[smalledge, red] (x1y1) edge node[left]{$s$} ($(x1y1) + (0,-0.225)$);
         \draw[smalledge, red] (x2y1) edge node[left]{$t$} ($(x2y1) + (0,0.1)$);
-        \draw[smalledge, red] (x2y2) edge node[left]{$u$} ($(x2y2) + (0,-0.225)$);
-        \draw[smalledge, red] (x1y2) edge node[left]{$v$} ($(x1y2) + (0,0.3075)$);
+        \draw[smalledge, red] (x1y2) edge node[left]{$u$} ($(x1y2) + (0,0.3075)$);
+        \draw[smalledge, red] (x2y2) edge node[left]{$v$} ($(x2y2) + (0,-0.225)$);
 
     \end{tikzpicture}
     \caption{Perlin grid cell with visualized influences of gradient vectors.}
@@ -394,16 +394,33 @@ This is solved by linear interpolation.
 $$
 \begin{array}{l}
     d_x = (T_x - p_x) / (T_x) - (S_x),\\
-    d_y = (U_y - p_y) / (U_x) - (S_x).\\
+    d_y = (U_y - p_y) / (U_y) - (S_y).\\
     \\
-    w_1 = lerp(v, u, d_x),\\
+    w_1 = lerp(u, v, d_x),\\
     w_2 = lerp(s, t, d_x),\\
     w_{final} = lerp(w_1, w_2, d_y).
 \end{array}
 $$
 
 \noindent
-Both variables $d_x$ and $d_y$ represent the interpolation weight, being between 0 and 1. With $w_1$, the interpolation between $v$ and $u$ is done, depending on how far to the right the pixel is, related to its cell.
-This results in the first interpolation of the X-axis. Now $w_2$ is calculated, giving the second horizontal value inbetween $s$ and $t$.
+Both variables $d_x$ and $d_y$ represent the interpolation weight, being between 0 and 1. With $w_1$, the interpolation between $s$ and $t$ is done, depending on how far to the right the pixel is, related to its cell.
+This results in the first interpolation of the X-axis. Now $w_2$ is calculated, giving the second horizontal value inbetween $u$ and $v$.
 Finally, both $w_1$ and $w_2$ are linearly interpolated in relation th $d_y$, which givee the final average number.
 
+\begin{figure}[H]
+    \centering
+        \begin{minipage}{0.47\linewidth}
+            \includegraphics[width=\linewidth]{noise/2D perlin unfaded}
+            \captionof{figure}{2D Perlin noise texture with a 10x10 grid.}
+            \label{img:noise:perlin:2d_unfaded}
+        \end{minipage}
+    \hfill
+        \begin{minipage}{0.47\linewidth}
+            \includegraphics[width=\linewidth]{noise/2D perlin}
+            \captionof{figure}{2D Perlin noise texture with Perlin's fade function.}
+            \label{img:noise:perlin:2d}
+        \end{minipage}
+\end{figure}
+
+\noindent
+By default, the perlin noise texture shows a significant amount of artifacts along the grid lines. This can be fixed by using Perlin's fade function \cite{online:perlin:impl} for $d_x$ and $d_y$.
