@@ -405,7 +405,100 @@ $$
 \noindent
 Both variables $d_x$ and $d_y$ represent the interpolation weight, being between 0 and 1. With $w_1$, the interpolation between $s$ and $t$ is done, depending on how far to the right the pixel is, related to its cell.
 This results in the first interpolation of the X-axis. Now $w_2$ is calculated, giving the second horizontal value inbetween $u$ and $v$.
-Finally, both $w_1$ and $w_2$ are linearly interpolated in relation th $d_y$, which givee the final average number.
+Finally, both $w_1$ and $w_2$ are linearly interpolated in relation th $d_y$, which gives the final average number.
+
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.47\linewidth}
+        \begin{tikzpicture}[scale=2, x=2cm,y=2cm]
+            \tikzset{c/.style = {shorten <=-4pt, shorten >=-4pt}}
+            \tikzset{smalledge/.style = {-{Latex[length=2mm]},shorten <=-4pt}}
+            
+            \node (x1y1) at (0,0) {\small\textbullet};
+            \node (x2y1) at (1,0) {\small\textbullet};
+            \node (x1y2) at (0,1) {\small\textbullet};
+            \node (x2y2) at (1,1) {\small\textbullet};
+    
+            \draw[c] (x1y1) edge node{} (x1y2);
+            \draw[c, red] (x1y1) edge node{} (x2y1);
+            \draw[c] (x2y1) edge node{} (x2y2);
+            \draw[c, red] (x1y2) edge node{} (x2y2);
+    
+            \node[cyan] (pixel) at (0.7,0.6) {\textbullet};
+            
+            % interpolations
+            \node[red] (w1) at (0.7,1) {\textbullet};
+            \node[red] (w2) at (0.7,0) {\textbullet};
+            \draw[c, cyan] (w1) -- (w2) node{};
+            \draw[c, red] (w1) node[yshift=.1cm,above]{$w_1$};
+            \draw[c, red] (w2) node[yshift=-.1cm,below]{$w_2$};
+            \draw[c, cyan] (pixel) node[xshift=-.1cm,left]{$w_{final}$};
+
+        \end{tikzpicture}
+        \caption{Perlin vertex weights in 2D space with four corners and three interpolations.}
+        \label{img:tikz:noise:perlin:interpolation2d}  
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.47\linewidth}
+        \begin{tikzpicture}[scale=1.8, x=2cm,y=2cm]
+            \tikzset{c/.style = {shorten <=-4pt, shorten >=-4pt}}
+            \tikzset{smalledge/.style = {-{Latex[length=2mm]},shorten <=-4pt}}
+            
+            \node (x1y1z1) at (0,0) {\small\textbullet};
+            \node (x2y1z1) at (1,0) {\small\textbullet};
+            \node (x1y2z1) at (0,1) {\small\textbullet};
+            \node (x2y2z1) at (1,1) {\small\textbullet};
+            \node (x1y1z2) at (0.5,0.2) {\small\textbullet};
+            \node (x2y1z2) at (1.5,0.2) {\small\textbullet};
+            \node (x1y2z2) at (0.5,1.2) {\small\textbullet};
+            \node (x2y2z2) at (1.5,1.2) {\small\textbullet};
+            
+            \draw[c,red] (x1y1z1) -- (x2y1z1);
+            \draw[c] (x2y1z1) -- (x2y2z1);
+            \draw[c,red] (x2y2z1) -- (x1y2z1);
+            \draw[c] (x1y2z1) -- (x1y1z1);
+
+            \draw[c,red] (x1y1z2) -- (x2y1z2);
+            \draw[c] (x2y1z2) -- (x2y2z2);
+            \draw[c,red] (x2y2z2) -- (x1y2z2);
+            \draw[c] (x1y2z2) -- (x1y1z2);
+
+            \draw[c] (x1y1z1) -- (x1y1z2);
+            \draw[c] (x1y2z1) -- (x1y2z2);
+            \draw[c] (x2y1z1) -- (x2y1z2);
+            \draw[c] (x2y2z1) -- (x2y2z2);
+
+            % interpolations
+            \node[red] (w1) at (0.7,0) {\textbullet};
+            \node[red] (w2) at (1.2,0.2) {\textbullet};
+            \node[red] (w3) at (0.7,1) {\textbullet};
+            \node[red] (w4) at (1.2,1.2) {\textbullet};
+
+            \draw[c,cyan] (w1) -- (w2);
+            \draw[c,cyan] (w3) -- (w4);
+
+            \node[cyan] (w5) at (0.95,0.1) {\textbullet};
+            \node[cyan] (w6) at (0.95,1.1) {\textbullet};
+            \node[cyan] (wfinal) at (0.95,0.7) {\textbullet};
+
+            \draw[c,cyan] (w5) -- (w6);
+
+            \draw[c, red] (w1) node[yshift=.1cm,above]{$w_1$};
+            \draw[c, red] (w2) node[yshift=.1cm,above]{$w_2$};
+            \draw[c, red] (w3) node[yshift=.1cm,above]{$w_3$};
+            \draw[c, red] (w4) node[yshift=.1cm,above]{$w_4$};
+            \draw[c, cyan] (w5) node[yshift=.1cm,xshift=-.2cm,above]{$w_5$};
+            \draw[c, cyan] (w6) node[yshift=.1cm,xshift=-.2cm,above]{$w_6$};
+
+            \draw[c, cyan] (wfinal) node[xshift=-.1cm,left]{$w_{final}$};
+
+        \end{tikzpicture}
+        \caption{Perlin vertex weights in 3D space with eight corners and seven interpolations.}
+        \label{img:tikz:noise:perlin:interpolation3d}    
+    \end{minipage}
+    
+\end{figure}
 
 \begin{figure}[H]
     \centering
