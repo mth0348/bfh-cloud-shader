@@ -4,6 +4,9 @@
     {
         _Scale ("Scale", float) = 3.0
         _Offset ("Offset", vector) = (1,1,0,0)
+        _Octaves ("Octaves", Range(1,10)) = 1
+        _Persistence ("Persistence", Range(0.1, 2)) = 0.5
+        _Frequency ("Frequency", Range(0.1, 10)) = 1
     }
     SubShader
     {
@@ -36,6 +39,9 @@
 
             float _Scale;
             float2 _Offset;
+            int _Octaves;
+            float _Persistence;
+            float _Frequency;
 
             float fract(float x) {
                 return x - floor(x);
@@ -113,7 +119,8 @@
                 float v = dot(hash(i + float2(0,1)), f - float2(0,1));
                 float u = dot(hash(i + float2(1,1)), f - float2(1,1));
 
-                float2 fd = f;//float2(fade(f.x), fade(f.y));
+                float2 fd = float2(fade(f.x), fade(f.y));
+                //float2 fd = f;
 
                 float w1 = lerp(s, t, fd.x);
                 float w2 = lerp(v, u, fd.x);
@@ -129,11 +136,28 @@
                 return o;
             }
 
+            float getColor(float2 co, int octaves, float persistence) {
+                float total = 0;
+                float frequency = _Frequency;
+                float amplitude = 1;
+                float maxValue = 0;  // Used for normalizing result to 0.0 - 1.0
+                for(int i=0; i < octaves; i++) {
+                    total += perlin(co.x * frequency, co.y * frequency) * amplitude;
+                    
+                    maxValue += amplitude;
+                    
+                    amplitude *= persistence;
+                    frequency *= 2;
+                }
+                
+                return total/maxValue;
+            }
+
             fixed4 frag (v2f i) : SV_Target
             {
                 float2 co = float2(i.uv.x, i.uv.y) *_Scale;
-                
-                float f = perlin(co.x, co.y);
+
+                float f = getColor(co.xy, (int)_Octaves, _Persistence);
                 f = 0.5 + 0.5*f;
 
                 fixed4 col = fixed4(f,f,f,1);
