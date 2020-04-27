@@ -172,5 +172,10 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 * Random 2D
     * citation/reference is ok
 
+**Time log**
+| Task | time spent |
+|----|---|
+| Added research results about noise generation | 4h |
+| Added research results about perlin noise | 8h |
 
 ## \06: April 27th, 2020
