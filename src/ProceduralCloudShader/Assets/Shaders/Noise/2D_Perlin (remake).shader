@@ -55,10 +55,20 @@
                 return fract(sin(v) * 43758.5453123);
             }
 
-            float2 randomGradient(float x, float y) {
-                float u = random(x);
-                float v = random(y);
-                return normalize(float2(2*u - 1, 2*v - 1));
+            float random2d(float2 co) {
+                return fract(sin(dot(co, float2(12.9898,78.233))) * 43758.5453123);
+            }
+
+            // float2 randomGradient(float x, float y) {
+                //     float u = random(x);
+                //     float v = random(y);
+                //     return normalize(float2(2*u - 1, 2*v - 1));
+            // }
+
+            float2 randomGradient(float co) {
+                float angle = random2d(co) * 2 * PI;
+
+                return float2(cos(angle), sin(angle));
             }
 
             // float2 randomGradient(float x, float y) {
