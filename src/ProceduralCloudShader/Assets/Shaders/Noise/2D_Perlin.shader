@@ -40,31 +40,31 @@
                 return fract(sin(v+2.45647) * 43758.5453123);
             }
 
-            // float2 randomGradient(float x, float y) {
-            //     float u = random(x);
-            //     float v = random(y);
-            //     return normalize(float2(2*u - 1, 2*v - 1));
-            // }
-
             float2 randomGradient(float x, float y) {
-                    if (x == 0 && y == 0) return float2(-0.6, 0.2);
-                    if (x == 1 && y == 0) return float2(0.4,  0.4);
-                    if (x == 2 && y == 0) return float2(0.3, -0.5);
-                    if (x == 3 && y == 0) return float2(0.5, -0.3);
-                    if (x == 0 && y == 1) return float2(0.3, -0.5);
-                    if (x == 1 && y == 1) return float2(0.2,  0.6);
-                    if (x == 2 && y == 1) return float2(0.6, -0.2);
-                    if (x == 3 && y == 1) return float2(0.3, -0.5);
-                    if (x == 0 && y == 2) return float2(-0.3, 0.5);
-                    if (x == 1 && y == 2) return float2(-0.3,-0.5);
-                    if (x == 2 && y == 2) return float2(0.5, -0.3);
-                    if (x == 3 && y == 2) return float2(0.5,  0.3);
-                    if (x == 0 && y == 3) return float2(0.3,  0.5);
-                    if (x == 1 && y == 3) return float2(-0.1,-0.7);
-                    if (x == 2 && y == 3) return float2(-0.4, 0.4);
-                    if (x == 3 && y == 3) return float2(-0.3, 0.5);
-                    return float2(0,0);
+                float u = random(x);
+                float v = random(y);
+                return normalize(float2(2*u - 1, 2*v - 1));
             }
+
+            // float2 randomGradient(float x, float y) {
+            //         if (x == 0 && y == 0) return float2(-0.6, 0.2);
+            //         if (x == 1 && y == 0) return float2(0.4,  0.4);
+            //         if (x == 2 && y == 0) return float2(0.3, -0.5);
+            //         if (x == 3 && y == 0) return float2(0.5, -0.3);
+            //         if (x == 0 && y == 1) return float2(0.3, -0.5);
+            //         if (x == 1 && y == 1) return float2(0.2,  0.6);
+            //         if (x == 2 && y == 1) return float2(0.6, -0.2);
+            //         if (x == 3 && y == 1) return float2(0.3, -0.5);
+            //         if (x == 0 && y == 2) return float2(-0.3, 0.5);
+            //         if (x == 1 && y == 2) return float2(-0.3,-0.5);
+            //         if (x == 2 && y == 2) return float2(0.5, -0.3);
+            //         if (x == 3 && y == 2) return float2(0.5,  0.3);
+            //         if (x == 0 && y == 3) return float2(0.3,  0.5);
+            //         if (x == 1 && y == 3) return float2(-0.1,-0.7);
+            //         if (x == 2 && y == 3) return float2(-0.4, 0.4);
+            //         if (x == 3 && y == 3) return float2(-0.3, 0.5);
+            //         return float2(0,0);
+            // }
 
             float fade(float t) { 
                 return t * t * t * (t * (t * 6 - 15) + 10);

@@ -179,3 +179,9 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 | Added research results about perlin noise | 8h |
 
 ## \06: April 27th, 2020
+* init() in unity script, seed setzen 
+* built-in unity perlin noise ausprobieren
+* kapitel "gradient", bild von 3d gradient as well (3.1.5.1)
+* end of chapter, hinweis das noise in 3d verwendet wird.
+
+## \07: May 11th, 2020

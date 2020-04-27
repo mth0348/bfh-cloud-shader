@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Perlin_2D
-  m_Shader: {fileID: 4800000, guid: cc6fef767604da14aa47de55648246cc, type: 3}
+  m_Name: 3D_FBM
+  m_Shader: {fileID: 4800000, guid: 6644feca3fe74b54eaef08e8aa99e4d4, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -23,5 +23,21 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Floats: []
-    m_Colors: []
+    m_Floats:
+    - _AOIntensity: 0.1
+    - _AOIterations: 10
+    - _AOStepSize: 0.1
+    - _Amplitude: 0.5
+    - _Max: 1
+    - _Min: 0
+    - _Octaves: 10
+    - _Scale: 0.1
+    - _ShadowIntensity: 1
+    - _ShadowMaxDistance: 100
+    - _ShadowMinDistance: 0.1
+    - _ShadowPenubra: 1
+    - _ShapeBlend: 0
+    - _StepSize: 0.89
+    - _Threshold: 0.264
+    m_Colors:
+    - _Offset: {r: 0, g: 0, b: 0, a: 0}
