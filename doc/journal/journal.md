@@ -184,4 +184,9 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 * kapitel "gradient", bild von 3d gradient as well (3.1.5.1)
 * end of chapter, hinweis das noise in 3d verwendet wird.
 
+**Time log**
+| Task | time spent |
+|----|---|
+| Added research results about Voronoi noise | 6h |
+
 ## \07: May 11th, 2020
