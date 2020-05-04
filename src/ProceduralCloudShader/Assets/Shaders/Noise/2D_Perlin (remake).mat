@@ -21,12 +21,12 @@ Material:
     m_TexEnvs: []
     m_Floats:
     - _Amplitude: 1
-    - _Frequency: 1
+    - _Frequency: 2
     - _Max: 1
     - _Min: 0
     - _Octaves: 1
     - _Offset: 1
-    - _Persistence: 0.764
+    - _Persistence: 0.5
     - _Scale: 9.72
     m_Colors:
     - _Offset: {r: -0.63, g: 0, b: 0, a: 0}
