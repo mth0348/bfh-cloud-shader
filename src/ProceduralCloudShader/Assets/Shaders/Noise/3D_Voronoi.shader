@@ -68,8 +68,8 @@
             float3 random3d3d(float3 co) {
                 return float3(
                 fract(sin(dot(co, float3(12.989, 78.233, 37.719))) * 43758.5453123),
-                fract(sin(dot(co, float3(39.346, 11.135, 83.155))) * 143758.5453),
-                fract(sin(dot(co, float3(73.156, 52.235, 09.151))) * 313962.5453));
+                fract(sin(dot(co, float3(39.346, 11.135, 83.155))) * 14375.8545346),
+                fract(sin(dot(co, float3(73.156, 52.235, 09.151))) * 31396.2234116));
             }
 
             float2 randomSeed(float2 s) {
@@ -134,9 +134,9 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float3 co = i.worldPos.xyz *_Scale + _Offset;
+                float3 co = float3(i.worldPos.x+_Time.y, i.worldPos.y, i.worldPos.z) *_Scale + _Offset;
 
-                float f = getColor(co, (int)_Octaves, _Persistence);
+                float f = getColor(co, _Octaves, _Persistence);
                 f = 0.5 + 0.5*f;
 
                 fixed4 col = fixed4(0,0,0,1);

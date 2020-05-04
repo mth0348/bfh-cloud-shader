@@ -1,4 +1,4 @@
-﻿Shader "Custom/3D_Perlin Boxed"
+﻿Shader "Custom/Noise/3D/Perlin Boxed"
 {
     Properties
     {

@@ -68,10 +68,10 @@
                 return fract(sin(dot(co, float2(12.9898,78.233))) * 43758.5453123);
             }
 
-            float random2d2d(float2 co) {
+            float2 random2d2d(float2 co) {
                 return float2(
-                    fract(sin(dot(co, float2(12.9898,78.233))) * 43758.5453123),
-                    fract(sin(dot(co, float2(39.346, 11.135))) * 143758.5453));
+                fract(sin(dot(co, float2(12.9898, 78.233))) * 43758.5453123),
+                fract(sin(dot(co, float2(39.3461, 11.135))) * 14375.8545359));
             }
 
             float2 randomSeed(float2 s) {
@@ -89,13 +89,12 @@
 
 
             float voronoi(float2 p) {
-                float2 i = floor(p);
-
+                float2 pCell = floor(p);
                 float dmin = 10;
-                for(int x=-1; x<=1; x++){
-                    for(int y=-1; y<=1; y++){
-                        float2 cell = i + float2(x, y);
-                        float2 seed = cell + randomSeed(cell);
+                for(int x = -1; x <= 1; x++) {
+                    for(int y = -1; y <= 1; y++) {
+                        float2 cell = pCell + float2(x, y);
+                        float2 seed = cell + random2d2d(cell);
                         float d = length(seed - p);
                         if (d < dmin) {
                             dmin = d;

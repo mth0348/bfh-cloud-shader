@@ -1,4 +1,4 @@
-﻿Shader "Unlit/2D_FBM"
+﻿Shader "Custom/Noise/2D/FBM"
 {
     Properties
     {

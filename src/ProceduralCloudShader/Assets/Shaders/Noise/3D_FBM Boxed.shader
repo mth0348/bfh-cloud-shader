@@ -1,4 +1,4 @@
-﻿Shader "Custom/3D_FBM Boxed"
+﻿Shader "Custom/Noise/3D/FBM Boxed"
 {
     Properties
     {

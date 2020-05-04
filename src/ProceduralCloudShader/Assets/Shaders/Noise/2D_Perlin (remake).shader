@@ -1,4 +1,4 @@
-﻿Shader "Custom/Noise/2D/Perlin"
+﻿Shader "Custom/Noise/2D/Perlin (remake)"
 {
     Properties
     {

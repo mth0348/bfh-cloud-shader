@@ -25,7 +25,7 @@ Material:
     - _Frequency: 1
     - _Max: 1
     - _Min: 0.274
-    - _Octaves: 10
+    - _Octaves: 1
     - _Offset: 1
     - _Persistence: 0.5
     - _Scale: 1

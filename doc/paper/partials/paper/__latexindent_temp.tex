@@ -523,9 +523,9 @@ By default, the perlin noise texture shows a significant amount of artefacts alo
 \clearpage
 \paragraph{Voronoi Noise}
 While Perlin's noise algorithm is heavy on vector calculation and interpolation, other noise patterns are less complex to understand and construct, like the \textit{Voronoi} noise, also known as \textit{Worley} or \textit{cellular} noise.
-The name derives from its similar structure to a Voronoi diagram, in which points, called \textit{seeds} are randomly scattered inside a defined space. After that, regions are created, consisting of all points closer to that seed than to any other.
-\\
-To get a more even distribution, the noise algorithm starts by dividing the space into a grid, for which each cell is assigned a random point. From there, each fragment gets colored by how far it is to the closest seed in its cell.
+The name derives from its similar structure to a Voronoi diagram, in which points, called \textit{seeds}, are randomly scattered inside a defined space. After that, regions are created, consisting of all points closer to that seed than to any other.
+\emptyline
+As for the noise pattern, there are some alterations. To get a more even distribution, the noise algorithm starts by dividing the space into a grid, for which each cell is assigned a random point. From there, each fragment gets colored by how far it is to the closest seed in its cell.
 
 \begin{figure}[H]
     \centering
@@ -619,25 +619,15 @@ To get a more even distribution, the noise algorithm starts by dividing the spac
             \draw[c] (x3y1) edge node{} (x3y4);
             \draw[c] (x4y1) edge node{} (x4y4);
 
-            \node (s1) at (0.3,0.2) {};
-            \node (s2) at (1.4,0.8) {};
-            \node (s3) at (2.7,0.1) {};
-            \node (s4) at (0.4,1.6) {};
-            \node (s5) at (1.6,1.5) {};
-            \node (s6) at (2.4,1.1) {};
-            \node (s7) at (0.1,2.7) {};
-            \node (s8) at (1.7,2.2) {};
-            \node (s9) at (2.9,2.4) {};
-
-            \node[red] at (s1) {\textbullet};
-            \node[red] at (s2) {\textbullet};
-            \node[red] at (s3) {\textbullet};
-            \node[red] at (s4) {\textbullet};
-            \node[red] at (s5) {\textbullet};
-            \node[red] at (s6) {\textbullet};
-            \node[red] at (s7) {\textbullet};
-            \node[red] at (s8) {\textbullet};
-            \node[red] at (s9) {\textbullet};
+            \node[red] (s1) at (0.3,0.2) {\textbullet};
+            \node[red] (s2) at (1.4,0.8) {\textbullet};
+            \node[red] (s3) at (2.7,0.1) {\textbullet};
+            \node[red] (s4) at (0.4,1.6) {\textbullet};
+            \node[red] (s5) at (1.6,1.5) {\textbullet};
+            \node[red] (s6) at (2.4,1.1) {\textbullet};
+            \node[red] (s7) at (0.1,2.7) {\textbullet};
+            \node[red] (s8) at (1.7,2.2) {\textbullet};
+            \node[red] (s9) at (2.9,2.4) {\textbullet};
 
         \end{tikzpicture}
         \caption{Voroni grid with seed distances visualized.}
@@ -646,69 +636,98 @@ To get a more even distribution, the noise algorithm starts by dividing the spac
 \end{figure}
 
 \noindent
-As clearly visible in \autoref{img:tikz:noise:voronoi2}, hard conturs are still visible along the grid lines. This issue is fixed by including the adjacent cells when finding the closest seed for a given fragment.
+As understandable, in \autoref{img:tikz:noise:voronoi2}, hard contours are still visible along the grid lines. The final step is done by including the adjacent cells when finding the closest seed for any given fragment.
 This amounts to $3^n - 1$ neightboring cells, where $n$ is the number of dimensions. This means for 2D space its eight cells, while in 3D its 26.
-
 
 \begin{figure}[H]
     \centering
-        \begin{tikzpicture}[scale=0.8, x=2cm,y=2cm]
-            \tikzset{c/.style = {shorten <=-4pt, shorten >=-4pt}}
-            \tikzset{smalledge/.style = {-{Latex[length=2mm]},shorten <=-4pt}}
-            
-            \node (gradient) at (1.5,1.5) {\includegraphics[width=4.8cm] {noise/2d voronoi unmixed}};
+    \begin{tikzpicture}[scale=1.2, x=2cm,y=2cm]
+        \tikzset{c/.style = {shorten <=-4pt, shorten >=-4pt}}
+        \tikzset{smalledge/.style = {-{Latex[length=2mm]},shorten <=-4pt}}
+        
+        \node (gradient) at (1.5,1.5) {\includegraphics[width=7.2cm] {noise/2d voronoi}};
 
-            \node (x1y1) at (0,0) {\textbullet};
-            \node (x2y1) at (1,0) {\textbullet};
-            \node (x3y1) at (2,0) {\textbullet};
-            \node (x4y1) at (3,0) {\textbullet};
+        \node (x1y1) at (0,0) {\textbullet};
+        \node (x2y1) at (1,0) {\textbullet};
+        \node (x3y1) at (2,0) {\textbullet};
+        \node (x4y1) at (3,0) {\textbullet};
 
-            \node (x1y2) at (0,1) {\textbullet};
-            \node (x2y2) at (1,1) {\textbullet};
-            \node (x3y2) at (2,1) {\textbullet};
-            \node (x4y2) at (3,1) {\textbullet};
+        \node (x1y2) at (0,1) {\textbullet};
+        \node (x2y2) at (1,1) {\textbullet};
+        \node (x3y2) at (2,1) {\textbullet};
+        \node (x4y2) at (3,1) {\textbullet};
 
-            \node (x1y3) at (0,2) {\textbullet};
-            \node (x2y3) at (1,2) {\textbullet};
-            \node (x3y3) at (2,2) {\textbullet};
-            \node (x4y3) at (3,2) {\textbullet};
+        \node (x1y3) at (0,2) {\textbullet};
+        \node (x2y3) at (1,2) {\textbullet};
+        \node (x3y3) at (2,2) {\textbullet};
+        \node (x4y3) at (3,2) {\textbullet};
 
-            \node (x1y4) at (0,3) {\textbullet};
-            \node (x2y4) at (1,3) {\textbullet};
-            \node (x3y4) at (2,3) {\textbullet};
-            \node (x4y4) at (3,3) {\textbullet};
+        \node (x1y4) at (0,3) {\textbullet};
+        \node (x2y4) at (1,3) {\textbullet};
+        \node (x3y4) at (2,3) {\textbullet};
+        \node (x4y4) at (3,3) {\textbullet};
 
-            \draw[c] (x1y1) edge node{} (x4y1);
-            \draw[c] (x1y2) edge node{} (x4y2);
-            \draw[c] (x1y3) edge node{} (x4y3);
-            \draw[c] (x1y4) edge node{} (x4y4);
+        \draw[c] (x1y1) edge node{} (x4y1);
+        \draw[c] (x1y2) edge node{} (x4y2);
+        \draw[c] (x1y3) edge node{} (x4y3);
+        \draw[c] (x1y4) edge node{} (x4y4);
 
-            \draw[c] (x1y1) edge node{} (x1y4);
-            \draw[c] (x2y1) edge node{} (x2y4);
-            \draw[c] (x3y1) edge node{} (x3y4);
-            \draw[c] (x4y1) edge node{} (x4y4);
+        \draw[c] (x1y1) edge node{} (x1y4);
+        \draw[c] (x2y1) edge node{} (x2y4);
+        \draw[c] (x3y1) edge node{} (x3y4);
+        \draw[c] (x4y1) edge node{} (x4y4);
 
-            \node (s1) at (0.3,0.2) {};
-            \node (s2) at (1.4,0.8) {};
-            \node (s3) at (2.7,0.1) {};
-            \node (s4) at (0.4,1.6) {};
-            \node (s5) at (1.6,1.5) {};
-            \node (s6) at (2.4,1.1) {};
-            \node (s7) at (0.1,2.7) {};
-            \node (s8) at (1.7,2.2) {};
-            \node (s9) at (2.9,2.4) {};
+        \node[red] (s1) at (0.3,0.2) {\textbullet};
+        \node[red] (s2) at (1.4,0.8) {\textbullet};
+        \node[red] (s3) at (2.7,0.1) {\textbullet};
+        \node[red] (s4) at (0.4,1.6) {\textbullet};
+        \node[red] (s5) at (1.6,1.5) {\textbullet};
+        \node[red] (s6) at (2.4,1.1) {\textbullet};
+        \node[red] (s7) at (0.1,2.7) {\textbullet};
+        \node[red] (s8) at (1.7,2.2) {\textbullet};
+        \node[red] (s9) at (2.9,2.4) {\textbullet};
 
-            \node[red] at (s1) {\textbullet};
-            \node[red] at (s2) {\textbullet};
-            \node[red] at (s3) {\textbullet};
-            \node[red] at (s4) {\textbullet};
-            \node[red] at (s5) {\textbullet};
-            \node[red] at (s6) {\textbullet};
-            \node[red] at (s7) {\textbullet};
-            \node[red] at (s8) {\textbullet};
-            \node[red] at (s9) {\textbullet};
-
-        \end{tikzpicture}
-        \caption{Voroni grid with seed distances visualized.}
-        \label{img:tikz:noise:voronoi2}
+    \end{tikzpicture}
+    \caption{Complete 2D Voroni noise pattern.}
+    \label{img:tikz:noise:voronoi3}
 \end{figure}
+
+\noindent
+An implementation of this relatively simple algorithm could look like this.
+
+float random2d2d(float2 co) {
+                return float2(
+                fract(sin(dot(co, float2(12.9898, 78.233))) * 43758.5453123),
+                fract(sin(dot(co, float2(39.3461, 11.135))) * 14375.8545359));
+            }
+
+            float2 randomSeed(float2 s) {
+                if (s.x == 0 && s.y == 0) return float2(0.3, 0.2);
+                if (s.x == 1 && s.y == 0) return float2(0.4, 0.8);
+                if (s.x == 2 && s.y == 0) return float2(0.7, 0.1);
+                if (s.x == 0 && s.y == 1) return float2(0.4, 0.6);
+                if (s.x == 1 && s.y == 1) return float2(0.6, 0.5);
+                if (s.x == 2 && s.y == 1) return float2(0.4, 0.1);
+                if (s.x == 0 && s.y == 2) return float2(0.1, 0.7);
+                if (s.x == 1 && s.y == 2) return float2(0.7, 0.2);
+                if (s.x == 2 && s.y == 2) return float2(0.9, 0.4);
+                return float2(0,0);
+            }
+
+
+            float voronoi(float2 p) {
+                float2 pCell = floor(p);
+                float dmin = 10;
+                for(int x = -1; x <= 1; x++) {
+                    for(int y = -1; y <= 1; y++) {
+                        float2 cell = pCell + float2(x, y);
+                        float2 seed = cell + randomSeed(cell);
+                        float d = length(seed - p);
+                        if (d < dmin) {
+                            dmin = d;
+                        }
+                    }
+                }
+                
+                return dmin;
+            }
