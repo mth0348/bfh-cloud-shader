@@ -198,7 +198,7 @@ First, the 2D image space is split into a grid. For each vertex or corner point 
                 \node [shading=axis,rectangle,left color=white, right color=gray,shading angle=180+45,  minimum width=0.8*2cm, minimum height=0.8*2cm] (box) at (x3y4){};
                 \node [shading=axis,rectangle,left color=white, right color=gray,shading angle=180+35,  minimum width=0.8*2cm, minimum height=0.8*2cm] (box) at (x4y4){};
             \end{scope}
-            
+
             \node (x1y1) at (0,0) {\textbullet};
             \node (x2y1) at (1,0) {\textbullet};
             \node (x3y1) at (2,0) {\textbullet};
@@ -411,6 +411,7 @@ Finally, both $w_1$ and $w_2$ are linearly interpolated in relation th $d_y$, wh
 \begin{figure}[H]
     \centering
     \begin{minipage}{0.47\linewidth}
+        \centering
         \begin{tikzpicture}[scale=2, x=2cm,y=2cm]
             \tikzset{c/.style = {shorten <=-4pt, shorten >=-4pt}}
             \tikzset{smalledge/.style = {-{Latex[length=2mm]},shorten <=-4pt}}
@@ -441,6 +442,7 @@ Finally, both $w_1$ and $w_2$ are linearly interpolated in relation th $d_y$, wh
     \end{minipage}
     \hfill
     \begin{minipage}{0.47\linewidth}
+        \centering
         \begin{tikzpicture}[scale=1.8, x=2cm,y=2cm]
             \tikzset{c/.style = {shorten <=-4pt, shorten >=-4pt}}
             \tikzset{smalledge/.style = {-{Latex[length=2mm]},shorten <=-4pt}}
@@ -526,62 +528,187 @@ The name derives from its similar structure to a Voronoi diagram, in which point
 To get a more even distribution, the noise algorithm starts by dividing the space into a grid, for which each cell is assigned a random point. From there, each fragment gets colored by how far it is to the closest seed in its cell.
 
 \begin{figure}[H]
-            \begin{tikzpicture}[scale=0.8, x=2cm,y=2cm]
-                \tikzset{c/.style = {shorten <=-4pt, shorten >=-4pt}}
-                \tikzset{smalledge/.style = {-{Latex[length=2mm]},shorten <=-4pt}}
-              
-                \node (x1y1) at (0,0) {\textbullet};
-                \node (x2y1) at (1,0) {\textbullet};
-                \node (x3y1) at (2,0) {\textbullet};
-                \node (x4y1) at (3,0) {\textbullet};
+    \centering
+
+    \begin{minipage}{0.47\linewidth}
+        \centering
+        \begin{tikzpicture}[scale=0.8, x=2cm,y=2cm]
+        \tikzset{c/.style = {shorten <=-4pt, shorten >=-4pt}}
+        \tikzset{smalledge/.style = {-{Latex[length=2mm]},shorten <=-4pt}}
         
-                \node (x1y2) at (0,1) {\textbullet};
-                \node (x2y2) at (1,1) {\textbullet};
-                \node (x3y2) at (2,1) {\textbullet};
-                \node (x4y2) at (3,1) {\textbullet};
-        
-                \node (x1y3) at (0,2) {\textbullet};
-                \node (x2y3) at (1,2) {\textbullet};
-                \node (x3y3) at (2,2) {\textbullet};
-                \node (x4y3) at (3,2) {\textbullet};
-        
-                \node (x1y4) at (0,3) {\textbullet};
-                \node (x2y4) at (1,3) {\textbullet};
-                \node (x3y4) at (2,3) {\textbullet};
-                \node (x4y4) at (3,3) {\textbullet};
-        
-                \draw[c] (x1y1) edge node{} (x4y1);
-                \draw[c] (x1y2) edge node{} (x4y2);
-                \draw[c] (x1y3) edge node{} (x4y3);
-                \draw[c] (x1y4) edge node{} (x4y4);
-        
-                \draw[c] (x1y1) edge node{} (x1y4);
-                \draw[c] (x2y1) edge node{} (x2y4);
-                \draw[c] (x3y1) edge node{} (x3y4);
-                \draw[c] (x4y1) edge node{} (x4y4);
-        
-                % arrows
-                \draw[smalledge, red] (x1y1) edge node{} ($ (x1y1) + (-0.6,0.2) $);
-                \draw[smalledge, red] (x2y1) edge node{} ($ (x2y1) + (0.4,0.4) $);
-                \draw[smalledge, red] (x3y1) edge node{} ($ (x3y1) + (0.3,-0.5) $);
-                \draw[smalledge, red] (x4y1) edge node{} ($ (x4y1) + (0.5,-0.3) $);
-        
-                \draw[smalledge, red] (x1y2) edge node{} ($ (x1y2) + (0.3,-0.5) $);
-                \draw[smalledge, red] (x2y2) edge node{} ($ (x2y2) + (0.2,0.6) $);
-                \draw[smalledge, red] (x3y2) edge node{} ($ (x3y2) + (0.6,-0.2) $);
-                \draw[smalledge, red] (x4y2) edge node{} ($ (x4y2) + (0.3,-0.5) $);
-        
-                \draw[smalledge, red] (x1y3) edge node{} ($ (x1y3) + (-0.3,0.5) $);
-                \draw[smalledge, red] (x2y3) edge node{} ($ (x2y3) + (-0.3,-0.5) $);
-                \draw[smalledge, red] (x3y3) edge node{} ($ (x3y3) + (0.5,-0.3) $);
-                \draw[smalledge, red] (x4y3) edge node{} ($ (x4y3) + (0.5,0.3) $);
-        
-                \draw[smalledge, red] (x1y4) edge node{} ($ (x1y4) + (0.3,0.5) $);
-                \draw[smalledge, red] (x2y4) edge node{} ($ (x2y4) + (-0.1,-0.7) $);
-                \draw[smalledge, red] (x3y4) edge node{} ($ (x3y4) + (-0.4,0.4) $);
-                \draw[smalledge, red] (x4y4) edge node{} ($ (x4y4) + (-0.3,0.5) $);
-        
-                \end{tikzpicture}
-                \caption{Perlin grid with pseudo-random gradient vectors.}
-                \label{img:tikz:noise:perlin:gradient}
+        \node (x1y1) at (0,0) {\textbullet};
+        \node (x2y1) at (1,0) {\textbullet};
+        \node (x3y1) at (2,0) {\textbullet};
+        \node (x4y1) at (3,0) {\textbullet};
+
+        \node (x1y2) at (0,1) {\textbullet};
+        \node (x2y2) at (1,1) {\textbullet};
+        \node (x3y2) at (2,1) {\textbullet};
+        \node (x4y2) at (3,1) {\textbullet};
+
+        \node (x1y3) at (0,2) {\textbullet};
+        \node (x2y3) at (1,2) {\textbullet};
+        \node (x3y3) at (2,2) {\textbullet};
+        \node (x4y3) at (3,2) {\textbullet};
+
+        \node (x1y4) at (0,3) {\textbullet};
+        \node (x2y4) at (1,3) {\textbullet};
+        \node (x3y4) at (2,3) {\textbullet};
+        \node (x4y4) at (3,3) {\textbullet};
+
+        \draw[c] (x1y1) edge node{} (x4y1);
+        \draw[c] (x1y2) edge node{} (x4y2);
+        \draw[c] (x1y3) edge node{} (x4y3);
+        \draw[c] (x1y4) edge node{} (x4y4);
+
+        \draw[c] (x1y1) edge node{} (x1y4);
+        \draw[c] (x2y1) edge node{} (x2y4);
+        \draw[c] (x3y1) edge node{} (x3y4);
+        \draw[c] (x4y1) edge node{} (x4y4);
+
+        \node[red] (s1) at (0.3,0.2) {\textbullet};
+        \node[red] (s2) at (1.4,0.8) {\textbullet};
+        \node[red] (s3) at (2.7,0.1) {\textbullet};
+        \node[red] (s4) at (0.4,1.6) {\textbullet};
+        \node[red] (s5) at (1.6,1.5) {\textbullet};
+        \node[red] (s6) at (2.4,1.1) {\textbullet};
+        \node[red] (s7) at (0.1,2.7) {\textbullet};
+        \node[red] (s8) at (1.7,2.2) {\textbullet};
+        \node[red] (s9) at (2.9,2.4) {\textbullet};
+
+        \end{tikzpicture}
+        \caption{Voroni grid with pseudo-randomly assigned seed points for each cell.}
+        \label{img:tikz:noise:voronoi}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.47\linewidth}
+        \centering
+        \begin{tikzpicture}[scale=0.8, x=2cm,y=2cm]
+            \tikzset{c/.style = {shorten <=-4pt, shorten >=-4pt}}
+            \tikzset{smalledge/.style = {-{Latex[length=2mm]},shorten <=-4pt}}
+            
+            \node (gradient) at (1.5,1.5) {\includegraphics[width=4.8cm] {noise/2d voronoi unmixed}};
+
+            \node (x1y1) at (0,0) {\textbullet};
+            \node (x2y1) at (1,0) {\textbullet};
+            \node (x3y1) at (2,0) {\textbullet};
+            \node (x4y1) at (3,0) {\textbullet};
+
+            \node (x1y2) at (0,1) {\textbullet};
+            \node (x2y2) at (1,1) {\textbullet};
+            \node (x3y2) at (2,1) {\textbullet};
+            \node (x4y2) at (3,1) {\textbullet};
+
+            \node (x1y3) at (0,2) {\textbullet};
+            \node (x2y3) at (1,2) {\textbullet};
+            \node (x3y3) at (2,2) {\textbullet};
+            \node (x4y3) at (3,2) {\textbullet};
+
+            \node (x1y4) at (0,3) {\textbullet};
+            \node (x2y4) at (1,3) {\textbullet};
+            \node (x3y4) at (2,3) {\textbullet};
+            \node (x4y4) at (3,3) {\textbullet};
+
+            \draw[c] (x1y1) edge node{} (x4y1);
+            \draw[c] (x1y2) edge node{} (x4y2);
+            \draw[c] (x1y3) edge node{} (x4y3);
+            \draw[c] (x1y4) edge node{} (x4y4);
+
+            \draw[c] (x1y1) edge node{} (x1y4);
+            \draw[c] (x2y1) edge node{} (x2y4);
+            \draw[c] (x3y1) edge node{} (x3y4);
+            \draw[c] (x4y1) edge node{} (x4y4);
+
+            \node (s1) at (0.3,0.2) {};
+            \node (s2) at (1.4,0.8) {};
+            \node (s3) at (2.7,0.1) {};
+            \node (s4) at (0.4,1.6) {};
+            \node (s5) at (1.6,1.5) {};
+            \node (s6) at (2.4,1.1) {};
+            \node (s7) at (0.1,2.7) {};
+            \node (s8) at (1.7,2.2) {};
+            \node (s9) at (2.9,2.4) {};
+
+            \node[red] at (s1) {\textbullet};
+            \node[red] at (s2) {\textbullet};
+            \node[red] at (s3) {\textbullet};
+            \node[red] at (s4) {\textbullet};
+            \node[red] at (s5) {\textbullet};
+            \node[red] at (s6) {\textbullet};
+            \node[red] at (s7) {\textbullet};
+            \node[red] at (s8) {\textbullet};
+            \node[red] at (s9) {\textbullet};
+
+        \end{tikzpicture}
+        \caption{Voroni grid with seed distances visualized.}
+        \label{img:tikz:noise:voronoi2}
+    \end{minipage}
+\end{figure}
+
+\noindent
+As clearly visible in \autoref{img:tikz:noise:voronoi2}, hard conturs are still visible along the grid lines. This issue is fixed by including the adjacent cells when finding the closest seed for a given fragment.
+This amounts to $3^n - 1$ neightboring cells, where $n$ is the number of dimensions. This means for 2D space its eight cells, while in 3D its 26.
+
+
+\begin{figure}[H]
+    \centering
+        \begin{tikzpicture}[scale=0.8, x=2cm,y=2cm]
+            \tikzset{c/.style = {shorten <=-4pt, shorten >=-4pt}}
+            \tikzset{smalledge/.style = {-{Latex[length=2mm]},shorten <=-4pt}}
+            
+            \node (gradient) at (1.5,1.5) {\includegraphics[width=4.8cm] {noise/2d voronoi unmixed}};
+
+            \node (x1y1) at (0,0) {\textbullet};
+            \node (x2y1) at (1,0) {\textbullet};
+            \node (x3y1) at (2,0) {\textbullet};
+            \node (x4y1) at (3,0) {\textbullet};
+
+            \node (x1y2) at (0,1) {\textbullet};
+            \node (x2y2) at (1,1) {\textbullet};
+            \node (x3y2) at (2,1) {\textbullet};
+            \node (x4y2) at (3,1) {\textbullet};
+
+            \node (x1y3) at (0,2) {\textbullet};
+            \node (x2y3) at (1,2) {\textbullet};
+            \node (x3y3) at (2,2) {\textbullet};
+            \node (x4y3) at (3,2) {\textbullet};
+
+            \node (x1y4) at (0,3) {\textbullet};
+            \node (x2y4) at (1,3) {\textbullet};
+            \node (x3y4) at (2,3) {\textbullet};
+            \node (x4y4) at (3,3) {\textbullet};
+
+            \draw[c] (x1y1) edge node{} (x4y1);
+            \draw[c] (x1y2) edge node{} (x4y2);
+            \draw[c] (x1y3) edge node{} (x4y3);
+            \draw[c] (x1y4) edge node{} (x4y4);
+
+            \draw[c] (x1y1) edge node{} (x1y4);
+            \draw[c] (x2y1) edge node{} (x2y4);
+            \draw[c] (x3y1) edge node{} (x3y4);
+            \draw[c] (x4y1) edge node{} (x4y4);
+
+            \node (s1) at (0.3,0.2) {};
+            \node (s2) at (1.4,0.8) {};
+            \node (s3) at (2.7,0.1) {};
+            \node (s4) at (0.4,1.6) {};
+            \node (s5) at (1.6,1.5) {};
+            \node (s6) at (2.4,1.1) {};
+            \node (s7) at (0.1,2.7) {};
+            \node (s8) at (1.7,2.2) {};
+            \node (s9) at (2.9,2.4) {};
+
+            \node[red] at (s1) {\textbullet};
+            \node[red] at (s2) {\textbullet};
+            \node[red] at (s3) {\textbullet};
+            \node[red] at (s4) {\textbullet};
+            \node[red] at (s5) {\textbullet};
+            \node[red] at (s6) {\textbullet};
+            \node[red] at (s7) {\textbullet};
+            \node[red] at (s8) {\textbullet};
+            \node[red] at (s9) {\textbullet};
+
+        \end{tikzpicture}
+        \caption{Voroni grid with seed distances visualized.}
+        \label{img:tikz:noise:voronoi2}
 \end{figure}
