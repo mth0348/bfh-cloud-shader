@@ -1,4 +1,4 @@
-\section{Natural clouds}
+\section{Natural Clouds}
 
 \subsection{Formation}
 Clouds, as seen in nature, consist of of a visible body of tiny water droplets and frozen crystals. 
@@ -11,7 +11,7 @@ That makes different cloudscapes highly unique in terms of appearance.
 For now, those factors are regarded as nature's randomness. However, an approximation of randomness will be covered in \sectionref{section:noise-generation}.
 
 
-\subsection{Types of clouds}
+\subsection{Types of Clouds}
 \label{section:cloud-types}
 Cloudscapes are classified in multiple groups, mainly differing in altitude, meaning the distance from the earth's surface to the cloud formation.
 The following four cloud genera stand out due to their distinctiveness. A realistic simulation of a cloud system would consist of a combination of these types, which is why they are displayed here.
@@ -99,7 +99,7 @@ Due to billboarding, the orientation is already given, making the overall time a
 The major flaw of using billboards is of course that they are still 2D images, meaning they cannot really change appearance and therefore, do not evolve at all. 
 Still, for many games, this technique suffices in the required diversity of background scenery and does not exceed the allowed performance share for such a task.
 
-\subsubsection{Mesh-based objects}
+\subsubsection{Mesh-based Objects}
 It is imaginable to simply use a \gls{polymesh} shaped like a cloud and render that like any other game object. By adding a texture, this would make for some decent looking clouds.
 \\
 However, the level of detail of such a polymesh is directly connected to the amount of vertices and faces that have to be processed every frame.
@@ -116,7 +116,7 @@ Apart from the performance impact, this method offers a volumetric, possibly int
 When massively decreasing the polygon count and therefore relinquishing the realistic look, mesh-based objects may be a viable solution for some \gls{lowpoly} games.
 Otherwise, it is not reasonable to use this method.
 
-\subsubsection{Volumetric clouds}
+\subsubsection{Volumetric Clouds}
 Finally, clouds can be rendered via a technique called \textit{volumetric rendering}. The image below shows volumetric cloudscapes as seen in popular AAA titles.
 The method itself is explained in detail in \sectionref{section:volumetric-rendering}.
 

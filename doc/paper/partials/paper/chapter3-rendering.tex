@@ -1,9 +1,7 @@
-\section{Rendering techniques}
-
-\subsection{Volumetric rendering}
+\section{Volumetric Rendering}
 \label{section:volumetric-rendering}
 
-\subsubsection{Definition}
+\subsection{Definition}
 \Gls{volumetricrendering} describes a technique for generating a visual representation of data that is stored in a 3D volume. 
 This especically comes to use for visual effects that are volumetric in nature, like fluids, clouds, fire, smoke, fog and dust, which all are extremely difficult or even impossible to model with geometric primitives.
 \\
@@ -12,7 +10,7 @@ In addition to rendering such effects, volumetric rendering has become essential
 The data volume is also called a \textit{\gls{scalarfield}} or \textit{\gls{vectorfield}}, which associates a scalar or vector value, called \textit{\gls{voxel}} (short for \textit{volume element}), to every point in the defined space.
 For a scalar field, it can be imagined like a 3D grid, where each point holds a single number. This number could, for example, represent the density of a cloud at that very point.
 
-\subsubsection{Ray Marching with constant step}
+\subsection{Constant Step Ray Marching}
 To actually render the volume data, a method called \textit{\gls{raymarching}} is used. With it, the surface distance of the volumetric data is approximated by creating a ray from the camera to the object for each fragment processed in the fragment shader. The ray is then extended into the volume of the object and stepped forward until the surface is reached.
 
 \begin{figure}[H]
@@ -106,7 +104,7 @@ fixed4 raymarch(float3 position, float3 direction)
 
 
 \pagebreak
-\subsubsection{Traditional Ray Marching}
+\subsection{Traditional Ray Marching}
 It is obvious to see that, for a constant step ray march to result in an accurate approximation of the surface distance, the step size is required to be relatively small.
 This has a direct impact on performance and thus, is not a viable solution for the problem.
 \\
@@ -181,12 +179,12 @@ fixed4 raymarch(float3 position, float3 direction)
 \end{lstlisting}
 
 \pagebreak
-\subsubsection{Sphere Tracing}
+\subsection{Sphere Tracing}
 An even better approach to approximate the intersection of the ray and the volume is called \textit{\gls{spheretracing}}. 
 Instead of evaluating if the ray is inside the volume or not, an exact distance to the scene is measured. This distance is the minimum amount of space the algorithm can march along its ray without colliding with anything.
 For that, a function group called \textit{\gls{sdf}s} is used.
 
-\paragraph{Signed Distance Functions}
+\subsubsection{Signed Distance Functions}
 A \gls{sdf} (SDF) returns the shortest distance from that a given point in space to some surface.
 The sign of the returned value indicates wether that point is inside the surface or outside, hence the name.
 \\
@@ -210,7 +208,7 @@ float d2 = sceneSDF(float3(0, 0.5, 0)); // d2 = -0.5
 float d3 = sceneSDF(float3(5, -5, 5)); // d3 = 7.66
 \end{lstlisting}
 
-\paragraph{Sphere Tracing with SDFs}
+\subsubsection{Sphere Tracing with SDFs}
 If the distance to the scene can be calculated with a \gls{sdf}, the algorithm becomes rather straight forward. The distance to the scene is evaluated at the start, then one can freely march along the ray for that amount of distance. Once arrived at the new point, the process is reapeted until the SDF returns a small enough value.
 
 \begin{figure}[H]
@@ -320,14 +318,14 @@ Another example why this check is important can be seen in the next figure. The 
 \end{figure}
 
 \clearpage
-\subsubsection{Surface Normals and Lighting}
+\subsection{Surface Normals and Lighting}
 As it is the case for many other lighting models, the \gls{surfacenormal}s are used to calculate lighting in \gls{volumetricrendering}. 
 if the object is defined with a \gls{polymesh}, the \gls{surfacenormal}s are usually specified for each vertex. The normals for any given point on the surface can then be calculated by interpolating the adjacent vertex normals. 
 \\
 Since there is no \gls{polymesh} in \gls{volumetricrendering}, another solution has to be found for calculating the \gls{surfacenormal}s for a scene defined by \gls{sdf}s.
 Because of that, it is not possible to explicitly calculate the normals and therefore, an approximation is used. 
 
-\paragraph{Surface Normal Estimation}
+\subsubsection{Surface Normal Estimation}
 \label{section:rendering:surfacenormalestimation}
 To approximate the normal vectors in a 3D data volume, the \textit{\gls{gradient}} is used. The \gls{gradient} represents the direction of greatest change of a scalar function.
 In \autoref{img:tikz:rendering:gradient}, the red arrows indicate the gradient for the points at the start of the arrows. 
@@ -447,7 +445,7 @@ Now that the normal vectors can be calculated for the volume, the object can be 
 \end{figure}
 
 \clearpage
-\subsubsection{Shadow Casting}
+\subsection{Shadow Casting}
 In \gls{raymarching}, rendering cast shadows  proves to be rather easy. Naturally, the light ray comes from the sun, bounces off in the world and may eventually hit the eye of the observer.
 Since only a minute fraction of those rays actually reach the observer (the camera), a huge amount of rays would be calculated for nothing.
 Consequently, the rays are not traced from the light source to the camera but the other way around instead.
@@ -520,7 +518,7 @@ float hardshadow(float3 position, float3 direction, float dMin, float dMax)
 It is very clearly similar to SDF-based sphere tracing, except that only 0 or 1 is returned instead of the distance.
 The final color is then multiplied by this output. For 0, this results in a total black, hence the name \textit{hard} shadows.
 
-\paragraph{Soft Shadows}
+\subsubsection{Soft Shadows}
 The method described in \autoref{img:tikz:rendering:shadowcasting} evaluates only if any given point is directly covered by any other object. 
 It does not account for diffuse shadows with soft edges, called \textit{\gls{penumbra}} or simply \textit{soft} shadows. But there is an easy and also cost-effective solution to that problem.
 Instead of strictly returning 0 when an object is covered by another, the shortest distance to scene (qualified by some factor $k$) is returned.
@@ -568,7 +566,7 @@ Those are the resulting renders with a sphere and a flat box as the volumetric s
 \end{figure}
 
 \clearpage
-\subsubsection{Shape Blending}
+\subsection{Shape Blending}
 Another thing that comes free with ray marching is \textit{\gls{shapeblending}}. It describes the concept of blending the \gls{sdf}s of mulitple shapes together with this simple method:
 \begin{lstlisting}[language=HLSL]
 float blend(float d1, float3 d2, float k)
@@ -595,7 +593,7 @@ The following image displays the two blended shapes. Due to the fact that the sh
 \end{figure}
 
 \clearpage
-\paragraph{Solid Primitive Operators}
+\subsubsection{Solid Primitive Operators}
 To create more interesting figures than a rounded box, solid primitive operators can be used. As seen in \autoref{img:captures:shapeblending2}, "holes" are cut into the geometry. This is done by taking the difference (or intersection) of the box and a cylinder that goes through the box.
 Like the \lstinline[language=HLSL]{blend()} function takes in two \gls{sdf} results, the following methods also compare the distances.
 
@@ -626,7 +624,7 @@ In this example, the intersection was done three times, for each axis once.
 \end{figure}
 
 \clearpage
-\subsubsection{Ambient Occlusion}
+\subsection{Ambient Occlusion}
 Shadow casting already looks quite realistic, but there is an important detail missing, called \textit{\gls{ambientocclusion}}. This method darkens areas around edges and crevices in the scene, making them look less exposed to the light and its environment.
 The algorithm for that is fairly uncomplicated and straightforward, given all the previously defined methods like \lstinline[language=HLSL]{sceneSDF()} and \lstinline[language=HLSL]{raymarch()} already exist.
 \\
