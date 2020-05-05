@@ -518,10 +518,10 @@ Finally, both $w_1$ and $w_2$ are linearly interpolated in relation th $d_y$, wh
 \end{figure}
 
 \noindent
-By default, the perlin noise texture shows a significant amount of artifacts along the grid lines. This can be fixed by using Perlin's fade function \cite{online:perlin:impl} for $d_x$ and $d_y$, which is defined by $f(t) = 6t5-15t4+10t3$.
+By default, the perlin noise texture shows a significant amount of artifacts along the grid lines. This can be fixed by using Perlin's fade function \cite{online:perlin:impl} for $d_x$ and $d_y$, which is defined by $f(t) = 6t^5-15t^4+10t^3$.
 \emptyline
-Perlin describes that rather than calculating random gradient vectors, a simple set of 12 distinct vectors can be used, which still provides sufficient randomness but is faster \cite{online:perlin:improved}.
-For each grid corner, a hash function is used to generate an index (from 0 to 11) from the corner position, with which then one of the gradient vectors is chosen.
+For 3D, Perlin describes that rather than calculating random gradient vectors, a simple set of 12 distinct vectors can be used, which still provides sufficient randomness but is faster \cite{online:perlin:improved}.
+For each grid corner, a hash function is used to generate an index (from 0 to 11), with which one of the gradient vectors is then chosen.
 
 
 \clearpage
