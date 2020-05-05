@@ -731,10 +731,10 @@ Since the Voronoi noise algorithm creates a cellular pattern, it is well suitabl
 \subsubsection{Fractal Brownian Motion}
 In the world of shaders, the term \textit{fractal Brownian motion} (fBm) is often described as adding different levels of noise together, thus creating a self-similar pattern across different scales \cite{online:thebookofshaders:fractal}.
 This simplified description meets the required level of detail for this section, a complete explanation and derivation of the fractal Brownian motion is beyond the scope of this paper.
-\\
-In shaders, fBms are also called \textit{fractal noise}. They are usually implemented by adding different iterations of noise, while successively incrementing the frequencies in regular steps and decreasing the amplitude of the noise.
+\emptyline
+In shaders, fBms are also called \textit{fractal noise}. They are usually implemented by adding different iterations of noise (called \textit{octaves}), while successively incrementing the frequencies in regular steps (\textit{lacunarity}) and decreasing the amplitude (\textit{gain}) of the noise.
 This results in a more detailed noise, meaning a finer granularity of the pattern in the noise.
-\\
+
 \begin{lstlisting}[language=HLSL, caption=Implementation of fractal Brownian motion function., label=lst:shader:fbm]
 #define LACUNARITY 2.0
 #define GAIN 0.5
@@ -758,3 +758,47 @@ float fbm(float3 p) {
     return total/maxValue;
 }
 \end{lstlisting}
+
+\noindent
+Interestingly, the only things that change for 3D is \lstinline[language=HLSL]{float2 p} becomes a \lstinline[language=HLSL]{float3 p} and the \lstinline[language=HLSL]{noise()} function must accept a three-dimensional vector instead. That's all.
+\\
+Here are some example images of the fractal Brownian motion with different octaves. For the noise function, a Voronoi noise algorithm was used.
+\begin{figure}[H]
+    \centering
+        \begin{minipage}{0.3\linewidth}
+            \includegraphics[width=\linewidth]{noise/fbm1}
+            \captionof{figure}{One octave of a 2D Voronoi noise.}
+            \label{img:noise:fbm1}
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.3\linewidth}
+            \includegraphics[width=\linewidth]{noise/fbm2}
+            \captionof{figure}{Two octaves of a 2D Voronoi noise.}
+            \label{img:noise:fbm2}
+            \end{minipage}
+        \hfill
+        \begin{minipage}{0.3\linewidth}
+            \includegraphics[width=\linewidth]{noise/fbm3}
+            \captionof{figure}{Three octaves of a 2D Voronoi noise.}
+            \label{img:noise:fbm6}
+        \end{minipage}
+\end{figure}
+
+\noindent
+It is understandable that with every additional octave, the algorithm has to evaluate the noise at the given point again, making it worth considering the impact on performance fractal noise has.
+However, the final renders look convincingly "cloudy".
+
+\begin{figure}[H]
+    \centering
+        \begin{minipage}{0.47\linewidth}
+            \includegraphics[width=\linewidth]{noise/fbm10_1}
+            \captionof{figure}{Ten octaves of a 2D Voronoi noise.}
+            \label{img:noise:fbm10_1}
+        \end{minipage}
+    \hfill
+        \begin{minipage}{0.47\linewidth}
+            \includegraphics[width=\linewidth]{noise/fbm10_2}
+            \captionof{figure}{Ten octaves of a 2D value noise (simplified Perlin noise).}
+            \label{img:noise:fbm10_2}
+        \end{minipage}
+\end{figure}
