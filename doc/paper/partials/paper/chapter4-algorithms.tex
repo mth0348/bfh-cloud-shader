@@ -729,4 +729,32 @@ Since the Voronoi noise algorithm creates a cellular pattern, it is well suitabl
 
 \clearpage
 \subsubsection{Fractal Brownian Motion}
-There
+In the world of shaders, the term \textit{fractal Brownian motion} (fBm) is often described as adding different levels of noise together, thus creating a self-similar pattern across different scales \cite{online:thebookofshaders:fractal}.
+This simplified description meets the required level of detail for this section, a complete explanation and derivation of the fractal Brownian motion is beyond the scope of this paper.
+\\
+In shaders, fBms are also called \textit{fractal noise}. They are usually implemented by adding different iterations of noise, while successively incrementing the frequencies in regular steps and decreasing the amplitude of the noise.
+This results in a more detailed noise, meaning a finer granularity of the pattern in the noise.
+\\
+\begin{lstlisting}[language=HLSL, caption=Implementation of fractal Brownian motion function., label=lst:shader:fbm]
+#define LACUNARITY 2.0
+#define GAIN 0.5
+#define OCTAVES 1
+    
+float fbm(float3 p) {
+    float frequency = 1.0;
+    float amplitude = 0.5;
+    
+    float total = 0;
+    float maxValue = 0;
+    for(int i = 0; i < OCTAVES; i++) {
+        float current = noise(p * frequency) * amplitude;
+        total += current;
+        maxValue += amplitude;
+        
+        amplitude *= GAIN;
+        frequency *= LACUNARITY;
+    }
+    
+    return total/maxValue;
+}
+\end{lstlisting}

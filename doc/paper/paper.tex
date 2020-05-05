@@ -26,7 +26,7 @@
 % Code listings
 \usepackage{listings}
 \usepackage{xcolor}
-\definecolor{codered}{rgb}{0.95,0.42,0.458}
+\definecolor{codered}{rgb}{0.93,0.26,0.298}
 \definecolor{codegrey}{rgb}{0.7,0.7,0.7}
 \definecolor{codepink}{rgb}{0.737,0.47,0.823}
 \definecolor{codeblue}{rgb}{0.227,0.572,0.937}
@@ -38,19 +38,21 @@
 	morekeywords=[1]{
         % variables
         position,sphere,direction,stepSize,dirMultiplier,dScene,dOrigin,p,dMin,dMax,result,k,d1,d2,i,ao,co,d,seed,cell,pCell,
-        x,y,z,
+        x,y,z,frequency,amplitude,current,total,maxValue,
 	},
 	morekeywords=[2]{
         % methods and functions
 		distance,normalize,min,max,dot,pow,sin,cos,tan,fract,
         sphereHit,raymarch,sphereDistance,sceneSDF,estimateNormal,hardshadow,softshadow,blend,sphereSDF,boxSDF,
         difference,union,intersection,ambientOcclusion,
-        random2d,random,random3d,randomSeed,floor
+        random2d,random,random3d,randomSeed,floor,fbm,
+        noise,
 	},
 	morekeywords=[3]{
         % CONSTANTS
         STEP_SIZE,MAX_STEPS,MINIMUM_STEP_SIZE,SURFACE_DISTANCE,MAX_DISTANCE,EPSILON,
         AO_ITERATIONS,AO_INTENSITY,AO_STEP_SIZE,
+        LACUNARITY,GAIN,OCTAVES,
     },
     keywordstyle=[1]\color{codeblue},
     keywordstyle=[2]\color{codered},

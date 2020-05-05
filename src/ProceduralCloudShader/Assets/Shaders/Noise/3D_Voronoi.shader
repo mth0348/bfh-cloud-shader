@@ -117,6 +117,7 @@
 
             float getColor(float3 co, int octaves, float persistence) {
                 float total = 0;
+                float lacunarity = 2.0;
                 float frequency = _Frequency;
                 float amplitude = _Amplitude;
                 float maxValue = 0;  // Used for normalizing result to 0.0 - 1.0
@@ -126,15 +127,16 @@
                     maxValue += amplitude;
                     
                     amplitude *= persistence;
-                    frequency *= 2;
+                    frequency *= lacunarity;
                 }
                 
-                return total/maxValue*1;
+                return total/maxValue;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float3 co = float3(i.worldPos.x+_Time.y, i.worldPos.y, i.worldPos.z) *_Scale + _Offset;
+                float3 co = float3(i.worldPos.x, i.worldPos.y, i.worldPos.z) *_Scale + _Offset;
+                //float3 co = float3(i.worldPos.x+_Time.y, i.worldPos.y, i.worldPos.z) *_Scale + _Offset;
 
                 float f = getColor(co, _Octaves, _Persistence);
                 f = 0.5 + 0.5*f;
