@@ -190,3 +190,7 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 | Added research results about Voronoi noise | 6h |
 
 ## \07: May 11th, 2020
+
+
+stop ray march when cloud density hits 1.0
+reality check? what is most realistic

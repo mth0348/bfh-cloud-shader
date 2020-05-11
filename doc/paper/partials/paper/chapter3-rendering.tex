@@ -203,9 +203,9 @@ float sceneSDF(float3 position) {
 \noindent
 With the sphere in the example being at the origin and having $R = 1$, a positive distance is returned for points outside the sphere and a negative distance if the point is inside the sphere.
 \begin{lstlisting}[language=HLSL]
-float d1 = sceneSDF(float3(2, 0, 0)); // d1 = 1.0
+float d1 = sceneSDF(float3(2, 0, 0));   // d1 = 1.0
 float d2 = sceneSDF(float3(0, 0.5, 0)); // d2 = -0.5
-float d3 = sceneSDF(float3(5, -5, 5)); // d3 = 7.66
+float d3 = sceneSDF(float3(5, -5, 5));  // d3 = 7.66
 \end{lstlisting}
 
 \subsubsection{Sphere Tracing with SDFs}

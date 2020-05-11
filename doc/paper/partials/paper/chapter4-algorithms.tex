@@ -715,20 +715,20 @@ float2 randomSeed(float2 co) {
 
 float voronoi(float2 p) {
     float2 pCell = floor(p);
-    float dmin = 999;
+    float dMin = 999;
 
     for(int x = -1; x <= 1; x++) {
         for(int y = -1; y <= 1; y++) {
             float2 cell = pCell + float2(x, y);
             float2 seed = cell + randomSeed(cell);
             float d = distance(seed, p);
-            if (d < dmin) {
-                dmin = d;
+            if (d < dMin) {
+                dMin = d;
             }
         }
     }
     
-    return dmin;
+    return dMin;
 }
 \end{lstlisting}
 
@@ -806,7 +806,7 @@ However, the final renders look convincingly "cloudy".
     \hfill
         \begin{minipage}{0.47\linewidth}
             \includegraphics[width=\linewidth]{noise/fbm10_2}
-            \captionof{figure}{Ten octaves of a 2D value noise (simplified Perlin noise).}
+            \captionof{figure}{Ten octaves of a 2D Perlin noise.}
             \label{img:noise:fbm10_2}
         \end{minipage}
 \end{figure}

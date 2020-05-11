@@ -32,7 +32,7 @@ Material:
     - _StepCount: 200
     - _Threshold: 0.515
     m_Colors:
-    - _BoundsMax: {r: 5, g: 5, b: 5, a: 0}
-    - _BoundsMin: {r: -3, g: -3, b: -3, a: 0}
+    - _BoundsMax: {r: 3, g: 3, b: 3, a: 0}
+    - _BoundsMin: {r: -1, g: -1, b: -1, a: 0}
     - _Offset: {r: 1, g: 0, b: 0, a: 0}
-    - _ViewDirection: {r: -0.7716329, g: 0.015694138, b: -0.63587433, a: 0}
+    - _ViewDirection: {r: 0.7150803, g: 0.0004515946, b: -0.69904214, a: 0}

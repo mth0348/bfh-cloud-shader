@@ -1,8 +1,16 @@
-﻿Shader "Custom/Noise/2D/Perlin"
+﻿Shader "Custom/Noise/3D/Perlin"
 {
     Properties
     {
-        _Scale ("Scale", Range(0, 10)) = 1
+        _Scale ("Scale", float) = 1.0
+        _Offset ("Offset", vector) = (1,1,0,0)
+        _Octaves ("Octaves", Range(1,10)) = 1
+        _Persistence ("Persistence", Range(0.1, 2)) = 0.5
+        _Frequency ("Frequency", Range(0.1, 10)) = 1
+        _Amplitude ("_Amplitude", Range(0.1, 10)) = 1
+        _Min ("Min", Range(0,1)) = 0
+        _Max ("Max", Range(0,1)) = 1
+        _Boost ("Boost", Range(0,1)) = 0
     }
     SubShader
     {
@@ -20,6 +28,14 @@
             #define PI 3.1415926538
 
             float _Scale;
+            float3 _Offset;
+            int _Octaves;
+            float _Persistence;
+            float _Frequency;
+            float _Amplitude;
+            float _Min;
+            float _Max;
+            float _Boost;
 
             struct appdata
             {
@@ -71,26 +87,6 @@
                 138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
             };
 
-            // float3 randomGradient(float x, float y) {
-                //         if (x == 0 && y == 0) return float3(-0.6, 0.2);
-                //         if (x == 1 && y == 0) return float3(0.4,  0.4);
-                //         if (x == 2 && y == 0) return float3(0.3, -0.5);
-                //         if (x == 3 && y == 0) return float3(0.5, -0.3);
-                //         if (x == 0 && y == 1) return float3(0.3, -0.5);
-                //         if (x == 1 && y == 1) return float3(0.2,  0.6);
-                //         if (x == 2 && y == 1) return float3(0.6, -0.2);
-                //         if (x == 3 && y == 1) return float3(0.3, -0.5);
-                //         if (x == 0 && y == 2) return float3(-0.3, 0.5);
-                //         if (x == 1 && y == 2) return float3(-0.3,-0.5);
-                //         if (x == 2 && y == 2) return float3(0.5, -0.3);
-                //         if (x == 3 && y == 2) return float3(0.5,  0.3);
-                //         if (x == 0 && y == 3) return float3(0.3,  0.5);
-                //         if (x == 1 && y == 3) return float3(-0.1,-0.7);
-                //         if (x == 2 && y == 3) return float3(-0.4, 0.4);
-                //         if (x == 3 && y == 3) return float3(-0.3, 0.5);
-                //         return float3(0,0);
-            // }
-
             float gradientDotV(uint hash, float x, float y, float z) {
                 switch (hash & 15) { 
                     case  0: return  x + y; // (1,1,0) 
@@ -116,21 +112,6 @@
             float fade(float t) { 
                 return t * t * t * (t * (t * 6 - 15) + 10);
             }
-
-            // Computes the dot product of the distance and gradient vectors.
-            // float dotGridGradient(float ix, float iy, float x, float y) {
-
-                //     // gradient vectors at each grid node
-                //     float3 gradient = normalize(randomGradient(ix, iy));
-
-                //     // Compute the distance vector
-                //     float dx = x - ix;
-                //     float dy = y- iy;
-                //     float3 distV = float3(dx, dy);
-                
-                //     // Compute the dot-product
-                //     return dot(gradient, distV);
-            // }
 
             uint hash(int x, int y, int z)
             {
@@ -189,20 +170,44 @@
                 return k0 + k1 * u + k2 * v + k3 * w + k4 * u * v + k5 * u * w + k6 * v * w + k7 * u * v * w; 
             } 
 
+            float getColor(float3 co, int octaves, float persistence) {
+                float total = 0;
+                float lacunarity = 2.0;
+                float frequency = _Frequency;
+                float amplitude = _Amplitude;
+                float maxValue = 0;  // Used for normalizing result to 0.0 - 1.0
+                for(int i=0; i < octaves; i++) {
+                    float current = perlin(co * frequency) * amplitude;
+                    total += current;
+                    maxValue += amplitude;
+                    
+                    amplitude *= persistence;
+                    frequency *= lacunarity;
+                }
+                
+                return total/maxValue;
+            }
+
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
-                o.worldPos = mul(unity_ObjectToWorld, v.vertex);
+                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float c = perlin(i.worldPos *_Scale);
-                fixed4 col = fixed4(c,c,c,1);
-                return col;
+                float3 co = float3(i.worldPos.x, i.worldPos.y, i.worldPos.z) *_Scale + _Offset;
+                //float3 co = float3(i.worldPos.x+_Time.y, i.worldPos.y, i.worldPos.z) *_Scale + _Offset;
+
+                float f = getColor(co, _Octaves, _Persistence);
+                f = 0.5 + 0.5*f;
+
+                fixed4 col = fixed4(0,0,0,1);
+                col += smoothstep(_Min, _Max, f);
+                return 1 - col + _Boost;
             }
             ENDCG
         }

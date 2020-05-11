@@ -37,14 +37,14 @@
 \lstdefinelanguage{HLSL}{
 	morekeywords=[1]{
         % variables
-        position,sphere,direction,stepSize,dirMultiplier,dScene,dOrigin,p,dMin,dMax,result,k,d1,d2,i,ao,co,d,seed,cell,pCell,
+        position,sphere,direction,stepSize,dirMultiplier,dScene,dOrigin,p,dMin,dMax,result,k,d1,d2,d3,i,ao,co,d,seed,cell,pCell,
         x,y,z,frequency,amplitude,current,total,maxValue,
 	},
 	morekeywords=[2]{
         % methods and functions
 		distance,normalize,min,max,dot,pow,sin,cos,tan,fract,
         sphereHit,raymarch,sphereDistance,sceneSDF,estimateNormal,hardshadow,softshadow,blend,sphereSDF,boxSDF,
-        difference,union,intersection,ambientOcclusion,
+        difference,union,intersection,ambientOcclusion,voronoi,
         random2d,random,random3d,randomSeed,floor,fbm,
         noise,
 	},
