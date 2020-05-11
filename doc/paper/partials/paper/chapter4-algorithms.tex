@@ -62,18 +62,26 @@ It is clearly visible that the function $rnd(x)$ became chaotic and returns prac
 
 \clearpage
 \subsection{2D Random}
-To generate a pseudo-random number from two values instead of one, the same function can be used, with some tweaks. Those two numbers come as a two-dimensional vector, which needs to be transformed into a single floating point number.
+To generate a pseudo-random number from two and three values instead of one, the same function can be used, with some tweaks. Those two numbers come as a two-dimensional vector, which needs to be transformed into a single floating point number.
 According to Vivo, the dot product is particularily helpful in that case \cite{online:thebookofshaders}. It returns a single float value between $0.0$ and $1.0$ depending on the alignment of two vectors.
-They describe the following method:
+They describe the following methods:
 
 \begin{lstlisting}[language=HLSL, caption=Implementation of 2D random number generation., label=lst:random:2d]
-float random2d(float2 co) {
-    return fract(sin(dot(co, float2(12.9898,78.233))) * 43758.5453123);
+float random(float2 co) {
+    float2 other = float2(12.9898, 78.233);
+    return fract(sin(dot(co, other)) * 43758.5453123);
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=HLSL, caption=Implementation of 3D random number generation., label=lst:random:3d]
+float random(float3 co) {
+    float3 other = float3(12.9898, 78.233, 37.719);
+    return fract(sin(dot(co, other)) * 43758.5453123);
 }
 \end{lstlisting}
 
 \noindent
-When using the fragment coordinates as the vector \lstinline[language=HLSL]{co} to call \lstinline[language=HLSL]{random2d(co)} for every pixels, the resulting image shows a seemingly random assortment of pixels holding values from 0 to 1 (from black to white).
+When using the fragment coordinates as the vector \lstinline[language=HLSL]{co} to call \lstinline[language=HLSL]{random(co)} for every pixels, the resulting image shows a seemingly random assortment of pixels holding values from 0 to 1 (from black to white).
 
 \begin{figure}[H]
     \centering
@@ -695,7 +703,7 @@ This amounts to $3^n - 1$ neightboring cells, where $n$ is the number of dimensi
 \end{figure}
 
 \noindent
-An implementation of this relatively simple algorithm could look like the following listing. In it, \lstinline[language=HLSL]{randomSeed()} is used like the previously introduced function \lstinline[language=HLSL]{random2d()}, except that it returns a two-dimensional vector instead of a scalar.
+An implementation of this relatively simple algorithm could look like the following listing. In it, \lstinline[language=HLSL]{randomSeed()} is used like the previously introduced function \lstinline[language=HLSL]{random()}, except that it returns a two-dimensional vector instead of a scalar.
 With that, a deterministically random point can be generated for any given cell.
 
 \begin{lstlisting}[language=HLSL, caption=Implementation of 2D Voronoi noise algorithm., label=lst:shader:noise:voronoi2d]
@@ -740,7 +748,7 @@ This results in a more detailed noise, meaning a finer granularity of the patter
 #define GAIN 0.5
 #define OCTAVES 1
     
-float fbm(float3 p) {
+float fbm(float2 p) {
     float frequency = 1.0;
     float amplitude = 0.5;
     
