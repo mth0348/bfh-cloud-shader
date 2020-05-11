@@ -3,7 +3,7 @@
     Properties
     {
         [Header(Perlin)]
-        _PerlinScale ("Perlin Scale", Range(1,10)) = 3.0
+        _PerlinScale ("Perlin Scale", Range(0.1,10)) = 3.0
         _PerlinOffset ("Perlin Offset", vector) = (1,1,0,0)
         _PerlinOctaves ("Perlin Octaves", Range(1,10)) = 1
         _PerlinPersistance ("Perlin Persistence", Range(0.1, 1)) = 0.5
@@ -12,9 +12,11 @@
         _PerlinMin ("Perlin Min", Range(0,1)) = 0
         _PerlinMax ("Perlin Max", Range(0,1)) = 1
         _PerlinBoost ("Perlin Boost", Range(0,1)) = 0
+        _PerlinDensityThreshold ("Density Threshold", Range(0,1)) = 0.2
+        _PerlinDensityMultiplier ("Density Multiplier", Range(0,5)) = 1
         
         [Header(Voronoi)]
-        _VoronoiScale ("Scale", Range(1,10)) = 3.0
+        _VoronoiScale ("Scale", Range(0.1,10)) = 3.0
         _VoronoiOffset ("Offset", vector) = (1,1,0,0)
         _VoronoiOctaves ("Octaves", Range(1,10)) = 1
         _VoronoiPersistance ("Persistence", Range(0.1, 1)) = 0.5
@@ -23,6 +25,8 @@
         _VoronoiMin ("Min", Range(0,1)) = 0
         _VoronoiMax ("Max", Range(0,1)) = 1
         _VoronoiBoost ("Boost", Range(0,1)) = 0
+        _VoronoiDensityThreshold ("Density Threshold", Range(0,1)) = 0.2
+        _VoronoiDensityMultiplier ("Density Multiplier", Range(0,5)) = 1
 
         [Enum(Perlin,0,Voronoi,1)] 
         _Mask ("Master Mask", Int) = 1
@@ -30,8 +34,11 @@
 
         [Header(Raymarching)]
         _MaxSteps ("Max Steps", Range(0,200)) = 100
-        _DensityThreshold ("Density Threshold", Range(0,1)) = 0.2
-        _DensityMultiplier ("Density Multiplier", Range(0,2)) = 1
+
+        [Header(Unity Runtime Properties)]
+        _BoundsMin ("Box Min Boundaries", vector) = (-2,-2,-2,0)
+        _BoundsMax ("Box Max Boundaries", vector) = ( 2, 2, 2,0)
+        
     }
     SubShader
     {
@@ -50,6 +57,7 @@
             #include "UnityCG.cginc"
             
             #define PI 3.1415926538
+			#define EPSILON 0.01
 
             struct appdata
             {
@@ -73,6 +81,8 @@
             float _PerlinMin;
             float _PerlinMax;
             float _PerlinBoost;
+            float _PerlinDensityThreshold;
+            float _PerlinDensityMultiplier;
 
             float _VoronoiScale;
             float3 _VoronoiOffset;
@@ -83,15 +93,16 @@
             float _VoronoiMin;
             float _VoronoiMax;
             float _VoronoiBoost;
+            float _VoronoiDensityThreshold;
+            float _VoronoiDensityMultiplier;
 
-            sampler2D _MainTex;
+            float3 _BoundsMin;
+            float3 _BoundsMax;
 
             int _Mask;
             float _T;
 
             int  _MaxSteps;
-            float _DensityThreshold;
-            float _DensityMultiplier;
             
             float fract(float x) {
                 return x - floor(x);
@@ -312,13 +323,29 @@
             }
 
             float sampleDensity(float3 position) {
-                position = position * _VoronoiScale + _VoronoiOffset;
-				return max(0, smoothstep(_VoronoiMin, _VoronoiMax, getColorVoronoi(position, _VoronoiOctaves, _VoronoiPersistance) )- _DensityThreshold) * _DensityMultiplier;
+                float3 voronoiPosition = position * _VoronoiScale + _VoronoiOffset *_Time.y * _T;
+                float3 perlinPosition = position * _PerlinScale + _PerlinOffset * _Time.y * _T;
+				float voronoiDensity = smoothstep(_VoronoiMin, _VoronoiMax, getColorVoronoi(voronoiPosition, _VoronoiOctaves, _VoronoiPersistance)) + _VoronoiBoost;
+				float perlinDensity = smoothstep(_PerlinMin, _PerlinMax, getColorPerlin(perlinPosition, _PerlinOctaves, _PerlinPersistance)) + _PerlinBoost;
+
+                voronoiDensity = max(0, voronoiDensity - _VoronoiDensityThreshold) * _VoronoiDensityMultiplier;
+                perlinDensity = max(0, perlinDensity - _PerlinDensityThreshold) * _PerlinDensityMultiplier;
+
+                float density = voronoiDensity + voronoiDensity * perlinDensity;
+                return density;
+			}
+
+            float3 estimateNormal(float3 p) {
+				return normalize(float3(
+					sampleDensity(float3(p.x + EPSILON, p.y, p.z)) - sampleDensity(float3(p.x - EPSILON, p.y, p.z)),
+					sampleDensity(float3(p.x, p.y + EPSILON, p.z)) - sampleDensity(float3(p.x, p.y - EPSILON, p.z)),
+					sampleDensity(float3(p.x, p.y, p.z + EPSILON)) - sampleDensity(float3(p.x, p.y, p.z - EPSILON))
+				));
 			}
 
 			fixed4 raymarch(float3 position, float3 direction)
 			{
-                float2 box = boxInfo(float3(-2,-2,-2), float3(2,2,2), position, direction);
+                float2 box = boxInfo(_BoundsMin, _BoundsMax, position, direction);
                 float stepSize = box.y / _MaxSteps;
                 if (stepSize <= 0)
                     return fixed4(0,0,0,0);
@@ -330,7 +357,7 @@
 					position += normalize(direction) * stepSize;
 				}
 				
-				return fixed4(0,0,0,1 - exp(-density));
+				return fixed4(1,1,1,1 - exp(-density));
 			}
 
 			fixed4 frag(v2f i) : SV_Target

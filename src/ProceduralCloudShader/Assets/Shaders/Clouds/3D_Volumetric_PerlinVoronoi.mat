@@ -21,27 +21,31 @@ Material:
     m_TexEnvs: []
     m_Floats:
     - _DensityMultiplier: 1
-    - _DensityThreshold: 0
+    - _DensityThreshold: 0.4
     - _Mask: 1
     - _MaxSteps: 25
     - _PerlinAmplitude: 1
     - _PerlinBoost: 0
+    - _PerlinDensityMultiplier: 1.2
+    - _PerlinDensityThreshold: 0
     - _PerlinFrequency: 1
     - _PerlinMax: 1
     - _PerlinMin: 0
-    - _PerlinOctaves: 1
+    - _PerlinOctaves: 3
     - _PerlinPersistance: 0.5
-    - _PerlinScale: 1
+    - _PerlinScale: 4
     - _StepSize: 0.001
     - _T: 0
     - _VoronoiAmplitude: 1
     - _VoronoiBoost: 0
+    - _VoronoiDensityMultiplier: 1
+    - _VoronoiDensityThreshold: 0.4
     - _VoronoiFrequency: 1
     - _VoronoiMax: 1
-    - _VoronoiMin: 0.366
+    - _VoronoiMin: 0
     - _VoronoiOctaves: 5
     - _VoronoiPersistance: 0.5
-    - _VoronoiScale: 1
+    - _VoronoiScale: 0.41
     m_Colors:
     - _CamPos: {r: 2, g: 2, b: -5, a: 0}
     - _PerlinOffset: {r: 0, g: 0, b: 0, a: 0}
