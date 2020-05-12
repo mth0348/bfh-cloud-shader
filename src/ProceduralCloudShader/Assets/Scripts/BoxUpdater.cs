@@ -2,6 +2,8 @@
 
 public class BoxUpdater : MonoBehaviour
 {
+    public Transform sun;
+    
     private Material material;
 
     void Start()
@@ -13,5 +15,6 @@ public class BoxUpdater : MonoBehaviour
     {
         material.SetVector("_BoundsMin", transform.position - transform.localScale / 2);
         material.SetVector("_BoundsMax", transform.position + transform.localScale / 2);
+        material.SetVector("_SunPosition", sun.position);
     }
 }

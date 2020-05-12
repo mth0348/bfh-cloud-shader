@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 3D_Volumetric_PerlinVoronoi
-  m_Shader: {fileID: 4800000, guid: c51e7ce0178fc47489c5b4cbf9ae10b7, type: 3}
+  m_Name: 3D_Volumetric_Clouds_Try2
+  m_Shader: {fileID: 4800000, guid: 5d0e9a4b00fea8944b1debde3d5305b9, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -23,32 +23,38 @@ Material:
     - _DensityMultiplier: 1
     - _DensityThreshold: 0.4
     - _Mask: 1
-    - _MaxSteps: 25
+    - _MaxLightSteps: 5
+    - _MaxSteps: 30
     - _PerlinAmplitude: 1
     - _PerlinBoost: 0
-    - _PerlinDensityMultiplier: 1.2
+    - _PerlinDensityMultiplier: 5
     - _PerlinDensityThreshold: 0
     - _PerlinFrequency: 1
     - _PerlinMax: 1
     - _PerlinMin: 0
-    - _PerlinOctaves: 2
+    - _PerlinOctaves: 4
     - _PerlinPersistance: 0.5
-    - _PerlinScale: 1
+    - _PerlinScale: 0.75
     - _StepSize: 0.001
-    - _T: 0.5
+    - _SunLightScattering: 0.15
+    - _SunLightStrength: 0.4
+    - _SunLightTransmittance: 0.15
+    - _T: 0
     - _VoronoiAmplitude: 1
     - _VoronoiBoost: 0
-    - _VoronoiDensityMultiplier: 1
-    - _VoronoiDensityThreshold: 0.5
+    - _VoronoiDensityMultiplier: 1.5
+    - _VoronoiDensityThreshold: 0
     - _VoronoiFrequency: 1
     - _VoronoiMax: 1
     - _VoronoiMin: 0
-    - _VoronoiOctaves: 4
+    - _VoronoiOctaves: 1
     - _VoronoiPersistance: 0.5
-    - _VoronoiScale: 0.41
+    - _VoronoiScale: 1.5
     m_Colors:
-    - _BoundsMax: {r: 4, g: 4, b: 4, a: 0}
+    - _BoundsMax: {r: 5, g: 5, b: 5, a: 0}
     - _BoundsMin: {r: 0, g: 0, b: 0, a: 0}
     - _CamPos: {r: 2, g: 2, b: -5, a: 0}
     - _PerlinOffset: {r: 1, g: 0, b: 0, a: 0}
-    - _VoronoiOffset: {r: 1, g: 0, b: 0, a: 0}
+    - _PhaseParams: {r: 0.93, g: 3, b: 2, a: 0}
+    - _SunPosition: {r: 5, g: 5, b: 5, a: 0}
+    - _VoronoiOffset: {r: 0.3, g: 0, b: 0, a: 0}
