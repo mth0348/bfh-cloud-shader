@@ -409,20 +409,25 @@
                 float3 viewDirection = normalize(i.worldPos - _WorldSpaceCameraPos.xyz);
 
                 float2 rm = raymarch(worldPosition, viewDirection);
-                
                 float cloudDensity = rm.x;
                 float lightTransmittance = rm.y;
 
-                float sunFacing = dot(viewDirection, fixed3(0,1,0));
-                float projectedSunDistance = length(WorldToScreenPos(_SunPosition) - WorldToScreenPos(worldPosition));
-                float sunTransmittance = 1 - pow(smoothstep(0, _SunLightScattering, projectedSunDistance), _SunLightStrength);
-
-                fixed r = exp(-lightTransmittance * 0.1 / _MaxSteps);
+                // get cloud color.
+                float totalTransmittance = exp(-lightTransmittance * 0.1 / _MaxSteps);
+                fixed r = totalTransmittance;
                 fixed g = r;
                 fixed b = r;
                 fixed a = 1 - exp(-cloudDensity);
-                fixed4 col = fixed4(r,g,b,a) + sunTransmittance * _LightColor0;
+                fixed4 cloudColor = fixed4(r,g,b,a);
 
+                // get sun color.
+                float sunFacing = dot(viewDirection, fixed3(0,1,0));
+                float projectedSunDistance = length(WorldToScreenPos(_SunPosition) - WorldToScreenPos(worldPosition));
+                float sunTransmittance = 1 - pow(smoothstep(0, _SunLightScattering, projectedSunDistance), _SunLightStrength);
+                fixed4 sunColor = sunTransmittance * _LightColor0;
+
+                // combine.
+                fixed4 col = cloudColor + sunColor;
                 return col;
             }
             ENDCG
