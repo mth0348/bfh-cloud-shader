@@ -396,8 +396,11 @@
                 for (int i = 0; i < _MaxSteps; i++)
                 {
                     density += sampleDensity(position) * stepSize;
-                    lightTransmittance += lightmarch(position, normalize(_WorldSpaceLightPos0));
                     position += direction * stepSize;
+
+                    float3 n = estimateNormal(position);
+                    float3 sunDir = normalize(_SunPosition - position);
+                    lightTransmittance += 1-max(0, dot(n, sunDir));//(position, normalize(_WorldSpaceLightPos0));
                 }
                 
                 return float2(density, lightTransmittance);
@@ -412,19 +415,19 @@
                 float cloudDensity = rm.x;
                 float lightTransmittance = rm.y;
 
-                // get cloud color.
-                float totalTransmittance = exp(-lightTransmittance * 0.1 / _MaxSteps);
-                fixed r = totalTransmittance;
-                fixed g = r;
-                fixed b = r;
-                fixed a = 1 - exp(-cloudDensity);
-                fixed4 cloudColor = fixed4(r,g,b,a);
-
                 // get sun color.
                 float sunFacing = dot(viewDirection, fixed3(0,1,0));
                 float projectedSunDistance = length(WorldToScreenPos(_SunPosition) - WorldToScreenPos(worldPosition));
                 float sunTransmittance = 1 - pow(smoothstep(0, _SunLightScattering, projectedSunDistance), _SunLightStrength);
                 fixed4 sunColor = sunTransmittance * _LightColor0;
+
+                // get cloud color.
+                float totalTransmittance = 1 - exp(-lightTransmittance);
+                fixed r = totalTransmittance;
+                fixed g = r;
+                fixed b = r;
+                fixed a = 1 - exp(-cloudDensity) - sunTransmittance;
+                fixed4 cloudColor = fixed4(saturate(r),saturate(g),saturate(b),saturate(a));
 
                 // combine.
                 fixed4 col = cloudColor + sunColor;
