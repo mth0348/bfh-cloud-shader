@@ -37,12 +37,19 @@
         _LightStepSize ("Light Step Size", Range(0,1)) = 0.1
         [Space]
         _SunLightScattering ("Sun Light Scattering", Range(0.1,0.5)) = 0.2
-        _SunLightStrength ("Sun Light Strength", Range(0,4)) = 1
+        _SunLightStrength ("Sun Light Strength", Range(0,5)) = 1
         
         [Header(Clouds)]
         _CloudColor ("Cloud Color", Color) = (1,1,1,1)
         _CloudDensityFactor ("Cloud Density Factor", Range(0,5)) = 1
         _CloudGapSize ("Cloud Gap Size", Range(1,10)) = 1
+        _LightScatteringStrength ("Light Scattering Strength", Range(0,2)) = 0.5
+    
+        [Header(Horizon)]
+        _HorizonMinDistance ("Horizon Min Distance", Range(1,200)) = 10
+        _HorizonMaxDistance ("Horizon Max Distance", Range(1,200)) = 150
+        _HorizonColor ("Horizon Color", Color) = (0,0,0,1)
+        [Enum(Subtractive,0,Additive,2)] _HorzionAddFactor ("Darken Horizon", int) = 0
 
         [Space(2)]
         [Header(Unity Runtime Properties)]
@@ -121,6 +128,12 @@
             float3 _BoundsMax;
             float3  _SunPosition;
             fixed4 _CloudColor;
+            float _LightScatteringStrength;
+
+            fixed4 _HorizonColor;
+            int _HorzionAddFactor;
+            float _HorizonMinDistance;
+            float _HorizonMaxDistance;
 
             float  _CloudDensityFactor;
             float  _CloudGapSize;
@@ -440,6 +453,7 @@
                 float projectedSunDistance = length(WorldToScreenPos(_SunPosition) - WorldToScreenPos(worldPosition));
                 float sunTransmittance = 1 - pow(smoothstep(0.01, _SunLightScattering, projectedSunDistance), _SunLightStrength);
                 fixed3 sunColor = sunTransmittance * _LightColor0.xyz * cloudDensity;
+                fixed3 lightScattering = _LightColor0.xyz * cloudDensity * _LightScatteringStrength;
 
                 float cloudShade = pow(cloudDensity, _CloudDensityFactor * 0.01);
 
@@ -452,7 +466,10 @@
                 fixed a = pow((1 - cloudDensity), _CloudGapSize) + (1 - cloudShade);
 
                 fixed3 cloudColor = fixed3(saturate(r),saturate(g),saturate(b));
-                fixed3 c = _CloudColor * cloudColor + sunColor;
+                fixed3 c = _CloudColor * cloudColor + sunColor + lightScattering;
+
+                // apply horizon  distance coloring.
+                c += (_HorzionAddFactor - 1) * _HorizonColor * smoothstep(_HorizonMinDistance, _HorizonMaxDistance, camDistance) * _HorizonColor.a;
 
                 // combine.
                 fixed4 col = fixed4(c.x, c.y, c.z, saturate(a * _CloudColor.a));

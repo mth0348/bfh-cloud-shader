@@ -23,8 +23,13 @@ Material:
     - _CloudBorderGlow: 0.035
     - _CloudDensityFactor: 0.83
     - _CloudGapSize: 1
+    - _DarkenHorizon: 0
     - _DensityMultiplier: 1
     - _DensityThreshold: 0.4
+    - _HorizonMaxDistance: 200
+    - _HorizonMinDistance: 29
+    - _HorzionAddFactor: 0
+    - _LightScatteringStrength: 0.763
     - _LightStepSize: 0.2
     - _Mask: 1
     - _MaxLightSamples: 5
@@ -41,10 +46,11 @@ Material:
     - _PerlinPersistance: 0.5
     - _PerlinScale: 0.12
     - _StepSize: 0.001
-    - _SunLightScattering: 0.205
-    - _SunLightStrength: 2.82
+    - _SunIllumninenceStrength: 0.647
+    - _SunLightScattering: 0.18
+    - _SunLightStrength: 5
     - _SunLightTransmittance: 0.15
-    - _T: 0
+    - _T: 0.2
     - _VoronoiAmplitude: 1
     - _VoronoiBoost: 0
     - _VoronoiDensityMultiplier: 1
@@ -56,11 +62,12 @@ Material:
     - _VoronoiPersistance: 0.5
     - _VoronoiScale: 0.5
     m_Colors:
-    - _BoundsMax: {r: 59.056778, g: 22.63, b: 75.14194, a: 0}
-    - _BoundsMin: {r: -27.876778, g: 18.63, b: 10.358059, a: 0}
+    - _BoundsMax: {r: 62.014, g: 24, b: 87.297455, a: 0}
+    - _BoundsMin: {r: -30.814001, g: 20, b: 12.502544, a: 0}
     - _CamPos: {r: 2, g: 2, b: -5, a: 0}
-    - _CloudColor: {r: 0.5943396, g: 0.5943396, b: 0.5943396, a: 1}
-    - _PerlinOffset: {r: 1, g: 0, b: 0, a: 0}
+    - _CloudColor: {r: 0.59607846, g: 0.59607846, b: 0.59607846, a: 1}
+    - _HorizonColor: {r: 0, g: 0.2006404, b: 0.5754717, a: 1}
+    - _PerlinOffset: {r: 0.4, g: 0, b: 0, a: 0}
     - _PhaseParams: {r: 0, g: 0, b: 0, a: 0}
-    - _SunPosition: {r: 33.09, g: 29.72, b: 37.97, a: 0}
-    - _VoronoiOffset: {r: 0.3, g: 0, b: 0, a: 0}
+    - _SunPosition: {r: 34.36, g: 30.89, b: 37.97, a: 0}
+    - _VoronoiOffset: {r: 4, g: 0, b: 0, a: 0}
