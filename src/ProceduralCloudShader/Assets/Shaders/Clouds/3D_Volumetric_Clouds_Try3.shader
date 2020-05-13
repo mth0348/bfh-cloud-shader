@@ -3,7 +3,7 @@
     Properties
     {
         [Header(Perlin)]
-        _PerlinScale ("Perlin Scale", Range(0.1,10)) = 3.0
+        _PerlinScale ("Perlin Scale", Range(0.1,4)) = 3.0
         _PerlinOffset ("Perlin Offset", vector) = (1,1,0,0)
         _PerlinOctaves ("Perlin Octaves", Range(1,10)) = 1
         _PerlinPersistance ("Perlin Persistence", Range(0.1, 1)) = 0.5
@@ -16,7 +16,7 @@
         _PerlinDensityMultiplier ("Density Multiplier", Range(0,5)) = 1
         
         [Header(Voronoi)]
-        _VoronoiScale ("Scale", Range(0.1,10)) = 3.0
+        _VoronoiScale ("Scale", Range(0.1,4)) = 3.0
         _VoronoiOffset ("Offset", vector) = (1,1,0,0)
         _VoronoiOctaves ("Octaves", Range(1,10)) = 1
         _VoronoiPersistance ("Persistence", Range(0.1, 1)) = 0.5
@@ -28,21 +28,25 @@
         _VoronoiDensityThreshold ("Density Threshold", Range(0,1)) = 0.2
         _VoronoiDensityMultiplier ("Density Multiplier", Range(0,5)) = 1
 
-        [Enum(Perlin,0,Voronoi,1)] 
-        _Mask ("Master Mask", Int) = 1
-        _T ("Time", Range(0,1)) = 0
-
         [Header(Raymarching)]
         _MaxSteps ("Max Steps", Range(0,200)) = 100
 
         [Header(Lightmarching)]
-        _MaxLightSteps ("Max Light Steps", Range(0,20)) = 5
-        _PhaseParams ("Phase Params", vector) = (0,0,0,0)
+        _MaxLightSamples ("Max Light Samples", Range(0,40)) = 10
+        _MaxLightSteps ("Max Light Steps", Range(0,10)) = 5
+        _LightStepSize ("Light Step Size", Range(0,1)) = 0.1
+        [Space]
         _SunLightScattering ("Sun Light Scattering", Range(0.1,0.5)) = 0.2
         _SunLightStrength ("Sun Light Strength", Range(0,4)) = 1
         
+        [Header(Clouds)]
+        _CloudColor ("Cloud Color", Color) = (1,1,1,1)
+        _CloudDensityFactor ("Cloud Density Factor", Range(0,5)) = 1
+        _CloudGapSize ("Cloud Gap Size", Range(1,10)) = 1
+
         [Space(2)]
         [Header(Unity Runtime Properties)]
+        _T ("Time", Range(0,1)) = 0
         _BoundsMin ("Box Min Boundaries", vector) = (-2,-2,-2,0)
         _BoundsMax ("Box Max Boundaries", vector) = ( 2, 2, 2,0)
         _SunPosition ("Sun Position", vector) = (5, 5, 5, 0)
@@ -104,18 +108,22 @@
             float _VoronoiDensityThreshold;
             float _VoronoiDensityMultiplier;
 
-            int _Mask;
             float _T;
 
             int  _MaxSteps;
+            int  _MaxLightSamples;
             int  _MaxLightSteps;
+            int  _LightStepSize;
             float _SunLightScattering;
             float _SunLightStrength;
-            float4 _PhaseParams;
 
             float3 _BoundsMin;
             float3 _BoundsMax;
             float3  _SunPosition;
+            fixed4 _CloudColor;
+
+            float  _CloudDensityFactor;
+            float  _CloudGapSize;
             
             float fract(float x) {
                 return x - floor(x);
@@ -123,6 +131,10 @@
 
             float random(float v) {
                 return fract(sin(v) * 43758.5453123);
+            }
+
+            float sigmoid(float a) {
+                return 1 / (1 + exp(-a));
             }
 
             fixed2 WorldToScreenPos(fixed3 pos){
@@ -368,41 +380,49 @@
                 ));
             }
 
-            float lightmarch(float3 position, float3 direction)
-            {
-                float2 box = boxInfo(_BoundsMin, _BoundsMax, position, direction);
-                float stepSize = box.y / _MaxLightSteps;
-                
+            float lightmarch(float3 position) {
                 float3 p = position;
-                float transmittance = 0;                
-                for (int i = 0; i < _MaxLightSteps; i++)
+                float3 direction = normalize(_SunPosition - position);
+
+                float lightTransmittance = 0;
+                for (int j = 0; j < _MaxLightSteps; j++)
                 {
-                    transmittance += sampleDensity(p);
-                    p += direction * stepSize;
+                    lightTransmittance += sampleDensity(p);
+                    p += direction * _LightStepSize;
                 }
-                
-                return transmittance;
+
+                return lightTransmittance;
             }
 
             float2 raymarch(float3 position, float3 direction)
             {
+                float3 p = position;
+
                 float2 box = boxInfo(_BoundsMin, _BoundsMax, position, direction);
                 float stepSize = box.y / _MaxSteps;
+
                 if (stepSize <= 0)
                 return fixed4(0,0,0,0);
 
                 float density = 0;
                 float lightTransmittance = 0;
+
+                // Density samples.
                 for (int i = 0; i < _MaxSteps; i++)
                 {
-                    density += sampleDensity(position) * stepSize;
-                    position += direction * stepSize;
-
-                    float3 n = estimateNormal(position);
-                    float3 sunDir = normalize(_SunPosition - position);
-                    lightTransmittance += 1-max(0, dot(n, sunDir));//(position, normalize(_WorldSpaceLightPos0));
+                    density += sampleDensity(p) * stepSize;
+                    p += direction * stepSize;
                 }
                 
+                // light samples.
+                // p = position;
+                // float3 lightDir = normalize(_SunPosition - position);
+                // for (int j = 0; j < _MaxLightSamples; j++)
+                // {
+                //     p += direction * stepSize;
+                //     lightTransmittance += lightmarch(p);
+                // }
+
                 return float2(density, lightTransmittance);
             }
 
@@ -412,25 +432,27 @@
                 float3 viewDirection = normalize(i.worldPos - _WorldSpaceCameraPos.xyz);
 
                 float2 rm = raymarch(worldPosition, viewDirection);
-                float cloudDensity = rm.x;
-                float lightTransmittance = rm.y;
+                float cloudDensity = exp(-rm.x * 5);
+                float lightTransmittance = exp(-rm.y);
 
                 // get sun color.
                 float sunFacing = dot(viewDirection, fixed3(0,1,0));
                 float projectedSunDistance = length(WorldToScreenPos(_SunPosition) - WorldToScreenPos(worldPosition));
-                float sunTransmittance = 1 - pow(smoothstep(0, _SunLightScattering, projectedSunDistance), _SunLightStrength);
-                fixed4 sunColor = sunTransmittance * _LightColor0;
+                float sunTransmittance = 1 - pow(smoothstep(0.01, _SunLightScattering, projectedSunDistance), _SunLightStrength);
+                fixed3 sunColor = sunTransmittance * _LightColor0.xyz * cloudDensity;
+
+                float cloudShade = pow(cloudDensity, _CloudDensityFactor * 0.01);
 
                 // get cloud color.
-                float totalTransmittance = 1 - exp(-lightTransmittance);
-                fixed r = totalTransmittance;
+                fixed r = cloudShade + smoothstep(0, 0.7, cloudDensity);
                 fixed g = r;
                 fixed b = r;
-                fixed a = 1 - exp(-cloudDensity) - sunTransmittance;
-                fixed4 cloudColor = fixed4(saturate(r),saturate(g),saturate(b),saturate(a));
+                fixed a = pow((1 - cloudDensity), _CloudGapSize) + (1 - cloudShade);
 
+                fixed3 cloudColor = fixed3(saturate(r),saturate(g),saturate(b));
+                fixed3 c = _CloudColor * cloudColor + sunColor;
                 // combine.
-                fixed4 col = cloudColor + sunColor;
+                fixed4 col = fixed4(c.x, c.y, c.z, saturate(a * _CloudColor.a));
                 return col;
             }
             ENDCG
