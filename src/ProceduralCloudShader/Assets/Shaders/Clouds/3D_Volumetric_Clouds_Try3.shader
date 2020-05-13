@@ -443,14 +443,17 @@
 
                 float cloudShade = pow(cloudDensity, _CloudDensityFactor * 0.01);
 
+                float camDistance = length(worldPosition - _WorldSpaceCameraPos);
+
                 // get cloud color.
-                fixed r = cloudShade + smoothstep(0, 0.7, cloudDensity);
+                fixed r = cloudShade;
                 fixed g = r;
                 fixed b = r;
                 fixed a = pow((1 - cloudDensity), _CloudGapSize) + (1 - cloudShade);
 
                 fixed3 cloudColor = fixed3(saturate(r),saturate(g),saturate(b));
                 fixed3 c = _CloudColor * cloudColor + sunColor;
+
                 // combine.
                 fixed4 col = fixed4(c.x, c.y, c.z, saturate(a * _CloudColor.a));
                 return col;
