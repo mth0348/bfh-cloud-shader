@@ -34,7 +34,7 @@
         [Header(Lightmarching)]
         _MaxLightSamples ("Max Light Samples", Range(0,40)) = 10
         _MaxLightSteps ("Max Light Steps", Range(0,10)) = 5
-        _LightStepSize ("Light Step Size", Range(0,1)) = 0.1
+        _LightStepSize ("Light Step Size", Range(0,2)) = 0.1
         [Space]
         _SunLightScattering ("Sun Light Scattering", Range(0.1,0.5)) = 0.2
         _SunLightStrength ("Sun Light Strength", Range(0,5)) = 1
@@ -393,9 +393,8 @@
                 ));
             }
 
-            float lightmarch(float3 position) {
+            float lightmarch(float3 position, float3 direction) {
                 float3 p = position;
-                float3 direction = normalize(_SunPosition - position);
 
                 float lightTransmittance = 0;
                 for (int j = 0; j < _MaxLightSteps; j++)
@@ -410,9 +409,12 @@
             float2 raymarch(float3 position, float3 direction)
             {
                 float3 p = position;
+                //float3 sunDirection = normalize(_WorldSpaceLightPos0); // sun direction
+                float3 sunDirection = normalize(_SunPosition - position); // sun position
 
                 float2 box = boxInfo(_BoundsMin, _BoundsMax, position, direction);
                 float stepSize = box.y / _MaxSteps;
+                float lightStepSize = box.y / _MaxLightSamples;
 
                 if (stepSize <= 0)
                 return fixed4(0,0,0,0);
@@ -428,13 +430,12 @@
                 }
                 
                 // light samples.
-                // p = position;
-                // float3 lightDir = normalize(_SunPosition - position);
-                // for (int j = 0; j < _MaxLightSamples; j++)
-                // {
-                //     p += direction * stepSize;
-                //     lightTransmittance += lightmarch(p);
-                // }
+                p = position;
+                for (int j = 0; j < _MaxLightSamples; j++)
+                {
+                    p += direction * lightStepSize;
+                    lightTransmittance += lightmarch(p, sunDirection);
+                }
 
                 return float2(density, lightTransmittance);
             }
@@ -449,11 +450,11 @@
                 float lightTransmittance = exp(-rm.y);
 
                 // get sun color.
-                float sunFacing = dot(viewDirection, fixed3(0,1,0));
                 float projectedSunDistance = length(WorldToScreenPos(_SunPosition) - WorldToScreenPos(worldPosition));
                 float sunTransmittance = 1 - pow(smoothstep(0.01, _SunLightScattering, projectedSunDistance), _SunLightStrength);
                 fixed3 sunColor = sunTransmittance * _LightColor0.xyz * cloudDensity;
                 fixed3 lightScattering = _LightColor0.xyz * cloudDensity * _LightScatteringStrength;
+                fixed3 sunFacing = _LightColor0.xyz * cloudDensity * lightTransmittance;
 
                 float cloudShade = pow(cloudDensity, _CloudDensityFactor * 0.01);
 
@@ -466,7 +467,7 @@
                 fixed a = pow((1 - cloudDensity), _CloudGapSize) + (1 - cloudShade);
 
                 fixed3 cloudColor = fixed3(saturate(r),saturate(g),saturate(b));
-                fixed3 c = _CloudColor * cloudColor + sunColor + lightScattering;
+                fixed3 c = _CloudColor * cloudColor + sunColor + lightScattering + sunFacing;
 
                 // apply horizon  distance coloring.
                 c += (_HorzionAddFactor - 1) * _HorizonColor * smoothstep(_HorizonMinDistance, _HorizonMaxDistance, camDistance) * _HorizonColor.a;

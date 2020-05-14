@@ -62,12 +62,12 @@ Material:
     - _VoronoiPersistance: 0.5
     - _VoronoiScale: 0.5
     m_Colors:
-    - _BoundsMax: {r: 62.014, g: 24, b: 87.297455, a: 0}
-    - _BoundsMin: {r: -30.814001, g: 20, b: 12.502544, a: 0}
+    - _BoundsMax: {r: 55.800095, g: 24, b: 88.557755, a: 0}
+    - _BoundsMin: {r: -24.600092, g: 20, b: 11.242252, a: 0}
     - _CamPos: {r: 2, g: 2, b: -5, a: 0}
     - _CloudColor: {r: 0.59607846, g: 0.59607846, b: 0.59607846, a: 1}
     - _HorizonColor: {r: 0, g: 0.2006404, b: 0.5754717, a: 1}
     - _PerlinOffset: {r: 0.4, g: 0, b: 0, a: 0}
     - _PhaseParams: {r: 0, g: 0, b: 0, a: 0}
     - _SunPosition: {r: 34.36, g: 30.89, b: 37.97, a: 0}
-    - _VoronoiOffset: {r: 4, g: 0, b: 0, a: 0}
+    - _VoronoiOffset: {r: 4, g: 2, b: 0, a: 0}
