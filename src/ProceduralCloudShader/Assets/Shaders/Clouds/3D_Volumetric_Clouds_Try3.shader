@@ -120,7 +120,7 @@
             int  _MaxSteps;
             int  _MaxLightSamples;
             int  _MaxLightSteps;
-            int  _LightStepSize;
+            float  _LightStepSize;
             float _SunLightScattering;
             float _SunLightStrength;
 
