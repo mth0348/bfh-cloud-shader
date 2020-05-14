@@ -8,8 +8,8 @@ Originally, the following three prototypes were planned.
     \item procedural noise generation
     \item ray marching
 \end{itemize}
-While researching the topic and experimenting with some dummy shaders, it came clear that "\gls{volumetricrendering}" and "ray marching" are interchangeable in this matter.
-Therefore, only two kinds of prototyping have been developed.
+While researching the topic and experimenting with some dummy shaders, it came clear that "\gls{volumetricrendering}" and "\gls{raymarching}" are interchangeable in this matter.
+Therefore, only two kinds of prototyping have been developed. This change is explained in detail in \autoref{section:projectmanagement}
 
 \subsubsection{Dimensions}
 All of the following documented procedures and algorithms were prototyped and implemented in 3D, but for the matter of explanation, it is described and visualized in 2D.
@@ -52,7 +52,7 @@ To account for that, the ray does not stop until the end of the container cube i
 
         % cloud points
         \node[red] (p1) at (1.5, 1.125) {\textbullet};
-        \node[red] (p2) at (2.5, 1.875) {\textbullet};
+        \node (p2) at (2.5, 1.875) {\textopenbullet};
         \node[red] (p3) at (3.5, 2.625) {\textbullet};
         \node[red] (p4) at (4.5, 3.375) {\textbullet};
         \node[red] (p5) at (5.5, 4.125) {\textbullet};
@@ -65,7 +65,7 @@ To account for that, the ray does not stop until the end of the container cube i
 
 
         \end{tikzpicture}
-    \captionof{figure}{Prototype: Density sampler ray with $N = 5$.}
+    \captionof{figure}{Density sampler ray with $N = 5$.}
     \label{img:tikz:prototypes:densitysampling}
 \end{figure}
 
@@ -271,7 +271,11 @@ The idea of multiplying by \lstinline[language=HLSL]{cloudDensity} on line 9 was
 
 \clearpage
 \subsubsection{Directional light}
-
+Another challenging part during prototyping was directional light reflections on surfaces facing the sun. Usually in \gls{raymarching}, a \gls{surfacenormal} estimation is done using the gradient.
+This works well if there is only one point of interest (like a surface hit), but as already mentinoned before, the ray does not stop sampling points until it reaches the end of the container cube.
+\\
+So instead of calculating normals for each sample point, another ray is cast from the sample point towards the sun.
+Along its path, the density is sampled again $L$ times in constant steps. Without an official term, this process is called \textit{\gls{lightmarching}} in this project.
 
 \begin{figure}[H]
     \centering
@@ -324,10 +328,16 @@ The idea of multiplying by \lstinline[language=HLSL]{cloudDensity} on line 9 was
         \node[cyan] (l10) at (3.95, 4.775) {\textbullet};
 
         \end{tikzpicture}
-    \captionof{figure}{Sunlight transmittance sampling (1).}
+    \captionof{figure}{Directional sunlight transmittance sampling (1).}
     \label{img:tikz:prototypes:lightmarching1}
 \end{figure}
 
+\noindent
+It is clearly visible that in \autoref{img:tikz:prototypes:lightmarching1}, a lot of density samples return a high value, resulting in a dark fragment color for this ray.
+To simplify, there is a lot of cloud mass in front of that intersection point, so the point will not receive a lot of light.
+\\
+On the other hand, in \autoref{img:tikz:prototypes:lightmarching2}, only very few samples are even inside the cloud, resulting in a low value overall. This leads to a higher influence of the sun's color for that fragment, meaning it is more exposed to the sun.
+
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[scale=1]
@@ -344,7 +354,7 @@ The idea of multiplying by \lstinline[language=HLSL]{cloudDensity} on line 9 was
         \node at (1, 6.5) {light source};
 
         % clouds
-        \node (cloud) at (4.5, 3.5) {};
+        \node (cloud) at (5.7, 2.7) {};
         \node[cloud, cloud puffs=15.7, cloud ignores aspect, minimum width=5cm, minimum height=3.5cm, align=center, draw] (cloud) at (cloud) {};
 
         % outer point
@@ -366,19 +376,77 @@ The idea of multiplying by \lstinline[language=HLSL]{cloudDensity} on line 9 was
         \draw[cyan, lightedge3] (p3) -- (light) node[midway,above,yshift=0.5cm] {lightmarch rays};
 
         % light sample points
-        \node[cyan] (l1) at (3.25, 2.95) {\textbullet};
+        \node (l1) at (3.25, 2.95) {\textopenbullet};
         \node[cyan] (l2) at (4.15, 3.625) {\textbullet};
-        \node[cyan] (l3) at (5.0, 4.325) {\textbullet};
+        \node (l3) at (5.0, 4.325) {\textopenbullet};
         
-        \node[cyan] (l5) at (3.0, 3.3) {\textbullet};
-        \node[cyan] (l6) at (3.75, 3.95) {\textbullet};
-        \node[cyan] (l7) at (4.5, 4.55) {\textbullet};
+        \node (l5) at (3.0, 3.3) {\textopenbullet};
+        \node (l6) at (3.75, 3.95) {\textopenbullet};
+        \node (l7) at (4.5, 4.55) {\textopenbullet};
         
-        \node[cyan] (l8) at (2.75, 3.65) {\textbullet};
-        \node[cyan] (l9) at (3.35, 4.22) {\textbullet};
-        \node[cyan] (l10) at (3.95, 4.775) {\textbullet};
+        \node (l8) at (2.75, 3.65) {\textopenbullet};
+        \node (l9) at (3.35, 4.22) {\textopenbullet};
+        \node (l10) at (3.95, 4.775) {\textopenbullet};
 
         \end{tikzpicture}
-    \captionof{figure}{Sunlight transmittance sampling  (2).}
+    \captionof{figure}{Directional sunlight transmittance sampling (2).}
     \label{img:tikz:prototypes:lightmarching2}
+\end{figure}
+
+\clearpage
+\noindent
+The implementation for \gls{lightmarching} is rather straight-forward, given the concept of \gls{raymarching} is already known.
+
+\begin{lstlisting}[language=HLSL, caption=Implementation of a lightmarching., label=lst:shader:prototype:lightmarching]
+float lightmarch(float3 position, float3 direction) {
+    float3 p = position;
+
+    float lightTransmittance = 0;
+    for (int j = 0; j < _MaxLightSteps; j++)
+    {
+        p += direction * _LightStepSize;
+        lightTransmittance += sampleDensity(p);
+    }
+
+    return lightTransmittance;
+}
+\end{lstlisting}
+
+\noindent
+The method is called during \gls{raymarching} and the original function is modified like so:
+\begin{lstlisting}[language=HLSL]
+float2 raymarch(float3 position, float3 direction)
+{
+    float3 sunDirection = normalize(_SunPosition - position);
+    float lightStepSize = insideBoxDist / _MaxLightSamples;
+    float lightTransmittance = 0;
+
+    [...ray marching...]
+    
+    for (int j = 0; j < _MaxLightSamples; j++)
+    {
+        position += direction * lightStepSize;
+        lightTransmittance += lightmarch(position, sunDirection);
+    }
+
+    return float2(density, lightTransmittance);
+}
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{unity captures/prototype5.PNG}
+    \captionof{figure}{Prototype: Rendered image of directional sunlight implemented with \gls{lightmarching}.}
+    \label{img:captures:prototype3}
+\end{figure}
+
+\clearpage
+\subsection{Final Prototype}
+All put together and after quite some effort and experimenting, the rendered scene looks quite convincing.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{unity captures/final shot prototype 2.PNG}
+    \captionof{figure}{Prototype: Rendered image of the final prototype.}
+    \label{img:captures:prototype_final}
 \end{figure}
