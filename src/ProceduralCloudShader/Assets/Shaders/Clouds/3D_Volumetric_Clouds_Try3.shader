@@ -29,13 +29,13 @@
         _VoronoiDensityMultiplier ("Density Multiplier", Range(0,5)) = 1
 
         [Header(Raymarching)]
-        _MaxSteps ("Max Steps", Range(0,200)) = 100
+        _MaxSteps ("Max Steps", Range(0,40)) = 25
 
         [Header(Lightmarching)]
-        _MaxLightSamples ("Max Light Samples", Range(0,40)) = 10
+        _MaxLightSamples ("Max Light Samples", Range(0,40)) = 25
         _MaxLightSteps ("Max Light Steps", Range(0,10)) = 5
         _LightStepSize ("Light Step Size", Range(0,2)) = 0.1
-        _SubSurfaceScatteringFade ("Sub-Surface Scattering Fade", Range(0,2)) = 1
+        _SubSurfaceScatteringFade ("Sub-Surface Scattering Fade", Range(0,4)) = 1
         [Space]
         _SunLightScattering ("Sun Light Scattering", Range(0.1,0.5)) = 0.2
         _SunLightStrength ("Sun Light Strength", Range(0,5)) = 1
@@ -312,21 +312,21 @@
             float voronoi(float3 p) {
                 float3 i = floor(p);
 
-                float dmin = 100;
+                float dMin = 100;
                 for(int x=-1; x<=1; x++){
                     for(int y=-1; y<=1; y++){
                         for(int z=-1; z<=1; z++){
                             float3 cell = i + float3(x, y, z);
                             float3 seed = cell + random3d3d(cell);
                             float d = length(seed - p);
-                            if (d < dmin) {
-                                dmin = d;
+                            if (d < dMin) {
+                                dMin = d;
                             }
                         }
                     }
                 }
                 
-                return dmin;
+                return dMin;
             }
 
             v2f vert (appdata v)
@@ -401,8 +401,8 @@
                 float lightTransmittance = 0;
                 for (int j = 0; j < _MaxLightSteps; j++)
                 {
-                    lightTransmittance += sampleDensity(p);
                     p += direction * _LightStepSize;
+                    lightTransmittance += sampleDensity(p);
                 }
 
                 return lightTransmittance;
@@ -429,6 +429,11 @@
                 {
                     density += sampleDensity(p) * stepSize;
                     p += direction * stepSize;
+                }
+
+                // early exit.
+                if (density <= 0) {
+                    return float2(density, 0);
                 }
                 
                 // light samples.
