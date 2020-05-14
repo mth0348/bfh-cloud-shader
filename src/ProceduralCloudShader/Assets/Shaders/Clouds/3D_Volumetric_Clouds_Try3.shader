@@ -477,7 +477,8 @@
                 fixed3 c = _CloudColor * cloudColor + sunColor + lightScattering + sunFacing;
 
                 // apply horizon  distance coloring.
-                c += (_HorzionAddFactor - 1) * _HorizonColor * smoothstep(_HorizonMinDistance, _HorizonMaxDistance, camDistance) * _HorizonColor.a;
+                float horizonFading = smoothstep(_HorizonMinDistance, _HorizonMaxDistance, camDistance);
+                c += (_HorzionAddFactor - 1) * _HorizonColor * horizonFading * _HorizonColor.a;
 
                 // combine.
                 fixed4 col = fixed4(c.x, c.y, c.z, saturate(a * _CloudColor.a));
