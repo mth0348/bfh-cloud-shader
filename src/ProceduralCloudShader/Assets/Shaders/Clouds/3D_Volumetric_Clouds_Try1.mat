@@ -41,10 +41,10 @@ Material:
     - _VoronoiDensityMultiplier: 2
     - _VoronoiDensityThreshold: 0.5
     - _VoronoiFrequency: 1
-    - _VoronoiMax: 1
+    - _VoronoiMax: 0.782
     - _VoronoiMin: 0
     - _VoronoiOctaves: 2
-    - _VoronoiPersistance: 0.5
+    - _VoronoiPersistance: 0.1
     - _VoronoiScale: 0.41
     m_Colors:
     - _BoundsMax: {r: 4, g: 4, b: 4, a: 0}

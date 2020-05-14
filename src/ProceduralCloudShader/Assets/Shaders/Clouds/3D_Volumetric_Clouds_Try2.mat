@@ -39,7 +39,7 @@ Material:
     - _SunLightScattering: 0.15
     - _SunLightStrength: 0.4
     - _SunLightTransmittance: 0.15
-    - _T: 0
+    - _T: 0.198
     - _VoronoiAmplitude: 1
     - _VoronoiBoost: 0
     - _VoronoiDensityMultiplier: 1.5
@@ -56,5 +56,5 @@ Material:
     - _CamPos: {r: 2, g: 2, b: -5, a: 0}
     - _PerlinOffset: {r: 1, g: 0, b: 0, a: 0}
     - _PhaseParams: {r: 0.93, g: 3, b: 2, a: 0}
-    - _SunPosition: {r: 5, g: 5, b: 5, a: 0}
+    - _SunPosition: {r: 7.56, g: 5, b: 5, a: 0}
     - _VoronoiOffset: {r: 0.3, g: 0, b: 0, a: 0}
