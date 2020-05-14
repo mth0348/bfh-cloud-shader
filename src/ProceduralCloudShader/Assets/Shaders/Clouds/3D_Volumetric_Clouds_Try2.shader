@@ -125,7 +125,7 @@
                 return fract(sin(v) * 43758.5453123);
             }
 
-            fixed2 WorldToScreenPos(fixed3 pos){
+            fixed2 worldToScreenPos(fixed3 pos){
                 pos = normalize(pos - _WorldSpaceCameraPos)*(_ProjectionParams.y + (_ProjectionParams.z - _ProjectionParams.y))+_WorldSpaceCameraPos;
                 fixed2 uv = 0;
                 fixed3 toCam = mul(unity_WorldToCamera, pos);
@@ -414,16 +414,17 @@
                 float lightTransmittance = rm.y;
 
                 float sunFacing = dot(viewDirection, fixed3(0,1,0));
-                float projectedSunDistance = length(WorldToScreenPos(_SunPosition) - WorldToScreenPos(worldPosition));
-                float sunTransmittance = 1 - pow(smoothstep(0, _SunLightScattering, projectedSunDistance), _SunLightStrength);
+                float projectedSunDistance = length(worldToScreenPos(_SunPosition) - worldToScreenPos(worldPosition));
+                float sunTransmittance = 1 - pow(smoothstep(0.01, _SunLightScattering, projectedSunDistance), _SunLightStrength);
+                fixed3 sunColor = sunTransmittance * _LightColor0.xyz * cloudDensity;
 
                 fixed r = exp(-lightTransmittance * 0.1 / _MaxSteps);
                 fixed g = r;
                 fixed b = r;
                 fixed a = 1 - exp(-cloudDensity);
-                fixed4 col = fixed4(r,g,b,a) + sunTransmittance * _LightColor0;
+                fixed3 col = fixed3(r,g,b) + sunColor;
 
-                return col;
+                return fixed4(col.x, col.y, col.z, a);
             }
             ENDCG
         }

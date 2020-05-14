@@ -36,7 +36,7 @@ Material:
     - _PerlinPersistance: 0.5
     - _PerlinScale: 0.75
     - _StepSize: 0.001
-    - _SunLightScattering: 0.15
+    - _SunLightScattering: 0.304
     - _SunLightStrength: 0.4
     - _SunLightTransmittance: 0.15
     - _T: 0.198

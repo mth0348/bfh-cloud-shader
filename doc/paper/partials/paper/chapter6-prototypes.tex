@@ -180,7 +180,7 @@ By adjusting some of the \gls{parameters} and increasing the octaves of both noi
 \clearpage
 \subsection{Light Transmittance and Light Scattering}
 One of the more prominent lighting features of clouds is its translucency. It describes how light bounces and scatters inside the matter, then exits at a different point. This is called \textit{\gls{sss}} (SSS).
-It results in illuminated areas where the cloud is thin. In nature, \gls{sss} is a very complex and computationally demanding process. For computer graphics however, it is often either simplified or substituted with some other algorithm that produces a similar outcome at lower performance cost.
+It results in illuminated areas where the clouds are thinner. In nature, \gls{sss} is a very complex and computationally demanding process. For computer graphics however, it is often either simplified or substituted with some other algorithm that produces a similar outcome at lower performance cost.
 
 \subsubsection{Sunlight Forwarding}
 When approaching the implementation of \gls{sss} and directional lighting, it seemed most reasonable to start with the sun being visible behind the clouds, or at least shining through them.
@@ -202,7 +202,7 @@ After some consideration and brainstorming, the following method was chosen to s
         \node at (8, 6.5) {light source};
 
         % clouds
-        \node (cloud) at (4.5, 5.2) {};
+        \node (cloud) at (4.0, 5.2) {};
         \node[cloud, cloud puffs=15.7, cloud, minimum width=3.5cm, minimum height=2.2cm, align=center, draw] (cloud) at (cloud) {};
 
         % screen space
@@ -210,11 +210,14 @@ After some consideration and brainstorming, the following method was chosen to s
 
         % rays
         \node[red] (p1) at (3, 2.25) {\ding{53}};
+        \node[red] (st1) at ($(p1) + (0.5, -0.2)$) {$st_2$};
+
+        \node[cyan,mark=x] (c1) at (2.4, 2.4) {\ding{53}};
+        \node[cyan] (st2) at ($(c1) + (-0.5, 0.2)$) {$st_1$};
+
         \node (p2) at (5, 3.75) {};
-        
-        \node[cyan,,mark=x] (c1) at (2.31, 2.4) {\ding{53}};
-        \node (c2) at (3.7, 4) {};
-        \node[cyan] (c3) at (4.7, 5.35) {\textbullet};
+        \node (c2) at (4, 4) {};
+        \node[cyan] (c3) at (5.1, 5.1) {\textbullet};
 
         \draw[red, line] (cam) -- (p1);
         \draw[red, line, loosely dashed] (p1) -- (p2);
@@ -233,11 +236,41 @@ After some consideration and brainstorming, the following method was chosen to s
 \end{figure}
 
 \noindent
-asdasdasdasd
-asdasdasdasddas
-draftsdas
-distancedsa
+When ray casting, both the fragment's and the light source's screen-space position is calculated. Those are two-dimensional coordinates relative to the screen that the camera renders to.
+Now if the distance $d = \norm{\overrightarrow{st_1 st_2}} < t$, with $t$ being some threshold, a portion of the sun's color is added to the fragment's color, relative to how small $d$ is.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{unity captures/prototype4.PNG}
+    \captionof{figure}{Prototype: Rendered image of sunlight forwarding.}
+    \label{img:captures:prototype3}
+\end{figure}
+
+\noindent
+Behind the cube in \autoref{img:captures:prototype3} is a sphere object placed, representing the sun. The sunlight is indeed shining through the clouds, but there are still some minor flaws with the implementation.
+For example, some clouds are completely illuminated, making them too bright where the cloud would be too dense for the light to pass through.
+\emptyline
+The following code snippet shows the implementation of the sunlight forwarding mechanism. The \lstinline[language=HLSL]{density} variable is the one evaluated in \autoref{lst:shader:prototype:sampledensity}.
+
+\begin{lstlisting}[language=HLSL, caption=Implementation of a sunlight forwarding mechanism., label=lst:shader:prototype:sampledensity]
+float cloudDensity = exp(-density);
+
+float projectedSunDistance = length(
+  worldToScreenPos(_SunPosition) - worldToScreenPos(worldPosition));
+
+float sunTransmittance = 1 - pow(
+  smoothstep(0.01, _SunLightScattering,projectedSunDist), _SunLightStrength);
+
+fixed3 sunColor = sunTransmittance * _LightColor0.xyz * cloudDensity;
+\end{lstlisting}
+
+\noindent
+Like in other prototype code listings, there are some \gls{parameters} to play with. The sunlight strength or the sunlight range (in screen space) can both be adjusted, for example.
+\\
+The idea of multiplying by \lstinline[language=HLSL]{cloudDensity} on line 9 was to fix the previously described flaw of clouds being too bright. 
+
+\clearpage
+\subsubsection{Suburface scattering}
 
 \begin{figure}[H]
     \centering
