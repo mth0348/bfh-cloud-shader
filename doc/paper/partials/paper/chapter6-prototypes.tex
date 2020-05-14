@@ -203,10 +203,10 @@ After some consideration and brainstorming, the following method was chosen to s
 
         % clouds
         \node (cloud) at (4.0, 5.2) {};
-        \node[cloud, cloud puffs=15.7, cloud, minimum width=3.5cm, minimum height=2.2cm, align=center, draw] (cloud) at (cloud) {};
+        \node[cloud, rotate=-15, cloud puffs=15.7, cloud, minimum width=3.5cm, minimum height=2.2cm, align=center, draw] (cloud) at (cloud) {};
 
         % screen space
-        \draw (1,1) -- (5,1) -- (5,4);
+        \draw (1,1) -- (5,0) -- (5,3);
 
         % rays
         \node[red] (p1) at (3, 2.25) {\ding{53}};
@@ -228,7 +228,7 @@ After some consideration and brainstorming, the following method was chosen to s
         \draw[cyan, edge, loosely dashed] (c2) -- (c3);
 
         % rest of screen space
-        \draw (5,4) -- (1,4) node[anchor=south west] {screen space} -- (1,1);
+        \draw (5,3) -- (1,4) node[midway,above,sloped,xshift=-1cm] {screen space} -- (1,1);
 
         \end{tikzpicture}
     \captionof{figure}{Sunlight transmittance sampling (1).}
