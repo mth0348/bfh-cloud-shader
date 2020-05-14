@@ -184,7 +184,7 @@ It results in illuminated areas where the clouds are thinner. In nature, \gls{ss
 
 \subsubsection{Sunlight Forwarding}
 When approaching the implementation of \gls{sss} and directional lighting, it seemed most reasonable to start with the sun being visible behind the clouds, or at least shining through them.
-This implies finding a way to illuminate clouds that cover the sun.
+This implies finding a way to illuminate clouds that cover the sun. In the context of this project, it is called \textit{\gls{sunlighttransmittance}} or \textit{\gls{sunlightforwarding}}, since it is not a variant of SSS but rather an approximation.
 \\
 After some consideration and brainstorming, the following method was chosen to solve the issue:
 
@@ -242,7 +242,7 @@ Now if the distance $d = \norm{\overrightarrow{st_1 st_2}} < t$, with $t$ being 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{unity captures/prototype4.PNG}
-    \captionof{figure}{Prototype: Rendered image of sunlight forwarding.}
+    \captionof{figure}{Prototype: Rendered image of sunlight transmittance.}
     \label{img:captures:prototype3}
 \end{figure}
 
@@ -250,9 +250,9 @@ Now if the distance $d = \norm{\overrightarrow{st_1 st_2}} < t$, with $t$ being 
 Behind the cube in \autoref{img:captures:prototype3} is a sphere object placed, representing the sun. The sunlight is indeed shining through the clouds, but there are still some minor flaws with the implementation.
 For example, some clouds are completely illuminated, making them too bright where the cloud would be too dense for the light to pass through.
 \emptyline
-The following code snippet shows the implementation of the sunlight forwarding mechanism. The \lstinline[language=HLSL]{density} variable is the one evaluated in \autoref{lst:shader:prototype:sampledensity}.
+The following code snippet shows the implementation of the sunlight transmittance mechanism. The \lstinline[language=HLSL]{density} variable is the one evaluated in \autoref{lst:shader:prototype:sampledensity}.
 
-\begin{lstlisting}[language=HLSL, caption=Implementation of a sunlight forwarding mechanism., label=lst:shader:prototype:sampledensity]
+\begin{lstlisting}[language=HLSL, caption=Implementation of a sunlight transmittance mechanism., label=lst:shader:prototype:sampledensity]
 float cloudDensity = exp(-density);
 
 float projectedSunDistance = length(
@@ -270,20 +270,21 @@ Like in other prototype code listings, there are some \gls{parameters} to play w
 The idea of multiplying by \lstinline[language=HLSL]{cloudDensity} on line 9 was to fix the previously described flaw of clouds being too bright. 
 
 \clearpage
-\subsubsection{Suburface scattering}
+\subsubsection{Directional light}
+
 
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[scale=1.2]
+    \begin{tikzpicture}[scale=1]
         \tikzset{edge/.style = {-{Latex[length=3mm]},shorten >= -4pt}}
         \tikzset{shortedge/.style = {-{Latex[length=3mm]},shorten <=-4pt,shorten >= -4pt}}
-        \tikzset{lightedge1/.style = {-{Latex[length=3mm]},shorten <=-4pt,shorten >= 1cm}}
-        \tikzset{lightedge2/.style = {-{Latex[length=3mm]},shorten <=-4pt,shorten >= 1cm}}
-        \tikzset{lightedge3/.style = {-{Latex[length=3mm]},shorten <=-4pt,shorten >= 1cm}}
+        \tikzset{lightedge1/.style = {-{Latex[length=3mm]},shorten <=-4pt,shorten >= 0.8cm}}
+        \tikzset{lightedge2/.style = {-{Latex[length=3mm]},shorten <=-4pt,shorten >= 0.85cm}}
+        \tikzset{lightedge3/.style = {-{Latex[length=3mm]},shorten <=-4pt,shorten >= 0.90cm}}
         \tikzset{icon/.style = {font=\Large}}
 
         % icons
-        \node[icon,rotate=35,anchor=west] (cam) at (0, 0) {\faVideoCamera};
+        \node[icon,rotate=35,anchor=west] (cam) at (1, 0.75) {\faVideoCamera};
         \node[icon] (light) at (1, 6) {\faLightbulbO};
         \node at (1, 6.5) {light source};
 
@@ -305,9 +306,9 @@ The idea of multiplying by \lstinline[language=HLSL]{cloudDensity} on line 9 was
         \node[red] (p5) at (5.5, 4.125) {\textbullet};
 
         % light march rays
-        \draw[cyan, lightedge1] (p1) -- (light) node[midway,above,sloped] {};
-        \draw[cyan, lightedge2] (p2) -- (light) node[midway,above,sloped] {};
-        \draw[cyan, lightedge3] (p3) -- (light) node[midway,above,sloped] {$R_{light}$};
+        \draw[cyan, lightedge1] (p1) -- (light) node[midway,above] {};
+        \draw[cyan, lightedge2] (p2) -- (light) node[midway,above] {};
+        \draw[cyan, lightedge3] (p3) -- (light) node[midway,above,yshift=0.5cm] {lightmarch rays};
 
         % light sample points
         \node[cyan] (l1) at (3.25, 2.95) {\textbullet};
@@ -329,16 +330,16 @@ The idea of multiplying by \lstinline[language=HLSL]{cloudDensity} on line 9 was
 
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[scale=1.2]
+    \begin{tikzpicture}[scale=1]
         \tikzset{edge/.style = {-{Latex[length=3mm]},shorten >= -4pt}}
         \tikzset{shortedge/.style = {-{Latex[length=3mm]},shorten <=-4pt,shorten >= -4pt}}
-        \tikzset{lightedge1/.style = {-{Latex[length=3mm]},shorten <=-4pt,shorten >= 1cm}}
-        \tikzset{lightedge2/.style = {-{Latex[length=3mm]},shorten <=-4pt,shorten >= 1cm}}
-        \tikzset{lightedge3/.style = {-{Latex[length=3mm]},shorten <=-4pt,shorten >= 1cm}}
+        \tikzset{lightedge1/.style = {-{Latex[length=3mm]},shorten <=-4pt,shorten >= 0.8cm}}
+        \tikzset{lightedge2/.style = {-{Latex[length=3mm]},shorten <=-4pt,shorten >= 0.85cm}}
+        \tikzset{lightedge3/.style = {-{Latex[length=3mm]},shorten <=-4pt,shorten >= 0.90cm}}
         \tikzset{icon/.style = {font=\Large}}
 
         % icons
-        \node[icon,rotate=35,anchor=west] (cam) at (0, 0) {\faVideoCamera};
+        \node[icon,rotate=35,anchor=west] (cam) at (1, 0.75) {\faVideoCamera};
         \node[icon] (light) at (1, 6) {\faLightbulbO};
         \node at (1, 6.5) {light source};
 
@@ -360,9 +361,9 @@ The idea of multiplying by \lstinline[language=HLSL]{cloudDensity} on line 9 was
         \node[red] (p5) at (5.5, 4.125) {\textbullet};
 
         % light march rays
-        \draw[cyan, lightedge1] (p1) -- (light) node[midway,above,sloped] {};
-        \draw[cyan, lightedge2] (p2) -- (light) node[midway,above,sloped] {};
-        \draw[cyan, lightedge3] (p3) -- (light) node[midway,above,sloped] {$R_{light}$};
+        \draw[cyan, lightedge1] (p1) -- (light) node[midway,above] {};
+        \draw[cyan, lightedge2] (p2) -- (light) node[midway,above] {};
+        \draw[cyan, lightedge3] (p3) -- (light) node[midway,above,yshift=0.5cm] {lightmarch rays};
 
         % light sample points
         \node[cyan] (l1) at (3.25, 2.95) {\textbullet};
