@@ -35,6 +35,7 @@
         _MaxLightSamples ("Max Light Samples", Range(0,40)) = 10
         _MaxLightSteps ("Max Light Steps", Range(0,10)) = 5
         _LightStepSize ("Light Step Size", Range(0,2)) = 0.1
+        _SubSurfaceScatteringFade ("Sub-Surface Scattering Fade", Range(0,2)) = 1
         [Space]
         _SunLightScattering ("Sun Light Scattering", Range(0.1,0.5)) = 0.2
         _SunLightStrength ("Sun Light Strength", Range(0,5)) = 1
@@ -129,6 +130,7 @@
             float3  _SunPosition;
             fixed4 _CloudColor;
             float _LightScatteringStrength;
+            float _SubSurfaceScatteringFade;
 
             fixed4 _HorizonColor;
             int _HorzionAddFactor;
@@ -454,7 +456,7 @@
                 float sunTransmittance = 1 - pow(smoothstep(0.01, _SunLightScattering, projectedSunDistance), _SunLightStrength);
                 fixed3 sunColor = sunTransmittance * _LightColor0.xyz * cloudDensity;
                 fixed3 lightScattering = _LightColor0.xyz * cloudDensity * _LightScatteringStrength;
-                fixed3 sunFacing = _LightColor0.xyz * cloudDensity * lightTransmittance;
+                fixed3 sunFacing = _LightColor0.xyz * cloudDensity * pow(lightTransmittance, _SubSurfaceScatteringFade);
 
                 float cloudShade = pow(cloudDensity, _CloudDensityFactor * 0.01);
 
