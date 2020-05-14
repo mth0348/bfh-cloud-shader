@@ -2,7 +2,7 @@
 
 **Results of some prototyping so far**
 
-Link to Gif: 
+Link to Gif: https://imgur.com/a/qoWiKfk
 
 Prototype Progress:
-![results of prototyping so far](https://i.imgur.com/4UNcrUQ.mp4 "Results of prototyping so far")
+![results of prototyping so far](https://gitlab.ti.bfh.ch/cpvr-students/cloud-shader/-/raw/master/doc/img/unity%20captures/final%20shot%20prototype%202.PNG "Results of prototyping so far")
