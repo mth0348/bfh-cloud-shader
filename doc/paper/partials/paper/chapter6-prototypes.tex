@@ -397,7 +397,7 @@ On the other hand, in \autoref{img:tikz:prototypes:lightmarching2}, only very fe
 \noindent
 The implementation for \gls{lightmarching} is rather straight-forward, given the concept of \gls{raymarching} is already known.
 
-\begin{lstlisting}[language=HLSL, caption=Implementation of a lightmarching., label=lst:shader:prototype:lightmarching]
+\begin{lstlisting}[language=HLSL, caption=Implementation of lightmarching., label=lst:shader:prototype:lightmarching]
 float lightmarch(float3 position, float3 direction) {
     float3 p = position;
 
@@ -414,7 +414,7 @@ float lightmarch(float3 position, float3 direction) {
 
 \noindent
 The method is called during \gls{raymarching} and the original function is modified like so:
-\begin{lstlisting}[language=HLSL]
+\begin{lstlisting}[language=HLSL,caption=Implementation of raymarching with lightmarching., label=lst:shader:prototype:raylightmarching]
 float2 raymarch(float3 position, float3 direction)
 {
     float3 sunDirection = normalize(_SunPosition - position);
@@ -432,6 +432,9 @@ float2 raymarch(float3 position, float3 direction)
     return float2(density, lightTransmittance);
 }
 \end{lstlisting}
+
+\noindent
+Now, two values are returned instead of just one. Both are later normalized with either $exp(x)$ or $exp'(x)$.
 
 \begin{figure}[H]
     \centering

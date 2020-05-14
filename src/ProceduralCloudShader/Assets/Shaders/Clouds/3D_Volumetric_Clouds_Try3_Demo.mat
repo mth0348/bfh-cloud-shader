@@ -39,12 +39,12 @@ Material:
     - _PerlinBoost: 0
     - _PerlinDensityMultiplier: 1
     - _PerlinDensityThreshold: 0
-    - _PerlinFrequency: 1
+    - _PerlinFrequency: 0.12
     - _PerlinMax: 1
     - _PerlinMin: 0
     - _PerlinOctaves: 5
     - _PerlinPersistance: 0.7
-    - _PerlinScale: 0.12
+    - _PerlinScale: 1
     - _StepSize: 0.001
     - _SubSurfaceScatteringFade: 4
     - _SunIllumninenceStrength: 0.647
