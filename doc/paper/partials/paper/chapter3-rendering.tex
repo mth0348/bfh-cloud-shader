@@ -28,7 +28,7 @@ To actually render the volume data, a method called \textit{\gls{raymarching}} i
         \draw[thick,red] (-1.5,1) node[below right]{camera ray} -- (2.5,3);
 
     \end{tikzpicture}
-    \caption{Ray marching concept visualized.}
+    \captionof{figure}{Ray marching concept visualized.}
 \end{figure}
 
 \pagebreak
@@ -71,7 +71,7 @@ Once the ray is inside the actual volume, the functions returns the distance for
         \draw[cyan, shorten <=-0.2cm] (7) -- (9,3.7) -- (11,3.7) node[xshift=-1cm,above]{function returns};
         
         \end{tikzpicture}
-    \caption{Traditional ray marching.}
+    \captionof{figure}{Traditional ray marching.}
 \end{figure}
 
 \noindent
@@ -145,7 +145,7 @@ Once the step size falls below a certain threshold, the distance approximation i
         \draw[cyan, shorten <=-0.2cm] (6) -- (9,3.7) -- (11,3.7) node[xshift=-1cm,above]{step size small enough};
         
         \end{tikzpicture}
-    \caption{Traditional ray marching.}
+    \captionof{figure}{Traditional ray marching.}
 \end{figure}
 
 \noindent
@@ -249,7 +249,7 @@ If the distance to the scene can be calculated with a \gls{sdf}, the algorithm b
         \draw[cyan, shorten <=-0.2cm] (11) -- (9,3.7) -- (11,3.7) node[xshift=-1cm,above]{scene distance small enough};
         
         \end{tikzpicture}
-    \caption{Ray marching with SDF-based sphere tracing.}
+    \captionof{figure}{Ray marching with SDF-based sphere tracing.}
     \label{img:tikz:rendering:spheretracing}
 \end{figure}
 
@@ -314,7 +314,7 @@ Another example why this check is important can be seen in the next figure. The 
         \draw[cyan, shorten <=-0.2cm] (8) -- (9,3.7) -- (11,3.7) node[xshift=-1cm,above]{scene too far away};
 
         \end{tikzpicture}
-    \caption{Ray marching with SDF-based sphere tracing, without collision.}
+    \captionof{figure}{Ray marching with SDF-based sphere tracing, without collision.}
 \end{figure}
 
 \clearpage
@@ -383,7 +383,7 @@ In \autoref{img:tikz:rendering:gradient}, the red arrows indicate the gradient f
         \draw[smalledge, red] (L1) edge node{} (L2);
 
         \end{tikzpicture}
-    \caption{Gradient in a 2D scalar field.}
+    \captionof{figure}{Gradient in a 2D scalar field.}
     \label{img:tikz:rendering:gradient}
 \end{figure}
 
@@ -487,7 +487,7 @@ Therefore, when a surface point has been determined, a second ray march can be s
         \draw[loosely dashed, cyan] (r2light) -- ($ (r2light) + (-0.16,1.5) $);
 
         \end{tikzpicture}
-    \caption{Shadow casting in ray marching.}
+    \captionof{figure}{Shadow casting in ray marching.}
     \label{img:tikz:rendering:shadowcasting}
 \end{figure}
 

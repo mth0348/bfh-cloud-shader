@@ -27,7 +27,7 @@ For this, the function $rnd(x) = fract(sin(x))$ is inspected, where $fract(x) = 
         \addplot[red] plot (\x, { sin(\x*1 r) - floor(sin(\x*1 r)) });
         \end{axis}
     \end{tikzpicture}
-    \caption{Random numbers with the fractional value of sine of x.}
+    \captionof{figure}{Random numbers with the fractional value of sine of x.}
 \end{figure}
 
 \noindent
@@ -54,7 +54,7 @@ The next figure displays the function $rnd(x) = fract(sin(x) * 10000)$.
         \addplot[red] plot (\x, { sin(\x*10000) - floor(sin(\x*10000)) });
         \end{axis}
     \end{tikzpicture}
-    \caption{Random numbers with the fractional value of sine of x multiplied by 10000.}
+    \captionof{figure}{Random numbers with the fractional value of sine of x multiplied by 10000.}
 \end{figure}
 
 \noindent
@@ -172,7 +172,7 @@ First, the 2D image space is split into a grid. For each vertex or corner point 
                 \draw[smalledge, red] (x4y4) edge node{} ($ (x4y4) + (-0.3,0.5) $);
         
                 \end{tikzpicture}
-                \caption{Perlin grid with pseudo-random gradient vectors.}
+                \captionof{figure}{Perlin grid with pseudo-random gradient vectors.}
                 \label{img:tikz:noise:perlin:gradient}
         \end{minipage}
     \hfill
@@ -257,7 +257,7 @@ First, the 2D image space is split into a grid. For each vertex or corner point 
             \draw[smalledge, red] (x4y4) edge node{} ($ (x4y4) + (-0.3, 0.5) $);
     
             \end{tikzpicture}
-            \caption{Perlin grid with visualized gradient vectors.}
+            \captionof{figure}{Perlin grid with visualized gradient vectors.}
             \label{img:tikz:noise:perlin:gradient_visualized}
     \end{minipage}
 \end{figure}
@@ -294,7 +294,7 @@ Note that in $\mathbb{R}^2$, the amount of corners is four, while in $\mathbb{R}
             \draw[smalledge, red] (x2y2) edge node{} ($ (x2y2) + (0.15,0.45) $);
     
         \end{tikzpicture}
-        \caption{Perlin grid cell with gradient vectors.}
+        \captionof{figure}{Perlin grid cell with gradient vectors.}
         \label{img:tikz:noise:perlin:singlecell}
     \end{minipage}
     \hfill
@@ -328,7 +328,7 @@ Note that in $\mathbb{R}^2$, the amount of corners is four, while in $\mathbb{R}
             \draw[smalledge, cyan, shorten >=-4pt] (x2y2) edge node[left] {$\overrightarrow{d_4}$} (pixel);
     
         \end{tikzpicture}
-        \caption{Perlin grid cell with distance vectors from each vertex to the pixel.}
+        \captionof{figure}{Perlin grid cell with distance vectors from each vertex to the pixel.}
         \label{img:tikz:noise:perlin:distancevectors}
     \end{minipage}
 \end{figure}
@@ -375,7 +375,7 @@ When visualizing those values as vectors with their length being the influence, 
         \draw[smalledge, red] (x2y2) edge node[left]{$v$} ($(x2y2) + (0,-0.225)$);
 
     \end{tikzpicture}
-    \caption{Perlin grid cell with visualized influences of gradient vectors.}
+    \captionof{figure}{Perlin grid cell with visualized influences of gradient vectors.}
     \label{img:tikz:noise:perlin:influences}
 \end{figure}
 
@@ -443,7 +443,7 @@ Finally, both $w_1$ and $w_2$ are linearly interpolated in relation th $d_y$, wh
             \draw[c, cyan] (pixel) node[xshift=-.1cm,left]{$w_{final}$};
 
         \end{tikzpicture}
-        \caption{Perlin vertex weights in 2D space with four corners and three interpolations.}
+        \captionof{figure}{Perlin vertex weights in 2D space with four corners and three interpolations.}
         \label{img:tikz:noise:perlin:interpolation2d}  
     \end{minipage}
     \hfill
@@ -502,7 +502,7 @@ Finally, both $w_1$ and $w_2$ are linearly interpolated in relation th $d_y$, wh
             \draw[c, cyan] (wfinal) node[xshift=-.1cm,left]{$w_{final}$};
 
         \end{tikzpicture}
-        \caption{Perlin vertex weights in 3D space with eight corners and seven interpolations.}
+        \captionof{figure}{Perlin vertex weights in 3D space with eight corners and seven interpolations.}
         \label{img:tikz:noise:perlin:interpolation3d}    
     \end{minipage}
     
@@ -587,7 +587,7 @@ As for the noise pattern, there are some alterations. To get a more even distrib
         \node[red] (s9) at (2.9,2.4) {\textbullet};
 
         \end{tikzpicture}
-        \caption{Voroni grid with pseudo-randomly assigned seed points for each cell.}
+        \captionof{figure}{Voroni grid with pseudo-randomly assigned seed points for each cell.}
         \label{img:tikz:noise:voronoi}
     \end{minipage}
     \hfill
@@ -640,7 +640,7 @@ As for the noise pattern, there are some alterations. To get a more even distrib
             \node[red] (s9) at (2.9,2.4) {\textbullet};
 
         \end{tikzpicture}
-        \caption{Voroni grid with seed distances visualized.}
+        \captionof{figure}{Voroni grid with seed distances visualized.}
         \label{img:tikz:noise:voronoi2}
     \end{minipage}
 \end{figure}
@@ -698,7 +698,7 @@ This amounts to $3^n - 1$ neightboring cells, where $n$ is the number of dimensi
         \node[red] (s9) at (2.9,2.4) {\textbullet};
 
     \end{tikzpicture}
-    \caption{Complete 2D Voroni noise pattern.}
+    \captionof{figure}{Complete 2D Voroni noise pattern.}
     \label{img:tikz:noise:voronoi3}
 \end{figure}
 
