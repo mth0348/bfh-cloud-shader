@@ -2,6 +2,8 @@
 {
     Properties
     {
+        _Mask ("Mask", 2D) = "white" {}
+
         [Header(Perlin)]
         _PerlinScale ("Perlin Scale", vector) = (1,1,1,0)
         _PerlinOffset ("Perlin Offset", vector) = (1,1,0,0)
@@ -40,9 +42,11 @@
         _SunLightScattering ("Sun Light Scattering", Range(0.1,0.5)) = 0.2
         _SunLightStrength ("Sun Light Strength", Range(0,5)) = 1
         _ShineThroughColor ("Sun Shine Through Color", Color) = (1,1,1,1)
-        _DirectionalColor ("Sun Directional Color", Color) = (1,1,1,1)
         _IlluminationColor ("Global Illumination Color", Color) = (1,1,1,1)
-        
+        [Enum(Subtractive,0,Additive,2)] _IlluminationFactor ("Illumination Mode", int) = 0
+        _DirectionalColor ("Sun Directional Color", Color) = (1,1,1,1)
+        [Enum(Subtractive,0,Additive,2)] _DirectionalFactor ("Directional Mode", int) = 0
+
         [Header(Clouds)]
         _CloudColor ("Cloud Color", Color) = (1,1,1,1)
         _CloudDensityFactor ("Cloud Density Factor", Range(0,5)) = 1
@@ -95,6 +99,7 @@
                 float3 worldPos : TEXCOORD1;
             };
 
+            sampler2D _Mask;
             float3 _PerlinScale;
             float3 _PerlinOffset;
             int _PerlinOctaves;
@@ -134,6 +139,8 @@
             fixed4 _CloudColor;
             float _LightScatteringStrength;
             float _SubSurfaceScatteringFade;
+            int _IlluminationFactor;
+            int _DirectionalFactor;
 
             fixed4 _HorizonColor;
             fixed4 _ShineThroughColor;
@@ -455,6 +462,8 @@
 
             fixed4 frag(v2f i) : SV_Target
             {
+                fixed mask = tex2D(_Mask, i.uv).r;
+
                 float3 worldPosition = i.worldPos;
                 float3 viewDirection = normalize(i.worldPos - _WorldSpaceCameraPos.xyz);
 
@@ -468,8 +477,8 @@
                 float directionalLight = pow(lightTransmittance, _SubSurfaceScatteringFade);
 
                 fixed3 shineThroughColor     = _ShineThroughColor.xyz * _ShineThroughColor.a * cloudDensity * sunTransmittance;
-                fixed3 illuminationColor     = _IlluminationColor.xyz * _IlluminationColor.a * cloudDensity * _LightScatteringStrength;
-                fixed3 directionalLightColor = _DirectionalColor.xyz  * _DirectionalColor.a  * cloudDensity * directionalLight;
+                fixed3 illuminationColor     = _IlluminationColor.xyz * _IlluminationColor.a * cloudDensity * _LightScatteringStrength * (_IlluminationFactor - 1);
+                fixed3 directionalLightColor = _DirectionalColor.xyz  * _DirectionalColor.a  * cloudDensity * directionalLight * (_DirectionalFactor - 1);
 
                 float cloudShade = pow(cloudDensity, _CloudDensityFactor * 0.01);
 
@@ -489,7 +498,7 @@
                 c += (_HorzionAddFactor - 1) * _HorizonColor * horizonFading * _HorizonColor.a;
 
                 // combine.
-                fixed4 col = fixed4(c.x, c.y, c.z, saturate(a * _CloudColor.a));
+                fixed4 col = fixed4(c.x, c.y, c.z, saturate(a * _CloudColor.a * mask));
                 return col;
             }
             ENDCG
