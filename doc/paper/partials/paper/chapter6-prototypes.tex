@@ -463,6 +463,20 @@ Environmental assets from the Unity Asset Store were used for trees\footnote[1]{
 \noindent
 To demonstrate the capability of the shader in its prototype state, here are some variations of it. The are no code changes inbetween the rendered images, the only things that changed are the shader's \gls{parameters} and Unity Editor lighting settings and colors.
 
+\begin{figure}[H]
+    \centering
+        \begin{minipage}{0.47\linewidth}
+            \includegraphics[width=\linewidth]{unity captures/final doc/final_day_small.PNG}
+            \captionof{figure}{Prototype: Rendered day scene.}
+            \label{img:captures:prototype_final:day}
+        \end{minipage}
+    \hfill
+        \begin{minipage}{0.47\linewidth}
+            \includegraphics[width=\linewidth]{unity captures/final doc/final_puffy_small.PNG}
+            \captionof{figure}{Prototype: Rendered puffy sky scene.}
+            \label{img:captures:prototype_final:puffy}
+        \end{minipage}
+\end{figure}
 
 \begin{figure}[H]
     \centering
@@ -473,24 +487,9 @@ To demonstrate the capability of the shader in its prototype state, here are som
         \end{minipage}
     \hfill
         \begin{minipage}{0.47\linewidth}
-            \includegraphics[width=\linewidth]{unity captures/final doc/final_day_small.PNG}
-            \captionof{figure}{Prototype: Rendered day scene.}
-            \label{img:captures:prototype_final:day}
-        \end{minipage}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-        \begin{minipage}{0.47\linewidth}
             \includegraphics[width=\linewidth]{unity captures/final doc/final_sunset_small.PNG}
             \captionof{figure}{Prototype: Rendered sunset scene.}
             \label{img:captures:prototype_final:sunset}
-        \end{minipage}
-    \hfill
-        \begin{minipage}{0.47\linewidth}
-            \includegraphics[width=\linewidth]{unity captures/final doc/final_stormy_small.PNG}
-            \captionof{figure}{Prototype: Rendered stormy scene.}
-            \label{img:captures:prototype_final:stormy}
         \end{minipage}
 \end{figure}
 
@@ -503,9 +502,9 @@ To demonstrate the capability of the shader in its prototype state, here are som
         \end{minipage}
     \hfill
         \begin{minipage}{0.47\linewidth}
-            \includegraphics[width=\linewidth]{unity captures/final doc/final_puffy_small.PNG}
-            \captionof{figure}{Prototype: Rendered puffy sky scene.}
-            \label{img:captures:prototype_final:puffy}
+            \includegraphics[width=\linewidth]{unity captures/final doc/final_stormy_small.PNG}
+            \captionof{figure}{Prototype: Rendered stormy scene.}
+            \label{img:captures:prototype_final:stormy}
         \end{minipage}
 \end{figure}
 
@@ -513,6 +512,24 @@ To demonstrate the capability of the shader in its prototype state, here are som
 \subsection{Realism Check}
 While the prototypes in \autoref{img:captures:prototype_final:night} to \autoref{img:captures:prototype_final:puffy} do look realistically to a certain degree, it is still essential to have some sort of measurable factor with which the rendered images can be compared to real clouds.
 Some factor that ultimately shows how \textit{real} the clouds actually are, apart from the human eye interpretation.
+
+\subsubsection{Objective interpretation}
+Before talking about measuring the realism of the cloud shader, it seems important to objectively identify the capabilities it first.
+As originally stated in \sectionref{section:clouds-in-games}, the desired look of the clouds was that of the genus \textit{cumulus}.
+\\
+The \autoref{img:captures:prototype_final:day} and \autoref{img:captures:prototype_final:puffy} both resemble cirrocumulus and altocumulus clouds.
+The cirrocumulus clouds are similar to altocumulus clouds, but they form at higher altitude and are significantly smaller, yet equally puffy.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{comparisons/compare_altocumulus.jpg}
+    \captionof{figure}{Camparison: photografic reference \protect\cite{img:campare:altocumulus} versus the rendered image.}
+    \label{img:comparisons:altocumulus}
+\end{figure}
+
+The \autoref{img:captures:prototype_final:night} and \autoref{img:captures:prototype_final:sunset} show the distinctive cotton-like pattern of the altocumulus genus.
+\\
+Finally, \autoref{img:captures:prototype_final:stormy} represents clouds of the type \textit{nimbostratus}, which form in low altitude and are dense and dark, often rainy.
 
 \subsubsection{Convolutional Neural Network}
 Given there is a \gls{cnn} (CNN) that is able to classify images of the sky, weather or clouds into descriptive labels or even genera of cloud formations, then one could just seed those rendered images into the CNN and verify wether the results are truthful.

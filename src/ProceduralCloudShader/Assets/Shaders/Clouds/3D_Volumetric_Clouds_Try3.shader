@@ -39,6 +39,9 @@
         [Space]
         _SunLightScattering ("Sun Light Scattering", Range(0.1,0.5)) = 0.2
         _SunLightStrength ("Sun Light Strength", Range(0,5)) = 1
+        _ShineThroughColor ("Sun Shine Through Color", Color) = (1,1,1,1)
+        _DirectionalColor ("Sun Directional Color", Color) = (1,1,1,1)
+        _IlluminationColor ("Global Illumination Color", Color) = (1,1,1,1)
         
         [Header(Clouds)]
         _CloudColor ("Cloud Color", Color) = (1,1,1,1)
@@ -133,6 +136,9 @@
             float _SubSurfaceScatteringFade;
 
             fixed4 _HorizonColor;
+            fixed4 _ShineThroughColor;
+            fixed4 _DirectionalColor;
+            fixed4 _IlluminationColor;
             int _HorzionAddFactor;
             float _HorizonMinDistance;
             float _HorizonMaxDistance;
@@ -456,12 +462,14 @@
                 float cloudDensity = exp(-rm.x * 5);
                 float lightTransmittance = exp(-rm.y);
 
-                // get sun color.
+                // get lighting colors.
                 float projectedSunDistance = length(worldToScreenPos(_SunPosition) - worldToScreenPos(worldPosition));
                 float sunTransmittance = 1 - pow(smoothstep(0.01, _SunLightScattering, projectedSunDistance), _SunLightStrength);
-                fixed3 sunColor = sunTransmittance * _LightColor0.xyz * cloudDensity;
-                fixed3 lightScattering = _LightColor0.xyz * cloudDensity * _LightScatteringStrength;
-                fixed3 sunFacing = _LightColor0.xyz * cloudDensity * pow(lightTransmittance, _SubSurfaceScatteringFade);
+                float directionalLight = pow(lightTransmittance, _SubSurfaceScatteringFade);
+
+                fixed3 shineThroughColor     = _ShineThroughColor.xyz * _ShineThroughColor.a * cloudDensity * sunTransmittance;
+                fixed3 illuminationColor     = _IlluminationColor.xyz * _IlluminationColor.a * cloudDensity * _LightScatteringStrength;
+                fixed3 directionalLightColor = _DirectionalColor.xyz  * _DirectionalColor.a  * cloudDensity * directionalLight;
 
                 float cloudShade = pow(cloudDensity, _CloudDensityFactor * 0.01);
 
@@ -474,7 +482,7 @@
                 fixed a = pow((1 - cloudDensity), _CloudGapSize) + (1 - cloudShade);
 
                 fixed3 cloudColor = fixed3(saturate(r),saturate(g),saturate(b));
-                fixed3 c = _CloudColor * cloudColor + sunColor + lightScattering + sunFacing;
+                fixed3 c = _CloudColor * cloudColor + shineThroughColor + illuminationColor + directionalLightColor;
 
                 // apply horizon  distance coloring.
                 float horizonFading = smoothstep(_HorizonMinDistance, _HorizonMaxDistance, camDistance);
