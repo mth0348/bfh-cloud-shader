@@ -442,9 +442,9 @@ Now, two values are returned instead of just one. Both are later normalized with
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\linewidth]{unity captures/final_dusk.PNG}
+    \includegraphics[width=\linewidth]{unity captures/prototype5.PNG}
     \captionof{figure}{Prototype: Rendered image of directional sunlight implemented with \gls{lightmarching}.}
-    \label{img:captures:prototype_final}
+    \label{img:captures:prototype5}
 \end{figure}
 
 \clearpage
@@ -453,7 +453,7 @@ All put together and after quite some effort and experimenting, the rendered sce
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\linewidth]{unity captures/final_dusk.PNG}
+    \includegraphics[width=\linewidth]{unity captures/final doc/final_dusk_small.PNG}
     \captionof{figure}{Prototype: Rendered image of the final prototype (afternoon scene).}
     \label{img:captures:prototype_final:afternoon}
 \end{figure}
@@ -465,13 +465,13 @@ To demonstrate the capability of the shader in its prototype state, here are som
 \begin{figure}[H]
     \centering
         \begin{minipage}{0.47\linewidth}
-            \includegraphics[width=\linewidth]{unity captures/final_night.PNG}
+            \includegraphics[width=\linewidth]{unity captures/final doc/final_night_small.PNG}
             \captionof{figure}{Prototype: Rendered night scene.}
             \label{img:captures:prototype_final:night}
         \end{minipage}
     \hfill
         \begin{minipage}{0.47\linewidth}
-            \includegraphics[width=\linewidth]{unity captures/final_day.PNG}
+            \includegraphics[width=\linewidth]{unity captures/final doc/final_day_small.PNG}
             \captionof{figure}{Prototype: Rendered day scene.}
             \label{img:captures:prototype_final:day}
         \end{minipage}
@@ -480,13 +480,13 @@ To demonstrate the capability of the shader in its prototype state, here are som
 \begin{figure}[H]
     \centering
         \begin{minipage}{0.47\linewidth}
-            \includegraphics[width=\linewidth]{unity captures/final_sunset.PNG}
+            \includegraphics[width=\linewidth]{unity captures/final doc/final_sunset_small.PNG}
             \captionof{figure}{Prototype: Rendered sunset scene.}
             \label{img:captures:prototype_final:sunset}
         \end{minipage}
     \hfill
         \begin{minipage}{0.47\linewidth}
-            \includegraphics[width=\linewidth]{unity captures/final_stormy.PNG}
+            \includegraphics[width=\linewidth]{unity captures/final doc/final_stormy_small.PNG}
             \captionof{figure}{Prototype: Rendered stormy scene.}
             \label{img:captures:prototype_final:stormy}
         \end{minipage}
@@ -495,13 +495,13 @@ To demonstrate the capability of the shader in its prototype state, here are som
 \begin{figure}[H]
     \centering
         \begin{minipage}{0.47\linewidth}
-            \includegraphics[width=\linewidth]{unity captures/final_clear.PNG}
+            \includegraphics[width=\linewidth]{unity captures/final doc/final_clear_small.PNG}
             \captionof{figure}{Prototype: Rendered clear sky scene.}
             \label{img:captures:prototype_final:clear}
         \end{minipage}
     \hfill
         \begin{minipage}{0.47\linewidth}
-            \includegraphics[width=\linewidth]{unity captures/final_puffy.PNG}
+            \includegraphics[width=\linewidth]{unity captures/final doc/final_puffy_small.PNG}
             \captionof{figure}{Prototype: Rendered puffy sky scene.}
             \label{img:captures:prototype_final:puffy}
         \end{minipage}
@@ -510,6 +510,8 @@ To demonstrate the capability of the shader in its prototype state, here are som
 \clearpage
 \subsection{Realism Check}
 While the prototypes in \autoref{img:captures:prototype_final:night} to \autoref{img:captures:prototype_final:puffy} do look realistically to a certain degree, it is still essential to have some sort of measurable factor with which the rendered images can be compared to real clouds.
-Ultimately, this shows have convincing the renders actually are, apart from the human eye interpretation.
+Some factor that ultimately shows how \textit{real} the clouds actually are, apart from the human eye interpretation.
 
-\subsubsection{}
+\subsubsection{Convolutional Neural Network}
+Given there is a \gls{cnn} (CNN) that is able to classify images of the sky, weather or clouds into descriptive labels or even genera of cloud formations, then one could just seed those rendered images into the CNN and verify wether the results are truthful.
+Of course, this is heavily dependant of how well the CNN was trained. 
