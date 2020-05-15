@@ -9,7 +9,7 @@ Originally, the following three prototypes were planned.
     \item ray marching
 \end{itemize}
 While researching the topic and experimenting with some dummy shaders, it came clear that "\gls{volumetricrendering}" and "\gls{raymarching}" are interchangeable in this matter.
-Therefore, only two kinds of prototyping have been developed. This change is explained in detail in \autoref{section:projectmanagement}
+Therefore, only two kinds of prototyping have been developed. This change is explained in detail in \sectionref{section:projectmanagement}.
 
 \subsubsection{Dimensions}
 All of the following documented procedures and algorithms were prototyped and implemented in 3D, but for the matter of explanation, it is described and visualized in 2D.
@@ -238,6 +238,10 @@ After some consideration and brainstorming, the following method was chosen to s
 \noindent
 When ray casting, both the fragment's and the light source's screen-space position is calculated. Those are two-dimensional coordinates relative to the screen that the camera renders to.
 Now if the distance $d = \norm{\overrightarrow{st_1 st_2}} < t$, with $t$ being some threshold, a portion of the sun's color is added to the fragment's color, relative to how small $d$ is.
+\emptyline
+It is noteworthy that when calculating the screen-space position, the depth value gets lost. Therefore, theoretically, the clouds would be illuminated when $d < t$ even if the sun is in front of the clouds.
+Given this is almost never the case in games and weather simulations, the issue is neglected.
+
 
 \begin{figure}[H]
     \centering
@@ -252,7 +256,7 @@ For example, some clouds are completely illuminated, making them too bright wher
 \emptyline
 The following code snippet shows the implementation of the sunlight transmittance mechanism. The \lstinline[language=HLSL]{density} variable is the one evaluated in \autoref{lst:shader:prototype:sampledensity}.
 
-\begin{lstlisting}[language=HLSL, caption=Implementation of a sunlight transmittance mechanism., label=lst:shader:prototype:sampledensity]
+\begin{lstlisting}[language=HLSL, caption=Implementation of a sunlight transmittance mechanism., label=lst:shader:prototype:sunlighttransmittance]
 float cloudDensity = exp(-density);
 
 float projectedSunDistance = length(
@@ -438,9 +442,9 @@ Now, two values are returned instead of just one. Both are later normalized with
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\linewidth]{unity captures/prototype5.PNG}
+    \includegraphics[width=\linewidth]{unity captures/final_dusk.PNG}
     \captionof{figure}{Prototype: Rendered image of directional sunlight implemented with \gls{lightmarching}.}
-    \label{img:captures:prototype3}
+    \label{img:captures:prototype_final}
 \end{figure}
 
 \clearpage
@@ -478,7 +482,7 @@ To demonstrate the capability of the shader in its prototype state, here are som
         \begin{minipage}{0.47\linewidth}
             \includegraphics[width=\linewidth]{unity captures/final_sunset.PNG}
             \captionof{figure}{Prototype: Rendered sunset scene.}
-            \label{img:captures:prototype_final:night}
+            \label{img:captures:prototype_final:sunset}
         \end{minipage}
     \hfill
         \begin{minipage}{0.47\linewidth}
@@ -487,3 +491,9 @@ To demonstrate the capability of the shader in its prototype state, here are som
             \label{img:captures:prototype_final:stormy}
         \end{minipage}
 \end{figure}
+
+\subsection{Realism Check}
+While the prototypes in \autoref{img:captures:prototype_final:night} to \autoref{img:captures:prototype_final:stormy} do look realistically to a certain degree, it is still essential to have some sort of measurable factor with which the rendered images can be compared to real clouds.
+Ultimately, this shows have convincing the renders actually are, apart from the human eye interpretation.
+
+\subsubsection{}
