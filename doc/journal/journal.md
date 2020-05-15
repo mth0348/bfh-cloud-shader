@@ -178,7 +178,7 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 | Added research results about noise generation | 4h |
 | Added research results about perlin noise | 8h |
 
-## \06: April 27th, 2020
+## \#06: April 27th, 2020
 * init() in unity script, seed setzen 
 * built-in unity perlin noise ausprobieren
 * kapitel "gradient", bild von 3d gradient as well (3.1.5.1)
@@ -188,9 +188,37 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 | Task | time spent |
 |----|---|
 | Added research results about Voronoi noise | 6h |
+| prototyping | 4h |
 
-## \07: May 11th, 2020
+&nbsp;
+
+&nbsp;
+
+#
+## \#07: May 11th, 2020
+### Formal and technical topics
+\-
+
+### Meeting discussions
+* Performance optimization: Stop ray march when cloud density hits 1.0
+* Reality check? What is most realistic, how to compare to real-life?
 
 
-stop ray march when cloud density hits 1.0
-reality check? what is most realistic
+**Time log**
+| Task | time spent |
+|----|---|
+| prototyping | 8h |
+| prototyping | 8h |
+| prototyping | 8h |
+| Added prototype results | 8h |
+
+&nbsp;
+
+&nbsp;
+
+#
+## \#08: May 25th, 2020
+### Formal and technical topics
+\-
+
+### Meeting discussions

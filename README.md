@@ -15,3 +15,7 @@ Prototype Progress:
 
 ![results of prototyping so far](https://gitlab.ti.bfh.ch/cpvr-students/cloud-shader/-/raw/master/doc/img/unity%20captures/final_stormy.PNG "Results of prototyping so far")
 
+![results of prototyping so far](https://gitlab.ti.bfh.ch/cpvr-students/cloud-shader/-/raw/master/doc/img/unity%20captures/final_clear.PNG "Results of prototyping so far")
+
+![results of prototyping so far](https://gitlab.ti.bfh.ch/cpvr-students/cloud-shader/-/raw/master/doc/img/unity%20captures/final_puffy.PNG "Results of prototyping so far")
+
