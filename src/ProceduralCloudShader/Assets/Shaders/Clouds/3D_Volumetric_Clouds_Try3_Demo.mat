@@ -69,6 +69,8 @@ Material:
     - _CloudColor: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 1}
     - _HorizonColor: {r: 0, g: 0.2006404, b: 0.5754717, a: 1}
     - _PerlinOffset: {r: 0.4, g: 0, b: 0, a: 0}
+    - _PerlinScale: {r: 1, g: 1, b: 1, a: 0}
     - _PhaseParams: {r: 0, g: 0, b: 0, a: 0}
     - _SunPosition: {r: 34.36, g: 30.89, b: 37.97, a: 0}
     - _VoronoiOffset: {r: 4, g: 2, b: 0, a: 0}
+    - _VoronoiScale: {r: 1, g: 1, b: 1, a: 0}

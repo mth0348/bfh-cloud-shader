@@ -13,6 +13,6 @@ public class SunColorUpdater : MonoBehaviour
 
     void Update()
     {
-        material.SetColor("_EmissionColor", light.color * 10);
+        material.SetColor("_EmissionColor", light.color * 20);
     }
 }

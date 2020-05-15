@@ -3,7 +3,7 @@
     Properties
     {
         [Header(Perlin)]
-        _PerlinScale ("Perlin Scale", Range(0.1,4)) = 3.0
+        _PerlinScale ("Perlin Scale", vector) = (1,1,1,0)
         _PerlinOffset ("Perlin Offset", vector) = (1,1,0,0)
         _PerlinOctaves ("Perlin Octaves", Range(1,10)) = 1
         _PerlinPersistance ("Perlin Persistence", Range(0.1, 1)) = 0.5
@@ -16,7 +16,7 @@
         _PerlinDensityMultiplier ("Density Multiplier", Range(0,5)) = 1
         
         [Header(Voronoi)]
-        _VoronoiScale ("Scale", Range(0.1,4)) = 3.0
+        _VoronoiScale ("Scale", vector) = (1,1,1,0)
         _VoronoiOffset ("Offset", vector) = (1,1,0,0)
         _VoronoiOctaves ("Octaves", Range(1,10)) = 1
         _VoronoiPersistance ("Persistence", Range(0.1, 1)) = 0.5
@@ -92,7 +92,7 @@
                 float3 worldPos : TEXCOORD1;
             };
 
-            float _PerlinScale;
+            float3 _PerlinScale;
             float3 _PerlinOffset;
             int _PerlinOctaves;
             float _PerlinPersistance;
@@ -104,7 +104,7 @@
             float _PerlinDensityThreshold;
             float _PerlinDensityMultiplier;
 
-            float _VoronoiScale;
+            float3 _VoronoiScale;
             float3 _VoronoiOffset;
             int _VoronoiOctaves;
             float _VoronoiPersistance;
