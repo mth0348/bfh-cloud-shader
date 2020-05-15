@@ -516,7 +516,10 @@ Some factor that ultimately shows how \textit{real} the clouds actually are, apa
 \subsubsection{Objective interpretation}
 Before talking about measuring the realism of the cloud shader, it seems important to objectively identify the capabilities it first.
 As originally stated in \sectionref{section:clouds-in-games}, the desired look of the clouds was that of the genus \textit{cumulus}.
-\\
+
+
+\clearpage
+\subsubsection{Real Life Comparison}
 \autoref{img:captures:prototype_final:day} and \autoref{img:captures:prototype_final:puffy} both resemble cirrocumulus and altocumulus clouds.
 The cirrocumulus clouds are similar to altocumulus clouds, but they form at higher altitude and are significantly smaller, yet equally puffy.
 
@@ -534,13 +537,30 @@ When comparing to an actual photograf, there are only few differences.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{comparisons/compare_altocumulus_night.jpg}
-    \captionof{figure}{Camparison: photografic reference \protect\cite{img:campare:altocumulus:night} versus the rendered image (night time).}
+    \captionof{figure}{Camparison: photografic reference \protect\cite{img:campare:altocumulus:night} versus the rendered image (at night).}
     \label{img:comparisons:altocumulus:night}
+\end{figure}
+
+\noindent
+In \autoref{img:captures:prototype_final:sunset}, it is very clearly recognizable that the \gls{parameters} of the shader can heavily influence the lighting and illumination of the clouds.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{comparisons/compare_altocumulus_sunset.jpg}
+    \captionof{figure}{Camparison: photografic reference \protect\cite{img:campare:altocumulus:sunset} versus the rendered image (at sunset).}
+    \label{img:camparisons:altocumulus:sunset}
 \end{figure}
 
 
 \noindent
 Finally, \autoref{img:captures:prototype_final:stormy} represents clouds of the type \textit{nimbostratus}, which form in low altitude and are dense and dark, often rainy.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{comparisons/masking.png}
+    \captionof{figure}{Prototype: Masking done by UV coordinates of the container cube.}
+    \label{img:camparisons:masking}
+\end{figure}
 
 \subsubsection{Convolutional Neural Network}
 Given there is a \gls{cnn} (CNN) that is able to classify images of the sky, weather or clouds into descriptive labels or even genera of cloud formations, then one could just seed those rendered images into the CNN and verify wether the results are truthful.
