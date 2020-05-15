@@ -509,6 +509,17 @@ To demonstrate the capability of the shader in its prototype state, here are som
 \end{figure}
 
 \clearpage
+\subsubsection{Additional Masking}
+Technically, by multiplying both noise function values in \lstinline[language=HLSL]{sampleDensity()}, they already mask each other. In certain types of cloud formations, an additional masking needs to be applied in order to create a cloudscape that does not expand over the whole container cube.
+This is done by feeding a mask texture into the shader, for which the cube's UV coordinates are used to sample the grey value of the texture at that position.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{comparisons/masking.png}
+    \captionof{figure}{Prototype: Masking done by UV coordinates of the container cube.}
+    \label{img:camparisons:masking}
+\end{figure}
+
 \subsection{Realism Check}
 While the prototypes in \autoref{img:captures:prototype_final:night} to \autoref{img:captures:prototype_final:puffy} do look realistically to a certain degree, it is still essential to have some sort of measurable factor with which the rendered images can be compared to real clouds.
 Some factor that ultimately shows how \textit{real} the clouds actually are, apart from the human eye interpretation.
@@ -522,6 +533,8 @@ In the following subsection, each rendered image is compared to a real-life phot
 
 \clearpage
 \subsubsection{Real Life Comparison}
+In all the following comparison images, the left images are photographic references and the right side images are rendered in Unity Engine.
+\\
 \autoref{img:captures:prototype_final:day} and \autoref{img:captures:prototype_final:puffy} both resemble cirrocumulus and altocumulus clouds.
 The cirrocumulus clouds are similar to altocumulus clouds, but they form at higher altitude and are significantly smaller, yet equally puffy.
 
@@ -543,8 +556,10 @@ When comparing to an actual photograf, there are only few differences.
     \label{img:comparisons:altocumulus:night}
 \end{figure}
 
+\clearpage
 \noindent
 In \autoref{img:captures:prototype_final:sunset}, it is very clearly recognizable that the \gls{parameters} of the shader can heavily influence the lighting and illumination of the clouds.
+Unfortunately, the difference of details and density is fairly discernable and the desired appearance is not fully achieved.
 
 \begin{figure}[H]
     \centering
@@ -553,17 +568,18 @@ In \autoref{img:captures:prototype_final:sunset}, it is very clearly recognizabl
     \label{img:camparisons:altocumulus:sunset}
 \end{figure}
 
-
 \noindent
 Finally, \autoref{img:captures:prototype_final:stormy} represents clouds of the type \textit{nimbostratus}, which form in low altitude and are dense and dark, often rainy.
 
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\linewidth]{comparisons/masking.png}
-    \captionof{figure}{Prototype: Masking done by UV coordinates of the container cube.}
-    \label{img:camparisons:masking}
+    \includegraphics[width=\linewidth]{comparisons/compare_altocumulus_stormy.jpg}
+    \captionof{figure}{Camparison: photografic reference \protect\cite{img:campare:altocumulus:stormy} versus the rendered image (stormy).}
+    \label{img:camparisons:altocumulus:stormy}
 \end{figure}
 
+\clearpage
 \subsubsection{Convolutional Neural Network}
 Given there is a \gls{cnn} (CNN) that is able to classify images of the sky, weather or clouds into descriptive labels or even genera of cloud formations, then one could just seed those rendered images into the CNN and verify wether the results are truthful.
 Of course, this is heavily dependant of how well the CNN was trained. 
