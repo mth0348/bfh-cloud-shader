@@ -39,7 +39,7 @@ Material:
     - _PerlinBoost: 0
     - _PerlinDensityMultiplier: 1.15
     - _PerlinDensityThreshold: 0
-    - _PerlinFrequency: 1
+    - _PerlinFrequency: 2.01
     - _PerlinMax: 1
     - _PerlinMin: 0.1
     - _PerlinOctaves: 5
@@ -55,7 +55,7 @@ Material:
     - _VoronoiAmplitude: 1
     - _VoronoiBoost: 0
     - _VoronoiDensityMultiplier: 5
-    - _VoronoiDensityThreshold: 0.589
+    - _VoronoiDensityThreshold: 0.47
     - _VoronoiFrequency: 0.4
     - _VoronoiMax: 1
     - _VoronoiMin: 0
