@@ -34,7 +34,7 @@ Material:
     - _Mask: 1
     - _MaxLightSamples: 25
     - _MaxLightSteps: 2
-    - _MaxSteps: 25
+    - _MaxSteps: 35
     - _PerlinAmplitude: 1
     - _PerlinBoost: 0
     - _PerlinDensityMultiplier: 1
@@ -42,37 +42,40 @@ Material:
     - _PerlinFrequency: 0.12
     - _PerlinMax: 1
     - _PerlinMin: 0
-    - _PerlinOctaves: 5
+    - _PerlinOctaves: 6.07
     - _PerlinPersistance: 0.7
     - _PerlinScale: 1
     - _StepSize: 0.001
-    - _SubSurfaceScatteringFade: 2.37
+    - _SubSurfaceScatteringFade: 4
     - _SunIllumninenceStrength: 0.647
-    - _SunLightScattering: 0.301
-    - _SunLightStrength: 10
+    - _SunLightScattering: 0.21
+    - _SunLightStrength: 5
     - _SunLightTransmittance: 0.15
     - _T: 0.217
     - _VoronoiAmplitude: 1
     - _VoronoiBoost: 0
-    - _VoronoiDensityMultiplier: 1
+    - _VoronoiDensityMultiplier: 1.72
     - _VoronoiDensityThreshold: 0
     - _VoronoiFrequency: 1
     - _VoronoiMax: 1
     - _VoronoiMin: 0
-    - _VoronoiOctaves: 2
+    - _VoronoiOctaves: 3.92
     - _VoronoiPersistance: 0.5
     - _VoronoiScale: 0.5
     m_Colors:
     - _BoundsMax: {r: 55.80056, g: 24, b: 88.580185, a: 0}
     - _BoundsMin: {r: -24.600557, g: 20, b: 11.219814, a: 0}
     - _CamPos: {r: 2, g: 2, b: -5, a: 0}
-    - _CloudColor: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 1}
+    - _CloudColor: {r: 0.19117124, g: 0.19938764, b: 0.2264151, a: 1}
+    - _DirectionalColor: {r: 1, g: 0.879717, b: 0.759434, a: 1}
     - _HorizonColor: {r: 0.14150941, g: 0.14150941, b: 0.14150941, a: 1}
+    - _IlluminationColor: {r: 0.1981132, g: 0.1981132, b: 0.1981132, a: 1}
     - _PerlinOffset: {r: 0.4, g: 0, b: 0, a: 0}
     - _PerlinScale: {r: 1, g: 1, b: 1, a: 0}
     - _PhaseParams: {r: 0, g: 0, b: 0, a: 0}
     - _ScatteringColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SunPosition: {r: 34.5, g: 30.76, b: 38.357, a: 0}
+    - _ShineThroughColor: {r: 1, g: 0.7582182, b: 0.4669811, a: 1}
+    - _SunPosition: {r: 34.213, g: 30.624, b: 37.345, a: 0}
     - _TransmittanceColor: {r: 1, g: 0.77140784, b: 0.504717, a: 1}
     - _VoronoiOffset: {r: 4, g: 2, b: 0, a: 0}
     - _VoronoiScale: {r: 1, g: 1, b: 1, a: 0}
