@@ -66,8 +66,8 @@ Material:
     - _BoundsMax: {r: 55.80056, g: 24, b: 88.580185, a: 0}
     - _BoundsMin: {r: -24.600557, g: 20, b: 11.219814, a: 0}
     - _CamPos: {r: 2, g: 2, b: -5, a: 0}
-    - _CloudColor: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 1}
-    - _HorizonColor: {r: 0, g: 0.43111795, b: 0.4811321, a: 1}
+    - _CloudColor: {r: 0.41509432, g: 0.41509432, b: 0.41509432, a: 1}
+    - _HorizonColor: {r: 0, g: 0, b: 0, a: 1}
     - _PerlinOffset: {r: 0.4, g: 0, b: 0, a: 0}
     - _PerlinScale: {r: 1, g: 1, b: 1, a: 0}
     - _PhaseParams: {r: 0, g: 0, b: 0, a: 0}
