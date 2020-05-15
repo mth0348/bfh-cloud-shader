@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Mask:
-        m_Texture: {fileID: 2800000, guid: 249688f0f295aa342b4197d520baf7e0, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -54,7 +54,7 @@ Material:
     - _StepSize: 0.001
     - _SubSurfaceScatteringFade: 1.97
     - _SunIllumninenceStrength: 0.647
-    - _SunLightScattering: 0.251
+    - _SunLightScattering: 0.367
     - _SunLightStrength: 5
     - _SunLightTransmittance: 0.15
     - _T: 0.217
