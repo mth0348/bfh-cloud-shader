@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: af5d2ba78c743cc4f84777e3737da084, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: a2efbf402a880394e96d824a39eafc1b, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.16546604, g: 0.2047242, b: 0.26898816, a: 1}
+  m_IndirectSpecularColor: {r: 0.6033698, g: 0.6340229, b: 0.5470229, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1691,7 +1691,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!33 &312459536
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2203,7 +2203,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!199 &401367848
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -7823,7 +7823,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.5943396, g: 0.5943396, b: 0.5943396, a: 1}
+  m_Color: {r: 1, g: 0.45740873, b: 0, a: 1}
   m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
@@ -7880,13 +7880,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_LocalRotation: {x: 0.8681599, y: 0.1606439, z: -0.40948722, w: 0.22980891}
-  m_LocalPosition: {x: 34.213, y: 30.624, z: 37.345}
+  m_LocalRotation: {x: 0.9866092, y: 0.053478725, z: -0.009488143, w: 0.15379313}
+  m_LocalPosition: {x: 13.04, y: 12.02, z: 47.8}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 147.955, y: 48.73799, z: -6.143982}
+  m_LocalEulerAnglesHint: {x: 162.273, y: 0.13699341, z: -6.1839905}
 --- !u!114 &705507996
 MonoBehaviour:
   m_ObjectHideFlags: 0
