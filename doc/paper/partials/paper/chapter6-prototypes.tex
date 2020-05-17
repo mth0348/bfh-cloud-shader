@@ -22,10 +22,10 @@ They are from here on out referred to as \textit{\gls{parameters}}.
 \subsection{First Draft}
 The first drafts of prototypes created during this project all revolve around volumetric rendering. 
 Instead of using a \gls{sdf}, a noise function was used. The primary issue was to get the cube transparent where the noise function would return a number close to 0.0 and to color it where the number would be close to 1.0.
-The approach for solving this issue is done by sampling the cloud's density instead.
+The approach for solving this issue is done by sampling the cloud's density.
 
 \subsubsection{Density sampling}
-Like in \gls{volumetricrendering}, for each pixel fragment, a ray is cast from the fragment into the cube, along the view direction for that fragment.
+Like in \gls{volumetricrendering}, for each pixel fragment, a ray is cast from the fragment into the cube and extended along the view direction for that fragment.
 Usually, the algorithm can stop for a given ray if the \gls{sdf} returns a small enough distance, meaning the ray has hit a surface of the volume. However, it is different in the case with clouds, where the volume is \textit{\gls{translucent}} at most points.
 \\
 To account for that, the ray does not stop until the end of the container cube is reached. It samples the density $N$ times along its path and returns the sum of those samples, giving an approximate qualifier for how dark this fragment should be.
@@ -74,6 +74,9 @@ Understandably, the bigger clouds in \autoref{img:tikz:prototypes:densitysamplin
 For the displayed ray, the values for points $p_1, p_3, p_4$ and $p_5$ are accumulated and used as a qualifier to color the fragment. In this case, a rather dark tone would be used.
 \\
 It is notable that $N$ has a linear impact on the performance, so it should be chosen carefully.
+\emptyline
+While marching along the ray, the step size is not constant but instead calculated: \\
+$ d_{step} = \frac{d_{box}}{N}$, where $d_{box}$ is equal to the total distance the ray travels while inside the box. To determine $d_{box}$, an \gls{aabb} (AABB) intersection test has to be done with the container cube and the ray.
 
 \begin{figure}[H]
     \centering
@@ -149,7 +152,7 @@ When inverting $exp(x)$, the function $exp'(x)$ returns a value that can be dire
 \clearpage
 \subsection{Improving Noise}
 After further experimenting with the noise sampling function, the idea arose to combine Perlin and Voronoi noise, which hopefully would create a more distinguished, random pattern.
-The final sampling function simply multiplies both noise values at a given point \lstinline[language=HLSL]{position}. 
+The final sampling function simply multiplies both noise values at a given point \lstinline[language=HLSL]{position}, masking them with each other. 
 
 \begin{lstlisting}[language=HLSL, numbers=left, caption=Implementation of a density sampling function., label=lst:shader:prototype:sampledensity]
 float sampleDensity(float3 position) {
@@ -217,7 +220,7 @@ After some consideration and brainstorming, the following method was chosen to s
 
         \node (p2) at (5, 3.75) {};
         \node (c2) at (4, 4) {};
-        \node[cyan] (c3) at (5, 5) {\textbullet};
+        \node[cyan] (c3) at (4.9, 4.9) {\textbullet};
 
         \draw[red, line] (cam) -- (p1);
         \draw[red, line, loosely dashed] (p1) -- (p2);
@@ -450,7 +453,8 @@ Now, two values are returned instead of just one. Both are later normalized with
 \clearpage
 \subsection{Final Prototype}
 All put together and after quite some effort and experimenting, the rendered scene looks quite convincing. 
-Environmental assets from the Unity Asset Store were used for trees\footnote[1]{https://assetstore.unity.com/packages/3d/vegetation/speedtree/free-speedtrees-package-29170} and rocks\footnote[2]{https://assetstore.unity.com/packages/3d/environments/landscapes/photoscanned-moutainsrocks-pbr-130876}.
+\\
+Free assets from the Unity Asset Store were used for trees\footnote[1]{https://assetstore.unity.com/packages/3d/vegetation/speedtree/free-speedtrees-package-29170} and rocks\footnote[2]{https://assetstore.unity.com/packages/3d/environments/landscapes/photoscanned-moutainsrocks-pbr-130876}.
 
 \begin{figure}[H]
     \centering
@@ -581,5 +585,5 @@ Finally, \autoref{img:captures:prototype_final:stormy} represents clouds of the 
 
 \clearpage
 \subsubsection{Convolutional Neural Network}
-Given there is a \gls{cnn} (CNN) that is able to classify images of the sky, weather or clouds into descriptive labels or even genera of cloud formations, then one could just seed those rendered images into the CNN and verify wether the results are truthful.
-Of course, this is heavily dependant of how well the CNN was trained. 
+Given there is a \gls{cnn} (CNN) that is able to classify images of the sky, the weather or clouds into descriptive labels or even genera of cloud formations, then one could just seed those rendered images into the CNN and verify wether the results are truthful.
+Of course, this is heavily dependant of how well the CNN was trained.

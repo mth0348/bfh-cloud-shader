@@ -36,9 +36,9 @@ Material:
     - _HorzionAddFactor: 0
     - _IlluminationFactor: 2
     - _LightScatteringStrength: 0
-    - _LightStepSize: 1
+    - _LightStepSize: 2
     - _Mask: 1
-    - _MaxLightSamples: 15
+    - _MaxLightSamples: 40
     - _MaxLightSteps: 2.81
     - _MaxSteps: 25
     - _PerlinAmplitude: 1
@@ -52,7 +52,7 @@ Material:
     - _PerlinPersistance: 0.7
     - _PerlinScale: 1
     - _StepSize: 0.001
-    - _SubSurfaceScatteringFade: 2.59
+    - _SubSurfaceScatteringFade: 0.57
     - _SunIllumninenceStrength: 0.647
     - _SunLightScattering: 0.173
     - _SunLightStrength: 5
