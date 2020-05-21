@@ -1,4 +1,4 @@
-﻿Shader "Custom/Volumetric/Clouds (Try 3)"
+﻿Shader "Custom/Volumetric/Clouds (Try 3) (old)"
 {
     Properties
     {
