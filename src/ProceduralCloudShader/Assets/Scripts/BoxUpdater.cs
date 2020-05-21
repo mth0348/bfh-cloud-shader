@@ -5,6 +5,7 @@ public class BoxUpdater : MonoBehaviour
 {
     public Transform sun;
     public ComputeShader noiseComputeShader;
+    public RenderTextureSlicer renderTextureSlicer;
 
     //////////////////////////////////////////
 
@@ -34,6 +35,8 @@ public class BoxUpdater : MonoBehaviour
 
     //////////////////////////////////////////
 
+    public bool updateNoise;
+
     private Material material;
     private RenderTexture noiseTexture;
     private int noiseKernel;
@@ -53,14 +56,6 @@ public class BoxUpdater : MonoBehaviour
 
         if (noiseComputeShader != null)
         {
-            noiseTexture = new RenderTexture(sizeX, sizeY, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
-            noiseTexture.dimension = UnityEngine.Rendering.TextureDimension.Tex3D;
-            noiseTexture.enableRandomWrite = true;
-            noiseTexture.volumeDepth = sizeZ;
-            noiseTexture.Create();
-            noiseKernel = noiseComputeShader.FindKernel("CSMain");
-            noiseComputeShader.SetTexture(noiseKernel, "Result", noiseTexture);
-
             permutationBuffer = new ComputeBuffer(512, sizeof(int), ComputeBufferType.Constant);
             permutationBuffer.SetData(new[] { 151,160,137,91,90,15,
                 131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
@@ -89,8 +84,9 @@ public class BoxUpdater : MonoBehaviour
                 49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
                 138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
             });
-            noiseComputeShader.SetBuffer(noiseKernel, "permutation", permutationBuffer);
         }
+
+        noiseKernel = noiseComputeShader.FindKernel("CSMain");
     }
 
     void Update()
@@ -122,17 +118,84 @@ public class BoxUpdater : MonoBehaviour
         material.SetVector("_BoundsMin", transform.position - transform.localScale / 2);
         material.SetVector("_BoundsMax", transform.position + transform.localScale / 2);
         material.SetVector("_SunPosition", sun.position);
+        material.SetVector("_Scale", transform.position);
 
+        UpdateNoise();
+    }
+
+    void UpdateNoise()
+    {
         if (noiseComputeShader != null)
         {
-            noiseComputeShader.Dispatch(noiseKernel, Math.Max(1, sizeX / 8), Math.Max(1, sizeY / 8), Math.Max(1, sizeZ / 8));
+            // Texture2D[] finalSlices = new Texture2D[sizeY];
+            // for (int i = 0; i < sizeY; i++)
+            // {
+            //     var slice = Create2DSlice(i);
+            //     finalSlices[i] = ConvertFromRenderTexture(slice);
+            // }
+
+            // Texture3D output = new Texture3D(sizeX, sizeY, sizeZ, TextureFormat.ARGB32, true) { filterMode = FilterMode.Trilinear };
+            // for (int x = 0; x < sizeX; x++)
+            // {
+            //     for (int y = 0; y < sizeY; y++)
+            //     {
+            //         for (int z = 0; z < sizeZ; z++)
+            //         {
+            //             output.SetPixel(x, y, z, finalSlices[y].GetPixel(x, z));
+            //         }
+            //     }
+            // }
+            // output.Apply();
+
+            noiseTexture = new RenderTexture(sizeX, sizeY, 0, RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear);
+            noiseTexture.dimension = UnityEngine.Rendering.TextureDimension.Tex3D;
+            noiseTexture.enableRandomWrite = true;
+            noiseTexture.wrapMode = TextureWrapMode.Clamp;
+            noiseTexture.volumeDepth = sizeZ;
+            noiseTexture.Create();
+            noiseComputeShader.SetTexture(noiseKernel, "Result", noiseTexture);
+            noiseComputeShader.SetBuffer(noiseKernel, "permutation", permutationBuffer);
+            noiseComputeShader.Dispatch(noiseKernel, 8, 8, 8);
+
             material.SetTexture("_NoiseTexture", noiseTexture);
         }
     }
+
+    // RenderTexture Create2DSlice(int layer)
+    // {
+    //     var noiseTexture = new RenderTexture(sizeX, sizeZ, 0, RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear);
+    //     noiseTexture.dimension = UnityEngine.Rendering.TextureDimension.Tex2D;
+    //     noiseTexture.enableRandomWrite = true;
+    //     noiseTexture.wrapMode = TextureWrapMode.Clamp;
+    //     noiseTexture.Create();
+    //     noiseComputeShader.SetInt("layer", layer);
+    //     noiseComputeShader.SetTexture(noiseKernel, "Result", noiseTexture);
+    //     noiseComputeShader.SetBuffer(noiseKernel, "permutation", permutationBuffer);
+    //     noiseComputeShader.Dispatch(noiseKernel, 8, 8, 1);
+    //     return noiseTexture;
+    // }
+
+    // Texture2D ConvertFromRenderTexture(RenderTexture renderTexture)
+    // {
+    //     Texture2D texture = new Texture2D(sizeX, sizeZ, TextureFormat.ARGB32, false);
+    //     RenderTexture.active = renderTexture;
+    //     texture.ReadPixels(new Rect(0, 0, sizeX, sizeZ), 0, 0);
+    //     texture.Apply();
+    //     return texture;
+    // }
 
     void OnDestroy()
     {
         noiseTexture.Release();
         permutationBuffer.Release();
+    }
+
+    void OnValidate()
+    {
+        if (updateNoise)
+        {
+            updateNoise = false;
+            UpdateNoise();
+        }
     }
 }

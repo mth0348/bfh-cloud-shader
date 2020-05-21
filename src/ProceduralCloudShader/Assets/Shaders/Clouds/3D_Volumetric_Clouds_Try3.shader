@@ -91,6 +91,7 @@
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
+                float2 uv_NoiseTex : TEXCOORD1;
             };
 
             struct v2f
@@ -133,7 +134,7 @@
             float  _CloudDensityFactor;
             float  _CloudGapSize;
 
-            float3  _Offy;
+            float3 _Scale;
             
             fixed2 worldToScreenPos(fixed3 pos){
                 pos = normalize(pos - _WorldSpaceCameraPos)*(_ProjectionParams.y + (_ProjectionParams.z - _ProjectionParams.y))+_WorldSpaceCameraPos;
@@ -172,7 +173,7 @@
 
                 // float density = voronoiDensity * perlinDensity * 2 /* fix boost */;
                 // return density;
-                return _NoiseTexture.SampleLevel(sampler_NoiseTexture, position - _BoundsMax, 0);
+                return 0;
             }
 
             float lightmarch(float3 position, float3 direction) {
@@ -238,44 +239,45 @@
 
             fixed4 frag(v2f i) : SV_Target
             {
-                fixed mask = tex2D(_Mask, i.uv).r;
+                // fixed mask = tex2D(_Mask, i.uv).r;
 
-                float3 worldPosition = i.worldPos;
-                float3 viewDirection = normalize(i.worldPos - _WorldSpaceCameraPos.xyz);
+                // float3 worldPosition = i.worldPos;
+                // float3 viewDirection = normalize(i.worldPos - _WorldSpaceCameraPos.xyz);
 
-                float2 rm = raymarch(worldPosition, viewDirection);
-                float cloudDensity = exp(-rm.x * 5);
-                float lightTransmittance = exp(-rm.y);
+                // float2 rm = raymarch(worldPosition, viewDirection);
+                // float cloudDensity = exp(-rm.x * 5);
+                // float lightTransmittance = exp(-rm.y);
 
-                // get lighting colors.
-                float projectedSunDistance = length(worldToScreenPos(_SunPosition) - worldToScreenPos(worldPosition));
-                float sunTransmittance = 1 - pow(smoothstep(0.01, _SunLightScattering, projectedSunDistance), _SunLightStrength);
-                float directionalLight = pow(lightTransmittance, _SubSurfaceScatteringFade);
+                // // get lighting colors.
+                // float projectedSunDistance = length(worldToScreenPos(_SunPosition) - worldToScreenPos(worldPosition));
+                // float sunTransmittance = 1 - pow(smoothstep(0.01, _SunLightScattering, projectedSunDistance), _SunLightStrength);
+                // float directionalLight = pow(lightTransmittance, _SubSurfaceScatteringFade);
 
-                fixed3 shineThroughColor     = _ShineThroughColor.xyz * _ShineThroughColor.a * cloudDensity * sunTransmittance;
-                fixed3 illuminationColor     = _IlluminationColor.xyz * _IlluminationColor.a * cloudDensity * _LightScatteringStrength * (_IlluminationFactor - 1);
-                fixed3 directionalLightColor = _DirectionalColor.xyz  * _DirectionalColor.a  * cloudDensity * directionalLight * (_DirectionalFactor - 1);
+                // fixed3 shineThroughColor     = _ShineThroughColor.xyz * _ShineThroughColor.a * cloudDensity * sunTransmittance;
+                // fixed3 illuminationColor     = _IlluminationColor.xyz * _IlluminationColor.a * cloudDensity * _LightScatteringStrength * (_IlluminationFactor - 1);
+                // fixed3 directionalLightColor = _DirectionalColor.xyz  * _DirectionalColor.a  * cloudDensity * directionalLight * (_DirectionalFactor - 1);
 
-                float cloudShade = pow(cloudDensity, _CloudDensityFactor * 0.01);
+                // float cloudShade = pow(cloudDensity, _CloudDensityFactor * 0.01);
 
-                float camDistance = length(worldPosition - _WorldSpaceCameraPos);
+                // float camDistance = length(worldPosition - _WorldSpaceCameraPos);
 
-                // get cloud color.
-                fixed r = cloudShade;
-                fixed g = r;
-                fixed b = r;
-                fixed a = pow((1 - cloudDensity), _CloudGapSize) + (1 - cloudShade);
+                // // get cloud color.
+                // fixed r = cloudShade;
+                // fixed g = r;
+                // fixed b = r;
+                // fixed a = pow((1 - cloudDensity), _CloudGapSize) + (1 - cloudShade);
 
-                fixed3 cloudColor = fixed3(saturate(r),saturate(g),saturate(b));
-                fixed3 c = _CloudColor * cloudColor + shineThroughColor + illuminationColor + directionalLightColor;
+                // fixed3 cloudColor = fixed3(saturate(r),saturate(g),saturate(b));
+                // fixed3 c = _CloudColor * cloudColor + shineThroughColor + illuminationColor + directionalLightColor;
 
-                // apply horizon  distance coloring.
-                float horizonFading = smoothstep(_HorizonMinDistance, _HorizonMaxDistance, camDistance);
-                c += (_HorzionAddFactor - 1) * _HorizonColor * horizonFading * _HorizonColor.a;
+                // // apply horizon  distance coloring.
+                // float horizonFading = smoothstep(_HorizonMinDistance, _HorizonMaxDistance, camDistance);
+                // c += (_HorzionAddFactor - 1) * _HorizonColor * horizonFading * _HorizonColor.a;
 
-                // combine.
-                fixed4 col = fixed4(c.x, c.y, c.z, saturate(a * _CloudColor.a * mask));
-                return col;
+                // // combine.
+                // fixed4 col = fixed4(c.x, c.y, c.z, saturate(a * _CloudColor.a * mask));
+                float3 uvw = (_BoundsMax - _BoundsMin) * 0.5 + i.worldPos + _Scale;
+                return _NoiseTexture.SampleLevel(sampler_NoiseTexture, uvw, 0);
             }
             ENDCG
         }

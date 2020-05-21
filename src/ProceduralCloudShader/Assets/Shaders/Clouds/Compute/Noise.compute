@@ -194,8 +194,8 @@ float getColorPerlin(float3 co, int octaves, float persistence) {
 [numthreads(8,8,8)]
 void CSMain(uint3 id : SV_DispatchThreadID)
 {
-    // float3 voronoiPosition = id.xyz * _VoronoiScale + _VoronoiOffset;
-    // float3 perlinPosition = id.xyz * _PerlinScale + _PerlinOffset;
+    // float3 voronoiPosition = id * _VoronoiScale + _VoronoiOffset;
+    // float3 perlinPosition = id * _PerlinScale + _PerlinOffset;
     // float voronoiDensity = smoothstep(_VoronoiMin, _VoronoiMax, getColorVoronoi(voronoiPosition, _VoronoiOctaves, _VoronoiPersistance)) + _VoronoiBoost;
     // float perlinDensity = smoothstep(_PerlinMin, _PerlinMax, getColorPerlin(perlinPosition, _PerlinOctaves, _PerlinPersistance)) + _PerlinBoost;
 
@@ -203,5 +203,8 @@ void CSMain(uint3 id : SV_DispatchThreadID)
     // perlinDensity = max(0, perlinDensity - _PerlinDensityThreshold) * _PerlinDensityMultiplier;
 
     // float density = voronoiDensity * perlinDensity * 2;
-    Result[id.xyz] = float4(1,1,1,1);
+
+    float col = voronoi(id * _VoronoiScale + _VoronoiOffset);
+
+    Result[id] = float4(col, col, col, 1);
 }
