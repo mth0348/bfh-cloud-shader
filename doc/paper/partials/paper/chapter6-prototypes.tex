@@ -21,7 +21,8 @@ They are from here on out referred to as \textit{\gls{parameters}}.
 \clearpage
 \subsection{First Draft}
 The first drafts of prototypes created during this project all revolve around volumetric rendering. 
-Instead of using a \gls{sdf}, a noise function was used. The primary issue was to get the cube transparent where the noise function would return a number close to 0.0 and to color it where the number would be close to 1.0.
+Instead of using a \gls{sdf} and evaluating the distance each step, a noise function was used to simulate the \textit{mass} of the cloud. 
+The primary issue was to get the cube transparent where the noise function would return a number close to 0.0 and to color it where the number would be close to 1.0.
 The approach for solving this issue is done by sampling the cloud's density.
 
 \subsubsection{Density sampling}
@@ -76,7 +77,7 @@ For the displayed ray, the values for points $p_1, p_3, p_4$ and $p_5$ are accum
 It is notable that $N$ has a linear impact on the performance, so it should be chosen carefully.
 \emptyline
 While marching along the ray, the step size is not constant but instead calculated: \\
-$ d_{step} = \frac{d_{box}}{N}$, where $d_{box}$ is equal to the total distance the ray travels while inside the box. To determine $d_{box}$, an \gls{aabb} (AABB) intersection test has to be done with the container cube and the ray.
+$ d_{step} = \frac{d_{box}}{N}$, where $d_{box}$ is equal to the total distance the ray travels while inside the box. To determine $d_{box}$, an \gls{aabb} (AABB) intersection test \cite{online:aabb} has to be done with the container cube and the ray.
 
 \begin{figure}[H]
     \centering
@@ -86,10 +87,10 @@ $ d_{step} = \frac{d_{box}}{N}$, where $d_{box}$ is equal to the total distance 
 \end{figure}
 
 \noindent
-With this first try, a Perlin noise function was sampled. The returned value had to be normalized in a range of $[0, 1]$ in order to for it to be used as alpha value of the color.
+With this first try, a Perlin noise function was sampled. The returned value had to be normalized in a range of $[0, 1]$ in order for it to be used as alpha value of the color.
 
 \subsubsection{Normalizing Density}
-This is where the exponential function $exp(x) = e^{-x}$ comes in, which (when clamped from 0 to 1) converts very low values to 1.0 and higher values will converge towards 0.0.
+This is where the exponential function $exp(x) = e^{-x}$ comes in, which (when clamped between 0 to 1) converts very low values to 1.0 and higher values will converge towards 0.0.
 
 \begin{figure}[H]
     \centering
@@ -158,13 +159,13 @@ The final sampling function simply multiplies both noise values at a given point
 float sampleDensity(float3 position) {
   float3 vpos = position * _VoronoiScale + _VoronoiOffset;
   float3 ppos = position * _PerlinScale + _PerlinOffset;
-  float vd = getColorVoronoi(vpos, _VoronoiOctaves, _VoronoiPersistance));
-  float pd = getColorPerlin(ppos, _PerlinOctaves, _PerlinPersistance));
+  float vd = fbmVoronoi(vpos, _VoronoiOctaves, _VoronoiPersistance));
+  float pd = fbmPerlin(ppos, _PerlinOctaves, _PerlinPersistance));
   
   vd = max(0, vd - _VoronoiDensityThreshold) * _VoronoiDensityMultiplier;
   pd = max(0, pd - _PerlinDensityThreshold) * _PerlinDensityMultiplier;
   
-  // fix boost density by factor 2
+  // fixed boost for density by factor 2
   float density = vd * pd * 2.0;
   return density;
 }
@@ -182,8 +183,8 @@ By adjusting some of the \gls{parameters} and increasing the octaves of both noi
 
 \clearpage
 \subsection{Light Transmittance and Light Scattering}
-One of the more prominent lighting features of clouds is its translucency. It describes how light bounces and scatters inside the matter, then exits at a different point. This is called \textit{\gls{sss}} (SSS).
-It results in illuminated areas where the clouds are thinner. In nature, \gls{sss} is a very complex and computationally demanding process. For computer graphics however, it is often either simplified or substituted with some other algorithm that produces a similar outcome at lower performance cost.
+One of the more prominent lighting features of clouds is its translucency. This phenomenon displays how light bounces and scatters inside the matter, then exits at a different point. This is also called \textit{\gls{sss}} (SSS).
+It results in illuminated areas where the clouds are thinner, giving it that milky look and "glow" on the outer edge. In nature, \gls{sss} is a very complex and computationally demanding process. For computer graphics however, it is often either simplified or substituted with some other algorithm that produces a similar outcome at lower performance cost.
 
 \subsubsection{Sunlight Forwarding}
 When approaching the implementation of \gls{sss} and directional lighting, it seemed most reasonable to start with the sun being visible behind the clouds, or at least shining through them.
@@ -234,7 +235,7 @@ After some consideration and brainstorming, the following method was chosen to s
         \draw (5,3) -- (1,4) node[midway,above,sloped,xshift=-1cm] {screen space} -- (1,1);
 
         \end{tikzpicture}
-    \captionof{figure}{Sunlight transmittance sampling (1).}
+    \captionof{figure}{Sunlight transmittance sampling.}
     \label{img:tikz:prototypes:sunlight}
 \end{figure}
 
@@ -243,7 +244,7 @@ When ray casting, both the fragment's and the light source's screen-space positi
 Now if the distance $d = \norm{\overrightarrow{st_1 st_2}} < t$, with $t$ being some threshold, a portion of the sun's color is added to the fragment's color, relative to how small $d$ is.
 \emptyline
 It is noteworthy that when calculating the screen-space position, the depth value gets lost. Therefore, theoretically, the clouds would be illuminated when $d < t$ even if the sun is in front of the clouds.
-Given this is almost never the case in games and weather simulations, the issue is neglected.
+Given this is almost never the case in games and weather simulations, that particular issue is neglected.
 
 
 \begin{figure}[H]
@@ -278,11 +279,11 @@ The idea of multiplying by \lstinline[language=HLSL]{cloudDensity} on line 9 was
 
 \clearpage
 \subsubsection{Directional light}
-Another challenging part during prototyping was directional light reflections on surfaces facing the sun. Usually in \gls{raymarching}, a \gls{surfacenormal} estimation is done using the gradient.
-This works well if there is only one point of interest (like a surface hit), but as already mentinoned before, the ray does not stop sampling points until it reaches the end of the container cube.
+Another challenging part during prototyping was directional light on surfaces facing the sun. Usually in \gls{raymarching}, a \gls{surfacenormal} estimation is done using the gradient.
+This works well if there is only one point of interest (like a ray-surface intersection point), but as already mentinoned before, the ray does not stop sampling points until it reaches the end of the container cube.
 \\
 So instead of calculating normals for each sample point, another ray is cast from the sample point towards the sun.
-Along its path, the density is sampled again $L$ times in constant steps. Without an official term, this process is called \textit{\gls{lightmarching}} in this project.
+Along its path, the density is sampled again $L$ times in constant steps. With the lack of an official term, this process is called \textit{\gls{lightmarching}} in this project.
 
 \begin{figure}[H]
     \centering
@@ -335,15 +336,15 @@ Along its path, the density is sampled again $L$ times in constant steps. Withou
         \node[cyan] (l10) at (3.95, 4.775) {\textbullet};
 
         \end{tikzpicture}
-    \captionof{figure}{Directional sunlight transmittance sampling (1).}
+    \captionof{figure}{Directional lightmarching samples (part 1).}
     \label{img:tikz:prototypes:lightmarching1}
 \end{figure}
 
 \noindent
 It is clearly visible that in \autoref{img:tikz:prototypes:lightmarching1}, a lot of density samples return a high value, resulting in a dark fragment color for this ray.
-To simplify, there is a lot of cloud mass in front of that intersection point, so the point will not receive a lot of light.
+To simplify, there is a lot of cloud mass in front of that sample point, so the fragment will not receive a lot of sunlight color.
 \\
-On the other hand, in \autoref{img:tikz:prototypes:lightmarching2}, only very few samples are even inside the cloud, resulting in a low value overall. This leads to a higher influence of the sun's color for that fragment, meaning it is more exposed to the sun.
+On the other hand, in \autoref{img:tikz:prototypes:lightmarching2}, only very few samples are even inside the cloud, resulting in a low value overall. This leads to a higher influence of the sun's color for that fragment, meaning the samples are more exposed to the sun.
 
 \begin{figure}[H]
     \centering
@@ -396,7 +397,7 @@ On the other hand, in \autoref{img:tikz:prototypes:lightmarching2}, only very fe
         \node (l10) at (3.95, 4.775) {\textopenbullet};
 
         \end{tikzpicture}
-    \captionof{figure}{Directional sunlight transmittance sampling (2).}
+    \captionof{figure}{Directional lightmarching samples (part 2).}
     \label{img:tikz:prototypes:lightmarching2}
 \end{figure}
 
@@ -524,51 +525,55 @@ This is done by feeding a mask texture into the shader, for which the cube's UV 
     \label{img:camparisons:masking}
 \end{figure}
 
+\clearpage
 \subsection{Realism Check}
-While the prototypes in \autoref{img:captures:prototype_final:night} to \autoref{img:captures:prototype_final:puffy} do look realistically to a certain degree, it is still essential to have some sort of measurable factor with which the rendered images can be compared to real clouds.
-Some factor that ultimately shows how \textit{real} the clouds actually are, apart from the human eye interpretation.
+While the prototypes in \autoref{img:captures:prototype_final:day} to \autoref{img:captures:prototype_final:stormy} do look realistically to a certain degree, it is still essential to have some sort of measurable factor with which the rendered images can be compared to real clouds.
+Some factor that ultimately shows how \textit{real} the rendered clouds actually are, apart from the human eye interpretation.
 
 \subsubsection{Objective interpretation}
-Before talking about measuring the realism of the cloud shader, it seems important to objectively identify the capabilities of it first.
+Before expanding on how to measure the realism of the cloud shader's output, it seems important to objectively identify the capabilities of it first.
 As originally stated in \sectionref{section:clouds-in-games}, the desired look of the clouds was that of the genus \textit{cumulus}.
 \\
-In the following subsection, each rendered image is compared to a real-life photograf, putting them into a objectively comparable state to reality.
-
+In the following subsection, each rendered image is compared to a real-life photograph, putting them into a objectively comparable state to reality.
 
 \clearpage
 \subsubsection{Real Life Comparison}
 In all the following comparison images, the left images are photographic references and the right side images are rendered in Unity Engine.
-\\
+\emptyline
 \autoref{img:captures:prototype_final:day} and \autoref{img:captures:prototype_final:puffy} both resemble cirrocumulus and altocumulus clouds.
 The cirrocumulus clouds are similar to altocumulus clouds, but they form at higher altitude and are significantly smaller, yet equally puffy.
+\\
+\autoref{img:captures:prototype_final:night} and \autoref{img:captures:prototype_final:sunset} also show the distinctive cotton-like pattern of the altocumulus genus.
+When comparing to an actual photograph, there are only few differences.
+\emptyline
+By adjusting the scale of the shader, the clouds can be made smaller. In the following comparison, the directional \gls{lightmarching} has been turned down to a minimum so the light would look more wan. 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{comparisons/compare_altocumulus.jpg}
-    \captionof{figure}{Camparison: photografic reference \protect\cite{img:campare:altocumulus} versus the rendered image.}
+    \captionof{figure}{Camparison: photographic reference \protect\cite{img:campare:altocumulus} versus the rendered image.}
     \label{img:comparisons:altocumulus}
 \end{figure}
 
 \noindent
-\autoref{img:captures:prototype_final:night} and \autoref{img:captures:prototype_final:sunset} show the distinctive cotton-like pattern of the altocumulus genus.
-When comparing to an actual photograf, there are only few differences.
+The night-time comparison displays how the different color of the sunlight forwarding can impact the scene.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{comparisons/compare_altocumulus_night.jpg}
-    \captionof{figure}{Camparison: photografic reference \protect\cite{img:campare:altocumulus:night} versus the rendered image (at night).}
+    \captionof{figure}{Camparison: photographic reference \protect\cite{img:campare:altocumulus:night} versus the rendered image (at night).}
     \label{img:comparisons:altocumulus:night}
 \end{figure}
 
 \clearpage
 \noindent
 In \autoref{img:captures:prototype_final:sunset}, it is very clearly recognizable that the \gls{parameters} of the shader can heavily influence the lighting and illumination of the clouds.
-Unfortunately, the difference of details and density is fairly discernable and the desired appearance is not fully achieved.
+Unfortunately, the difference of details and density is fairly discernable from reality and the desired appearance is not fully achieved.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{comparisons/compare_altocumulus_sunset.jpg}
-    \captionof{figure}{Camparison: photografic reference \protect\cite{img:campare:altocumulus:sunset} versus the rendered image (at sunset).}
+    \captionof{figure}{Camparison: photographic reference \protect\cite{img:campare:altocumulus:sunset} versus the rendered image (at sunset).}
     \label{img:camparisons:altocumulus:sunset}
 \end{figure}
 
@@ -579,7 +584,7 @@ Finally, \autoref{img:captures:prototype_final:stormy} represents clouds of the 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{comparisons/compare_altocumulus_stormy.jpg}
-    \captionof{figure}{Camparison: photografic reference \protect\cite{img:campare:altocumulus:stormy} versus the rendered image (stormy).}
+    \captionof{figure}{Camparison: photographic reference \protect\cite{img:campare:altocumulus:stormy} versus the rendered image (stormy).}
     \label{img:camparisons:altocumulus:stormy}
 \end{figure}
 

@@ -505,8 +505,10 @@ Finally, both $w_1$ and $w_2$ are linearly interpolated in relation th $d_y$, wh
         \captionof{figure}{Perlin vertex weights in 3D space with eight corners and seven interpolations.}
         \label{img:tikz:noise:perlin:interpolation3d}    
     \end{minipage}
-    
 \end{figure}
+
+\noindent
+The amount of interpolations $i$ is therefore $i = 2^n-1$, where $n$ is the number of dimensions. As seen above, this gives $i = 3$ for 2D and $i = 7$ for 3D.
 
 \begin{figure}[H]
     \centering
@@ -733,7 +735,7 @@ float voronoi(float2 p) {
 \end{lstlisting}
 
 \noindent
-Since the Voronoi noise algorithm creates a cellular pattern, it is well suitable for simulating natural distribution of cloud heaps, as they are in some way also formed "in cells".
+Since the Voronoi noise algorithm creates a cellular pattern, it is well suitable for simulating natural distribution of cloud heaps, as they are in some way also formed "in cells". 
 
 \clearpage
 \subsubsection{Fractal Brownian Motion}
@@ -741,7 +743,7 @@ In the world of shaders, the term \textit{fractal Brownian motion} (fBm) is ofte
 This simplified description meets the required level of detail for this section, a complete explanation and derivation of the fractal Brownian motion is beyond the scope of this paper.
 \emptyline
 In shaders, fBms are also called \textit{fractal noise}. They are usually implemented by adding different iterations of noise (called \textit{octaves}), while successively incrementing the frequencies in regular steps (\textit{lacunarity}) and decreasing the amplitude (\textit{gain}) of the noise.
-This results in a more detailed noise, meaning a finer granularity of the pattern in the noise.
+This results in a more detailed noise, meaning a finer granularity of the  pattern in the noise.
 
 \begin{lstlisting}[language=HLSL, caption=Implementation of fractal Brownian motion function., label=lst:shader:fbm]
 #define LACUNARITY 2.0
