@@ -556,7 +556,7 @@ By adjusting the scale of the shader, the clouds can be made smaller. In the fol
 \end{figure}
 
 \noindent
-The night-time comparison displays how the different color of the sunlight forwarding can impact the scene.
+The night-time comparison displays how the different color of the \gls{sunlightforwarding} can impact the scene.
 
 \begin{figure}[H]
     \centering
@@ -587,6 +587,9 @@ Finally, \autoref{img:captures:prototype_final:stormy} represents clouds of the 
     \captionof{figure}{Camparison: photographic reference \protect\cite{img:campare:altocumulus:stormy} versus the rendered image (stormy).}
     \label{img:camparisons:altocumulus:stormy}
 \end{figure}
+
+\noindent
+With the \gls{sunlighttransmittance} being a bright yellow in the rendered image, an attempt was made to make the sun shine through the distant rainy clouds, like in the photographic reference. Since the cloud shader does not end before the horizon, the resulting effect is rather imperceptible.
 
 \clearpage
 \subsubsection{Convolutional Neural Network}
