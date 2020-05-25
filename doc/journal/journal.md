@@ -238,7 +238,8 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 
 * Open ToDos:
     * How does built-in Mathf.PerlinNoise() work?
-    * 
+    * Better reality check?
+    * 3D gradient in section 3.1.5.1
 
 ### Meeting discussions
 \-
