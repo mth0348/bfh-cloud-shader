@@ -132,7 +132,7 @@ public class BoxUpdater : MonoBehaviour
 
     void OnDestroy()
     {
-        noiseTexture.Release();
-        permutationBuffer.Release();
+        noiseTexture?.Release();
+        permutationBuffer?.Release();
     }
 }

@@ -242,7 +242,25 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
     * 3D gradient in section 3.1.5.1
 
 ### Meeting discussions
-\-
+* Presentation
+    * Audience is mixed (CPVR1 and CPVR3 students)
+    * Algorithms are good to show, code is maybe too technical
+    * Demonstration is key
+    * Time: +/- 10min
+    * Send finished presentation file to Prof for review before June 5th
+* Optimizations
+    * Instead of screen-space position for light forwarding, maybe just compare angle (like in Phong)
+    * Other measureable realism: evaluation by meteorologist
+    * Ask Prof Hudritsch for a method to measure similarity of two pictures
+* Future work
+    * Maybe expose only meteorological parameters to Editor and adjust internal variables according to them
+        * like height, temparature, moistness
+
+
+* ToDo
+    * Add "Sebstian Lague" as a reference
+    * Document tricks and tuning of parameters and shader files (readme for myself)
+    * 3D gradient in section 3.1.5.1
 
 **Time log**
 | Task | time spent |
