@@ -24,6 +24,7 @@ Next meeting is scheduled for March 2, 2020 at 3pm.
 | Setup of latex work environment | 4h |
 | Initial draft of specification document | 4h |
 | Research on existing papers about cloud rendering | 1h |
+|||
 
 &nbsp;
 
@@ -62,6 +63,8 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 | Task | time spent |
 |----|---|
 | Updated document in regards of the discussed points | 10h |
+|||
+
 &nbsp;
 
 &nbsp;
@@ -103,6 +106,8 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 | Updated document in regards of the discussed points | 4h |
 | Started paper.tex | 4h |
 | Added first research results about clouds | 8h |
+|||
+
 &nbsp;
 
 &nbsp;
@@ -145,7 +150,7 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 | Added research results sphere tracing | 6h |
 | Added research results shadow casting | 6h |
 | Added research results ambient occlusion | 4h |
-
+|||
 &nbsp;
 
 &nbsp;
@@ -177,6 +182,7 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 |----|---|
 | Added research results about noise generation | 4h |
 | Added research results about perlin noise | 8h |
+|||
 
 ## \#06: April 27th, 2020
 * init() in unity script, seed setzen 
@@ -189,6 +195,7 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 |----|---|
 | Added research results about Voronoi noise | 6h |
 | prototyping | 4h |
+|||
 
 &nbsp;
 
@@ -211,6 +218,8 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 | prototyping | 8h |
 | prototyping | 8h |
 | Added prototype results | 8h |
+| Added prototype results | 4h |
+|||
 
 &nbsp;
 
@@ -219,6 +228,33 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 #
 ## \#08: May 25th, 2020
 ### Formal and technical topics
+* Last meeting before presentation. Any tips?
+    * Technical depth
+
+* Chapter "project management" - Content?
+    * How faithful to schedule?
+    * What went wrong?
+    * Future work?
+
+* Open ToDos:
+    * How does built-in Mathf.PerlinNoise() work?
+    * 
+
+### Meeting discussions
+\-
+
+**Time log**
+| Task | time spent |
+|----|---|
+|||
+&nbsp;
+
+&nbsp;
+
+#
+## \#09: Final June 8th, 2020
+### Formal and technical topics
 \-
 
 ### Meeting discussions
+\-
