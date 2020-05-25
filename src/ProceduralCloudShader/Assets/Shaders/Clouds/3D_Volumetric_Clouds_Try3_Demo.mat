@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 3D_Volumetric_Clouds_Try3_Demo
-  m_Shader: {fileID: 4800000, guid: 157e31bda4b889b4da78b965b01cc4df, type: 3}
+  m_Shader: {fileID: 4800000, guid: f34d9451ed9b5a74b9d5fbc4a413f333, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -18,7 +18,11 @@ Material:
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _Mask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _CloudBorderGlow: 0.035
     - _CloudDensityFactor: 2.48
@@ -26,30 +30,32 @@ Material:
     - _DarkenHorizon: 0
     - _DensityMultiplier: 1
     - _DensityThreshold: 0.4
-    - _HorizonMaxDistance: 200
+    - _DirectionalFactor: 2
+    - _HorizonMaxDistance: 147
     - _HorizonMinDistance: 1
     - _HorzionAddFactor: 0
+    - _IlluminationFactor: 2
     - _LightScatteringStrength: 0
     - _LightStepSize: 1
     - _Mask: 1
-    - _MaxLightSamples: 25
+    - _MaxLightSamples: 20
     - _MaxLightSteps: 2
-    - _MaxSteps: 40
+    - _MaxSteps: 25
     - _PerlinAmplitude: 1
     - _PerlinBoost: 0
     - _PerlinDensityMultiplier: 1
     - _PerlinDensityThreshold: 0
-    - _PerlinFrequency: 0.12
+    - _PerlinFrequency: 0.1
     - _PerlinMax: 1
     - _PerlinMin: 0
     - _PerlinOctaves: 5
     - _PerlinPersistance: 0.7
     - _PerlinScale: 1
     - _StepSize: 0.001
-    - _SubSurfaceScatteringFade: 4
+    - _SubSurfaceScatteringFade: 1.03
     - _SunIllumninenceStrength: 0.647
-    - _SunLightScattering: 0.2
-    - _SunLightStrength: 5
+    - _SunLightScattering: 0.211
+    - _SunLightStrength: 2.47
     - _SunLightTransmittance: 0.15
     - _T: 0.217
     - _VoronoiAmplitude: 1
@@ -67,10 +73,14 @@ Material:
     - _BoundsMin: {r: -24.600557, g: 20, b: 11.219814, a: 0}
     - _CamPos: {r: 2, g: 2, b: -5, a: 0}
     - _CloudColor: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 1}
+    - _DirectionalColor: {r: 1, g: 0.78079355, b: 0, a: 1}
     - _HorizonColor: {r: 0, g: 0.2006404, b: 0.5754717, a: 1}
+    - _IlluminationColor: {r: 1, g: 0.8549945, b: 0.4481132, a: 1}
+    - _Offy: {r: 0, g: 0, b: 0, a: 0}
     - _PerlinOffset: {r: 0.4, g: 0, b: 0, a: 0}
     - _PerlinScale: {r: 1, g: 1, b: 1, a: 0}
     - _PhaseParams: {r: 0, g: 0, b: 0, a: 0}
+    - _ShineThroughColor: {r: 1, g: 0.78354603, b: 0, a: 1}
     - _SunPosition: {r: 34.36, g: 30.89, b: 37.97, a: 0}
     - _VoronoiOffset: {r: 4, g: 2, b: 0, a: 0}
     - _VoronoiScale: {r: 1, g: 1, b: 1, a: 0}

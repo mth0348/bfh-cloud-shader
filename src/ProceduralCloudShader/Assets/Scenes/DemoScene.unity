@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: af5d2ba78c743cc4f84777e3737da084, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 33e75d7dbc9540240acb38455f6fe3e1, type: 2}
   m_HaloStrength: 0.379
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -1691,7 +1691,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!33 &312459536
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2203,7 +2203,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!199 &401367848
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -7823,8 +7823,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.5004706, g: 0.6318386, b: 0.7058824, a: 1}
-  m_Intensity: 0.5
+  m_Color: {r: 1, g: 0.87176275, b: 0, a: 1}
+  m_Intensity: 0.8
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -16651,7 +16651,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 956dd4c3865c10c408f4b49fb26004c5, type: 2}
+  - {fileID: 2100000, guid: 6053d2f875f18d44eb0493123a3195e7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -16708,6 +16708,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sun: {fileID: 705507995}
   noiseComputeShader: {fileID: 7200000, guid: 3f54d2669c497ed469fc308ee8a1125c, type: 3}
+  renderTextureSlicer: {fileID: 0}
   _PerlinScale: {x: 1, y: 1, z: 1}
   _PerlinOffset: {x: 0, y: 0, z: 0}
   _PerlinOctaves: 1
@@ -16730,6 +16731,7 @@ MonoBehaviour:
   _VoronoiBoost: 0
   _VoronoiDensityThreshold: 0.2
   _VoronoiDensityMultiplier: 1
+  updateNoise: 0
 --- !u!1 &1734497759
 GameObject:
   m_ObjectHideFlags: 0

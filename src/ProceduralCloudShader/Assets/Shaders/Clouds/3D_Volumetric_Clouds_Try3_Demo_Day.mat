@@ -18,7 +18,11 @@ Material:
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _Mask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _CloudBorderGlow: 0.035
     - _CloudDensityFactor: 1.15
@@ -26,9 +30,11 @@ Material:
     - _DarkenHorizon: 0
     - _DensityMultiplier: 1
     - _DensityThreshold: 0.4
+    - _DirectionalFactor: 0
     - _HorizonMaxDistance: 200
     - _HorizonMinDistance: 1
     - _HorzionAddFactor: 0
+    - _IlluminationFactor: 0
     - _LightScatteringStrength: 0
     - _LightStepSize: 0.585
     - _Mask: 1
@@ -67,10 +73,14 @@ Material:
     - _BoundsMin: {r: -24.600557, g: 20, b: 11.219814, a: 0}
     - _CamPos: {r: 2, g: 2, b: -5, a: 0}
     - _CloudColor: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 1}
+    - _DirectionalColor: {r: 1, g: 1, b: 1, a: 1}
     - _HorizonColor: {r: 0.754717, g: 0.754717, b: 0.754717, a: 1}
+    - _IlluminationColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Offy: {r: 0, g: 0, b: 0, a: 0}
     - _PerlinOffset: {r: 0.4, g: 0, b: 0, a: 0}
     - _PerlinScale: {r: 1, g: 1, b: 0.1, a: 0}
     - _PhaseParams: {r: 0, g: 0, b: 0, a: 0}
+    - _ShineThroughColor: {r: 1, g: 1, b: 1, a: 1}
     - _SunPosition: {r: -4.699999, g: 48.58, b: 41.26, a: 0}
     - _VoronoiOffset: {r: 4, g: 2, b: 0, a: 0}
     - _VoronoiScale: {r: 1, g: 1, b: 1, a: 0}
