@@ -620,7 +620,7 @@ For this, a \gls{computeshader} was created with the attempt to generate a 3D te
 Unfortunately, all experiments with \gls{computeshader}s were unsuccessful, as there is only very little documentation about 3D texture-generating \gls{computeshader}s for Unity Editor.
 
 \paragraph{Early Exits}
-For some functions and loops, early exit conditions can speed up the run time. As an example, in \autoref{lst:shader:prototype:raylightmarching}, which describes \gls{raymarching} combined with \gls{lightmarching}, the light does not need to be calculated when there is no cloud.
+For some functions and loops, early exit conditions can speed up the run time. As an example in \autoref{lst:shader:prototype:raylightmarching}, which describes \gls{raymarching} combined with \gls{lightmarching}, the light does not need to be calculated when there is no cloud.
 The following little extension should fix that issue.
 \begin{lstlisting}[language=HLSL]
 if (density <= 0) {
