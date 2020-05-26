@@ -261,6 +261,7 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
     * Add "Sebstian Lague" as a reference
     * Document tricks and tuning of parameters and shader files (readme for myself)
     * 3D gradient in section 3.1.5.1
+    * Abstract
 
 **Time log**
 | Task | time spent |
