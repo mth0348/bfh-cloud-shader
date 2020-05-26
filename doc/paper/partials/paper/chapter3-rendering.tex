@@ -16,20 +16,17 @@ To actually render the volume data, a method called \textit{\gls{raymarching}} i
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[scale=0.7]
-        \node[red] (p1) at (2.5,3) {};
-
-        \draw[-{Latex[length=2mm]},cyan,shorten <=-4pt] (p1) node[below right]{stepped forward} -- (4.75,4.125);
+        \draw[-{Latex[length=2mm]},cyan] (2.5,3) node[below right]{stepped forward} -- (4.75,4.125);
         \node[cyan] at (3.0,3.25) {\textbullet};
         \node[cyan] at (3.5,3.50) {\textbullet};
         \node[cyan] at (4.0,3.73) {\textbullet};
         
-        \node[red] at (p1) {\ding{53}};
-
         \draw (0,0) -- (5,0) -- (5,5) -- (0, 5) -- (0, 0);
         \draw (2,1) -- (7,1) -- (7,6) -- (2, 6) -- (2, 1);
         \draw (0,0) -- (2,1); \draw (5,0) -- (7,1); \draw (5,5) -- (7,6); \draw (0,5) -- (2,6); 
 
-        \draw[red,shorten >=-4pt] (-1.5,1) node[below right]{camera ray} -- (p1);
+        \node[red] (p1) at (-1.5,1) {\ding{53}};
+        \draw[red] (p1) node[below right]{camera ray} -- (2.5,3);
 
     \end{tikzpicture}
     \captionof{figure}{Ray marching concept visualized.}
