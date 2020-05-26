@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 3D_Volumetric_Clouds_Try3_Demo
-  m_Shader: {fileID: 4800000, guid: f34d9451ed9b5a74b9d5fbc4a413f333, type: 3}
+  m_Shader: {fileID: 4800000, guid: 157e31bda4b889b4da78b965b01cc4df, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
