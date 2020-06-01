@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 3D_Volumetric_Clouds_Try3_Demo_Night
-  m_Shader: {fileID: 4800000, guid: f34d9451ed9b5a74b9d5fbc4a413f333, type: 3}
+  m_Shader: {fileID: 4800000, guid: 157e31bda4b889b4da78b965b01cc4df, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -40,14 +40,14 @@ Material:
     - _Mask: 1
     - _MaxLightSamples: 20
     - _MaxLightSteps: 2
-    - _MaxSteps: 25
+    - _MaxSteps: 40
     - _PerlinAmplitude: 1
     - _PerlinBoost: 0
     - _PerlinDensityMultiplier: 1
     - _PerlinDensityThreshold: 0
-    - _PerlinFrequency: 0.22
+    - _PerlinFrequency: 0.12
     - _PerlinMax: 1
-    - _PerlinMin: 0
+    - _PerlinMin: 0.049
     - _PerlinOctaves: 5
     - _PerlinPersistance: 0.7
     - _PerlinScale: 1
@@ -60,7 +60,7 @@ Material:
     - _T: 0.217
     - _VoronoiAmplitude: 1
     - _VoronoiBoost: 0
-    - _VoronoiDensityMultiplier: 2
+    - _VoronoiDensityMultiplier: 3
     - _VoronoiDensityThreshold: 0
     - _VoronoiFrequency: 0.84
     - _VoronoiMax: 1

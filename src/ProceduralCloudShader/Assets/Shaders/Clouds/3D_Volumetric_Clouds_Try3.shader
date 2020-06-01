@@ -9,7 +9,7 @@
         _PerlinOffset ("Perlin Offset", vector) = (1,1,0,0)
         _PerlinOctaves ("Perlin Octaves", Range(1,10)) = 1
         _PerlinPersistance ("Perlin Persistence", Range(0.1, 1)) = 0.5
-        _PerlinFrequency ("Perlin Frequency", Range(0.1, 10)) = 1
+        _PerlinFrequency ("Perlin Frequency", Range(0.1, 1)) = 1
         _PerlinAmplitude ("Perlin Amplitude", Range(0.1, 10)) = 1
         _PerlinMin ("Perlin Min", Range(0,1)) = 0
         _PerlinMax ("Perlin Max", Range(0,1)) = 1
@@ -22,7 +22,7 @@
         _VoronoiOffset ("Offset", vector) = (1,1,0,0)
         _VoronoiOctaves ("Octaves", Range(1,10)) = 1
         _VoronoiPersistance ("Persistence", Range(0.1, 1)) = 0.5
-        _VoronoiFrequency ("Frequency", Range(0.1, 10)) = 1
+        _VoronoiFrequency ("Frequency", Range(0.1, 1)) = 1
         _VoronoiAmplitude ("Amplitude", Range(0.1, 10)) = 1
         _VoronoiMin ("Min", Range(0,1)) = 0
         _VoronoiMax ("Max", Range(0,1)) = 1
@@ -37,22 +37,22 @@
         _MaxLightSamples ("Max Light Samples", Range(0,40)) = 25
         _MaxLightSteps ("Max Light Steps", Range(0,10)) = 5
         _LightStepSize ("Light Step Size", Range(0,2)) = 0.1
-        _SubSurfaceScatteringFade ("Sub-Surface Scattering Fade", Range(0,4)) = 1
+        _SubSurfaceScatteringFade ("Subsurface Scattering Fade", Range(0,4)) = 1
         [Space]
-        _SunLightScattering ("Sun Light Scattering", Range(0.1,0.5)) = 0.2
-        _SunLightStrength ("Sun Light Strength", Range(0,5)) = 1
-        _ShineThroughColor ("Sun Shine Through Color", Color) = (1,1,1,1)
-        _IlluminationColor ("Global Illumination Color", Color) = (1,1,1,1)
-        [Enum(Subtractive,0,Additive,2)] _IlluminationFactor ("Illumination Mode", int) = 0
+        _SunLightScattering ("Sunlight Forward Scattering", Range(0.1,0.5)) = 0.2
         _DirectionalColor ("Sun Directional Color", Color) = (1,1,1,1)
         [Enum(Subtractive,0,Additive,2)] _DirectionalFactor ("Directional Mode", int) = 0
-
+        _SunLightStrength ("Sun Light Strength", Range(0.01,5)) = 1
+        _ShineThroughColor ("Sun Shine Through Color", Color) = (1,1,1,1)
+        
         [Header(Clouds)]
         _CloudColor ("Cloud Color", Color) = (1,1,1,1)
         _CloudDensityFactor ("Cloud Density Factor", Range(0,5)) = 1
         _CloudGapSize ("Cloud Gap Size", Range(1,10)) = 1
         _LightScatteringStrength ("Light Scattering Strength", Range(0,2)) = 0.5
-    
+        _IlluminationColor ("Global Illumination Color", Color) = (1,1,1,1)
+        [Enum(Subtractive,0,Additive,2)] _IlluminationFactor ("Illumination Mode", int) = 0
+
         [Header(Horizon)]
         _HorizonMinDistance ("Horizon Min Distance", Range(1,200)) = 10
         _HorizonMaxDistance ("Horizon Max Distance", Range(1,200)) = 150
