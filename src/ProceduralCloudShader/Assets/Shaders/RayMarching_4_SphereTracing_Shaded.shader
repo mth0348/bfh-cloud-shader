@@ -46,7 +46,7 @@
 			}
 
 			float sdf(float3 position) {
-				float4 sphere = float4(0, 1, 0, 1);
+				float4 sphere = float4(0, 1, 0, 2);
 				return distance(sphere.xyz, position) - sphere.w;
 			}
 
