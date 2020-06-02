@@ -331,62 +331,92 @@ Because of that, it is not possible to explicitly calculate the normals and ther
 To approximate the normal vectors in a 3D data volume, the \textit{\gls{gradient}} is used. The \gls{gradient} represents the direction of greatest change of a scalar function.
 In \autoref{img:tikz:rendering:gradient}, the red arrows indicate the gradient for the points at the start of the arrows. 
 
+
+
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}
-        \tikzset{smalledge/.style = {-{Latex[length=2mm]}}}
+        \begin{minipage}{0.47\linewidth}
+            \centering
+            \begin{tikzpicture}[scale=1]
+                \tikzset{smalledge/.style = {-{Latex[length=2mm]}}}
+                
+                \node (gradient) at (0,0)
+                {\includegraphics{edits/gradient}};
+                
+                \node at (0, -2.65) {};
+
+                \node (A1) at (-2,-1.5) {};
+                \node (A2) at (-1,-1.5) {};
+                \node (B1) at (-0.5,-1.5) {};
+                \node (B2) at (0.5,-1.5) {};
+                \node (C1) at (1,-1.5) {};
+                \node (C2) at (2,-1.5) {};
+                
+                \node (D1) at (-2,-0.5) {};
+                \node (D2) at (-1,-0.5) {};
+                \node (E1) at (-0.5,-0.5) {};
+                \node (E2) at (0.5,-0.5) {};
+                \node (F1) at (1,-0.5) {};
+                \node (F2) at (2,-0.5) {};
         
-        \node (gradient) at (0,0)
-        {\includegraphics{edits/gradient}};
+                \node (G1) at (-2,0.5) {};
+                \node (G2) at (-1,0.5) {};
+                \node (H1) at (-0.5,0.5) {};
+                \node (H2) at (0.5,0.5) {};
+                \node (I1) at (1,0.5) {};
+                \node (I2) at (2,0.5) {};
         
-        \node (A1) at (-2,-1.5) {};
-        \node (A2) at (-1,-1.5) {};
-        \node (B1) at (-0.5,-1.5) {};
-        \node (B2) at (0.5,-1.5) {};
-        \node (C1) at (1,-1.5) {};
-        \node (C2) at (2,-1.5) {};
+                \node (J1) at (-2,1.5) {};
+                \node (J2) at (-1,1.5) {};
+                \node (K1) at (-0.5,1.5) {};
+                \node (K2) at (0.5,1.5) {};
+                \node (L1) at (1,1.5) {};
+                \node (L2) at (2,1.5) {};
         
-        \node (D1) at (-2,-0.5) {};
-        \node (D2) at (-1,-0.5) {};
-        \node (E1) at (-0.5,-0.5) {};
-        \node (E2) at (0.5,-0.5) {};
-        \node (F1) at (1,-0.5) {};
-        \node (F2) at (2,-0.5) {};
+                \draw[smalledge, red] (A1) edge node{} (A2);
+                \draw[smalledge, red] (B1) edge node{} (B2);
+                \draw[smalledge, red] (C1) edge node{} (C2);
+        
+                \draw[smalledge, red] (D1) edge node{} (D2);
+                \draw[smalledge, red] (E1) edge node{} (E2);
+                \draw[smalledge, red] (F1) edge node{} (F2);
+        
+                \draw[smalledge, red] (G1) edge node{} (G2);
+                \draw[smalledge, red] (H1) edge node{} (H2);
+                \draw[smalledge, red] (I1) edge node{} (I2);
+        
+                \draw[smalledge, red] (J1) edge node{} (J2);
+                \draw[smalledge, red] (K1) edge node{} (K2);
+                \draw[smalledge, red] (L1) edge node{} (L2);
+                
+                \vspace*{20pt}
 
-        \node (G1) at (-2,0.5) {};
-        \node (G2) at (-1,0.5) {};
-        \node (H1) at (-0.5,0.5) {};
-        \node (H2) at (0.5,0.5) {};
-        \node (I1) at (1,0.5) {};
-        \node (I2) at (2,0.5) {};
-
-        \node (J1) at (-2,1.5) {};
-        \node (J2) at (-1,1.5) {};
-        \node (K1) at (-0.5,1.5) {};
-        \node (K2) at (0.5,1.5) {};
-        \node (L1) at (1,1.5) {};
-        \node (L2) at (2,1.5) {};
-
-        \draw[smalledge, red] (A1) edge node{} (A2);
-        \draw[smalledge, red] (B1) edge node{} (B2);
-        \draw[smalledge, red] (C1) edge node{} (C2);
-
-        \draw[smalledge, red] (D1) edge node{} (D2);
-        \draw[smalledge, red] (E1) edge node{} (E2);
-        \draw[smalledge, red] (F1) edge node{} (F2);
-
-        \draw[smalledge, red] (G1) edge node{} (G2);
-        \draw[smalledge, red] (H1) edge node{} (H2);
-        \draw[smalledge, red] (I1) edge node{} (I2);
-
-        \draw[smalledge, red] (J1) edge node{} (J2);
-        \draw[smalledge, red] (K1) edge node{} (K2);
-        \draw[smalledge, red] (L1) edge node{} (L2);
-
-        \end{tikzpicture}
-    \captionof{figure}{Gradient in a 2D scalar field.}
-    \label{img:tikz:rendering:gradient}
+                \end{tikzpicture}
+            \captionof{figure}{Gradient in a 2D scalar field.}
+            \label{img:tikz:rendering:gradient}
+        \end{minipage}
+    \hfill
+        \begin{minipage}{0.47\linewidth}
+            \centering
+            \begin{tikzpicture}[scale=1]
+                \begin{axis}[
+                    xlabel=$x$, ylabel=$y$,
+                    small,
+                ]
+                \addplot3[
+                    surf,
+                    samples=40,
+                    domain=-2:2,
+                    domain y=-1.3:1.3,
+                ] 
+                    {-(cos(x)^2+cos(y)^2)^2};
+                \end{axis}
+            \end{tikzpicture}
+            \captionof{figure}{Gradient in a 3D scalar field.}
+            \label{img:tikz:rendering:gradient3d}
+        \end{minipage}
 \end{figure}
+
 
 \noindent
 Mathematically, the \gls{gradient} of a function $f$ at point $p=(x,y,z)$ defines the direction to move in from $p$ to most rapidly increase the value of $f$. 
