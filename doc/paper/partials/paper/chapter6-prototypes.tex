@@ -2,14 +2,8 @@
 
 \subsection{Disclaimer}
 \subsubsection{Completed Prototypes}
-Originally, the following three prototypes were planned.
-\begin{itemize}
-    \item volumetric rendering
-    \item procedural noise generation
-    \item ray marching
-\end{itemize}
 While researching the topic and experimenting with some dummy shaders, it came clear that "\gls{volumetricrendering}" and "\gls{raymarching}" are interchangeable in this matter.
-Therefore, only two kinds of prototyping have been developed. This change is explained in detail in \sectionref{section:projectmanagement}.
+Therefore, only two kinds of prototyping have been developed. This change is explained in detail in \sectionref{section:projectmanagement:goals}.
 
 \subsubsection{Dimensions}
 All of the following documented procedures and algorithms were prototyped and implemented in 3D, but for the matter of explanation, it is described and visualized in 2D.
@@ -186,7 +180,7 @@ By adjusting some of the \gls{parameters} and increasing the octaves of both noi
 One of the more prominent lighting features of clouds is its translucency. This phenomenon displays how light bounces and scatters inside the matter, then exits at a different point. This is also called \textit{\gls{sss}} (SSS).
 It results in illuminated areas where the clouds are thinner, giving it that milky look and "glow" on the outer edge. In nature, \gls{sss} is a very complex and computationally demanding process. For computer graphics however, it is often either simplified or substituted with some other algorithm that produces a similar outcome at lower performance cost.
 
-\subsubsection{Sunlight Forwarding}
+\subsubsection{Sunlight Forward Scattering}
 When approaching the implementation of \gls{sss} and directional lighting, it seemed most reasonable to start with the sun being visible behind the clouds, or at least shining through them.
 This implies finding a way to illuminate clouds that cover the sun. In the context of this project, it is called \textit{\gls{sunlighttransmittance}} or \textit{\gls{sunlightforwarding}}, since it is not a variant of SSS but rather an approximation.
 \\
@@ -242,10 +236,11 @@ After some consideration and brainstorming, the following method was chosen to s
 \noindent
 When ray casting, both the fragment's and the light source's screen-space position is calculated. Those are two-dimensional coordinates relative to the screen that the camera renders to.
 Now if the distance $d = \norm{\overrightarrow{st_1 st_2}} < t$, with $t$ being some threshold, a portion of the sun's color is added to the fragment's color, relative to how small $d$ is.
-\emptyline
+\\
 It is noteworthy that when calculating the screen-space position, the depth value gets lost. Therefore, theoretically, the clouds would be illuminated when $d < t$ even if the sun is in front of the clouds.
 Given this is almost never the case in games and weather simulations, that particular issue is neglected.
-
+\\
+Also, instead of evaluating the distance $d$, the intermediate angle of both vectors could also be used to avoid calculating the screen-space position, giving $d = cos^{-1}\left(\overrightarrow{v_{cloud}} * \overrightarrow{v_{light}}\right)$.
 
 \begin{figure}[H]
     \centering
@@ -591,9 +586,15 @@ Finally, \autoref{img:captures:prototype_final:stormy} represents clouds of the 
 \noindent
 With the \gls{sunlighttransmittance} being a bright yellow in the rendered image, an attempt was made to make the sun shine through the distant rainy clouds, like in the photographic reference. Since the cloud shader does not end before the horizon, the resulting effect is rather imperceptible.
 
+\clearpage
 \subsubsection{Convolutional Neural Network}
 Given there is a \gls{cnn} (CNN) that is able to classify images of the sky, the weather or clouds into descriptive labels or even genera of cloud formations, then one could just seed those rendered images into the CNN and verify wether the results are truthfully showing "real" clouds.
 Of course, this is heavily dependant of how well the CNN was trained.
+
+\subsubsection{Generative Adversarial Network}
+A similar approach to the \gls{cnn} is a  \gls{gan} (GAN) setup. It describes two neural networks, which contest with each other in a cat-and-mouse game: The \textit{generative} network tries to imitate the training set by generating artifical photographs with many realistic characteristics, while the \textit{discriminative} network tries to tell wether the generated image is fake or not.
+\\
+With this method, the rendered cloud images could be passed through the discriminative neural network to see if at least the network thinks the images are of real clouds.
 
 \clearpage
 \subsection{Performance}
@@ -613,11 +614,12 @@ So for a single frame, the number of times the noise function is called for this
 
 \subsubsection{Optimization Attempts}
 \paragraph{Compute Shader}
-The fact that the noise function needs to be sampled often is not the issue. It is the fact that the noise needs to be calculated again each time.
+The fact that the noise function needs to be sampled so often may not even be the issue, but rather that the noise texture needs to be calculated again each time.
 Therefore, the idea arose to precalculate the 3D noise volume and feed it to the shader at runtime, in the form of a 3D texture cube.
 \\
-For this, a \gls{computeshader} was created with the attempt to generate a 3D texture representing the noise in grey tones.
+For this, a \gls{computeshader} was created with the attempt to generate said texture.
 Unfortunately, all experiments with \gls{computeshader}s were unsuccessful, as there is only very little documentation about 3D texture-generating \gls{computeshader}s for Unity Editor.
+This approach was therefore abandoned.
 
 \paragraph{Early Exits}
 For some functions and loops, early exit conditions can speed up the run time. As an example in \autoref{lst:shader:prototype:raylightmarching}, which describes \gls{raymarching} combined with \gls{lightmarching}, the light does not need to be calculated when there is no cloud.
@@ -629,5 +631,5 @@ if (density <= 0) {
 \end{lstlisting}
 
 \noindent
-Instead of checking if density is smaller or equal to zero, a very small threshold could be used as well.
+Instead of checking if \lstinline[language=HLSL]{density} is smaller or equal to zero, a very small threshold could be used as well.
 It is noteworthy that a number larger than zero can create edges on thin clouds, as the abrupt reduction in density may be visible.

@@ -262,8 +262,8 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
     * (&nbsp;&nbsp; ) Document tricks and tuning of parameters and shader files (readme for myself)
     * (&nbsp;&nbsp; ) 3D gradient in section 3.1.5.1
     * (&nbsp;&nbsp; ) Abstract
-    * (&nbsp;&nbsp; ) GANs
-    * (&nbsp;&nbsp; ) Instead of screen-space position for light forwarding, maybe just compare angle (like in Phong)
+    * (✔) GANs
+    * (✔) Instead of screen-space position for light forwarding, maybe just compare angle (like in Phong)
     * (&nbsp;&nbsp; ) Other measureable realism: evaluation by meteorologist
     * (✔) Ask Prof Hudritsch for a method to measure similarity of two pictures
 
