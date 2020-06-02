@@ -18,8 +18,11 @@
 \usepackage[hidelinks]{hyperref} % hrefs
 \usepackage{totcount}
 \usepackage{pgfplots}
-\usepgfplotslibrary{units}
 \pgfplotsset{compat=1.16}
+\pgfplotsset{
+    colormap={cool}{rgb255(0cm)=(237,66,76); rgb255(0.5cm)=(255,255,255); rgb255(1cm)=(57,146,239)}
+}
+\usepgfplotslibrary{colorbrewer}
 
 \usepackage{float} % image placement
 \usepackage{amssymb} % math symbols
