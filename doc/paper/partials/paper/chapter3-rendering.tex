@@ -3,7 +3,7 @@
 
 \subsection{Definition}
 \Gls{volumetricrendering} describes a technique for generating a visual representation of data that is stored in a 3D volume. 
-This especically comes to use for visual effects that are volumetric in nature, like fluids, clouds, fire, smoke, fog and dust, which all are extremely difficult or even impossible to model with geometric primitives.
+This especially comes to use for visual effects that are volumetric in nature, like fluids, clouds, fire, smoke, fog and dust, which all are extremely difficult or even impossible to model with geometric primitives.
 \\
 In addition to rendering such effects, volumetric rendering has become essential to scientific applications like medical imaging, for which a typical 3D data volume is a set of 2D slice images acquired by a CT (computed tomography) or MRI (magnetic resonance imaging) scanner.
 \emptyline
@@ -139,7 +139,7 @@ Once the step size falls below a certain threshold, the distance approximation i
         \draw[smalledge] (2) edge[bend left=60] node [left]{} (3);
         \draw[smalledge] (3) edge[bend left=60] node [left]{} (4);
 
-        % rey reverse steps
+        % ray reverse steps
         \draw[smalledge,cyan,shorten >=-0.1cm,shorten <=-0.1cm] (4) edge[bend left=60] node [left]{} (5);
         \draw[smalledge,cyan,shorten >=-0.1cm,shorten <=-0.1cm] (5) edge[bend left=60] node [left]{} (6);
 
@@ -188,13 +188,13 @@ For that, a function group called \textit{\gls{sdf}s} is used.
 
 \subsubsection{Signed Distance Functions}
 A \gls{sdf} (SDF) returns the shortest distance from that a given point in space to some surface.
-The sign of the returned value indicates wether that point is inside the surface or outside, hence the name.
+The sign of the returned value indicates whether that point is inside the surface or outside, hence the name.
 \\
 For example, the \gls{sdf} $f(p)$ for a point $p=(p_1, p_2, p_3)$ to the surface of a sphere $s=(s_1, s_2, s_3)$ with radius $R$ looks like this:
 $$ f(p) = \sqrt{(s_1 - p_1)^2 + (s_2 - p_2)^2 + (s_3 - p_3)^2} - R $$
 
 \noindent
-This translates into a simple code snippet, mostly identical to the function \lstinline[language=HLSL]{sphereHit()} in \autoref{lst:shader:raymarch:spherehit}, except the distance is returned instead of a boolean.
+This translates into a simple code snippet, mostly identical to the function \lstinline[language=HLSL]{sphereHit()} in \autoref{lst:shader:raymarch:spherehit}, except the distance is returned instead of a Boolean.
 \begin{lstlisting}[language=HLSL, caption=Implementation of a signed distance function for a sphere., label=lst:shader:raymarch:spheredistance]
 float sceneSDF(float3 position) {
     float4 sphere = float4(0, 0, 0, 1);
@@ -211,7 +211,7 @@ float d3 = sceneSDF(float3(5, -5, 5));  // d3 = 7.66
 \end{lstlisting}
 
 \subsubsection{Sphere Tracing with SDFs}
-If the distance to the scene can be calculated with a \gls{sdf}, the algorithm becomes rather straight forward. The distance to the scene is evaluated at the start, then one can freely march along the ray for that amount of distance. Once arrived at the new point, the process is reapeted until the SDF returns a small enough value.
+If the distance to the scene can be calculated with a \gls{sdf}, the algorithm becomes rather straight forward. The distance to the scene is evaluated at the start, then one can freely march along the ray for that amount of distance. Once arrived at the new point, the process is repeated until the SDF returns a small enough value.
 
 \begin{figure}[H]
     \centering
@@ -527,7 +527,7 @@ Therefore, when a surface point has been determined, a second ray march can be s
 \noindent
 As seen in the figure above, the ray $r1$ hits the volumetric sphere, then checks if anything is between the ray intersection and the negative light source direction.
 In this case, $s1$ does not collide with anything and the surface is shaded normally. 
-For the other ray $r2$ however, the shadow ray march returns a distance $s2 > 0$ and $s2 < $\lstinline[language=HLSL]{ MAX_DISTANCE}, meaning some object is inbetween the hit point and the light source, casting a shadow.
+For the other ray $r2$ however, the shadow ray march returns a distance $s2 > 0$ and $s2 < $\lstinline[language=HLSL]{ MAX_DISTANCE}, meaning some object is in-between the hit point and the light source, casting a shadow.
 \\
 \begin{lstlisting}[language=HLSL, caption=Implementation of hard shadow casting., label=lst:shader:shadowcasting:hard]
 float hardshadow(float3 position, float3 direction, float dMin, float dMax)
@@ -599,7 +599,7 @@ Those are the resulting renders with a sphere and a flat box as the volumetric s
 
 \clearpage
 \subsection{Shape Blending}
-Another thing that comes free with ray marching is \textit{\gls{shapeblending}}. It describes the concept of blending the \gls{sdf}s of mulitple shapes together with this simple method:
+Another thing that comes free with ray marching is \textit{\gls{shapeblending}}. It describes the concept of blending the \gls{sdf}s of multiple shapes together with this simple method:
 \begin{lstlisting}[language=HLSL]
 float blend(float d1, float3 d2, float k)
 {
@@ -678,7 +678,7 @@ float ambientOcclusion(float3 p, float3 direction) {
 
 \noindent
 This comes close to the constant step ray marching algorithm, since it is marched along the ray in a predefined step size.
-On line 7, the scene SDF is substracted from the total distance and then devided by it. This just puts the scene distance in relation to the total distance.
+On line 7, the scene SDF is substracted from the total distance and then divided by it. This just puts the scene distance in relation to the total distance.
 Also, \lstinline[language=HLSL]{max()} is used because the SDF can return a negative number for points inside the surface, so in order to not brighten the scene at point \lstinline[language=HLSL]{p} when this is the case, 0 is added instead.
 \\
 With \lstinline[language=HLSL]{AO_STEP_SIZE = 0.1}, \lstinline[language=HLSL]{AO_ITERATIONS = 3} and \lstinline[language=HLSL]{AO_INTENSITY = 0.2}, the following output is produced.

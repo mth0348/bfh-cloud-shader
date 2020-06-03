@@ -153,8 +153,8 @@ The final sampling function simply multiplies both noise values at a given point
 float sampleDensity(float3 position) {
   float3 vpos = position * _VoronoiScale + _VoronoiOffset;
   float3 ppos = position * _PerlinScale + _PerlinOffset;
-  float vd = fbmVoronoi(vpos, _VoronoiOctaves, _VoronoiPersistance));
-  float pd = fbmPerlin(ppos, _PerlinOctaves, _PerlinPersistance));
+  float vd = fbmVoronoi(vpos, _VoronoiOctaves, _VoronoiPersistence));
+  float pd = fbmPerlin(ppos, _PerlinOctaves, _PerlinPersistence));
   
   vd = max(0, vd - _VoronoiDensityThreshold) * _VoronoiDensityMultiplier;
   pd = max(0, pd - _PerlinDensityThreshold) * _PerlinDensityMultiplier;
@@ -275,7 +275,7 @@ The idea of multiplying by \lstinline[language=HLSL]{cloudDensity} on line 9 was
 \clearpage
 \subsubsection{Directional light}
 Another challenging part during prototyping was directional light on surfaces facing the sun. Usually in \gls{raymarching}, a \gls{surfacenormal} estimation is done using the gradient.
-This works well if there is only one point of interest (like a ray-surface intersection point), but as already mentinoned before, the ray does not stop sampling points until it reaches the end of the container cube.
+This works well if there is only one point of interest (like a ray-surface intersection point), but as already mentioned before, the ray does not stop sampling points until it reaches the end of the container cube.
 \\
 So instead of calculating normals for each sample point, another ray is cast from the sample point towards the sun.
 Along its path, the density is sampled again $L$ times in constant steps. With the lack of an official term, this process is called \textit{\gls{lightmarching}} in this project.
@@ -461,7 +461,7 @@ Free assets from the Unity Asset Store were used for trees\footnote[1]{https://a
 
 \clearpage
 \noindent
-To demonstrate the capability of the shader in its prototype state, here are some variations of it. The are no code changes inbetween the rendered images, the only things that changed are the shader's \gls{parameters} and Unity Editor lighting settings and colors.
+To demonstrate the capability of the shader in its prototype state, here are some variations of it. The are no code changes in-between the rendered images, the only things that changed are the shader's \gls{parameters} and Unity Editor lighting settings and colors.
 
 \begin{figure}[H]
     \centering
@@ -547,7 +547,7 @@ By adjusting the scale of the shader, the clouds can be made smaller. In the fol
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{comparisons/compare_altocumulus.jpg}
-    \captionof{figure}{Camparison: photographic reference \protect\cite{img:campare:altocumulus} versus the rendered image.}
+    \captionof{figure}{Comparison: photographic reference \protect\cite{img:campare:altocumulus} versus the rendered image.}
     \label{img:comparisons:altocumulus}
 \end{figure}
 
@@ -557,7 +557,7 @@ The night-time comparison displays how the different color of the \gls{sunlightf
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{comparisons/compare_altocumulus_night.jpg}
-    \captionof{figure}{Camparison: photographic reference \protect\cite{img:campare:altocumulus:night} versus the rendered image (at night).}
+    \captionof{figure}{Comparison: photographic reference \protect\cite{img:campare:altocumulus:night} versus the rendered image (at night).}
     \label{img:comparisons:altocumulus:night}
 \end{figure}
 
@@ -569,7 +569,7 @@ Unfortunately, the difference of details and density is fairly discernable from 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{comparisons/compare_altocumulus_sunset.jpg}
-    \captionof{figure}{Camparison: photographic reference \protect\cite{img:campare:altocumulus:sunset} versus the rendered image (at sunset).}
+    \captionof{figure}{Comparison: photographic reference \protect\cite{img:campare:altocumulus:sunset} versus the rendered image (at sunset).}
     \label{img:camparisons:altocumulus:sunset}
 \end{figure}
 
@@ -580,7 +580,7 @@ Finally, \autoref{img:captures:prototype_final:stormy} represents clouds of the 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{comparisons/compare_altocumulus_stormy.jpg}
-    \captionof{figure}{Camparison: photographic reference \protect\cite{img:campare:altocumulus:stormy} versus the rendered image (stormy).}
+    \captionof{figure}{Comparison: photographic reference \protect\cite{img:campare:altocumulus:stormy} versus the rendered image (stormy).}
     \label{img:camparisons:altocumulus:stormy}
 \end{figure}
 
@@ -589,11 +589,11 @@ With the \gls{sunlighttransmittance} being a bright yellow in the rendered image
 
 \clearpage
 \subsubsection{Convolutional Neural Network}
-Given there is a \gls{cnn} (CNN) that is able to classify images of the sky, the weather or clouds into descriptive labels or even genera of cloud formations, then one could just seed those rendered images into the CNN and verify wether the results are truthfully showing "real" clouds.
-Of course, this is heavily dependant of how well the CNN was trained.
+Given there is a \gls{cnn} (CNN) that is able to classify images of the sky, the weather or clouds into descriptive labels or even genera of cloud formations, then one could just seed those rendered images into the CNN and verify whether the results are truthfully showing "real" clouds.
+Of course, this is heavily dependent of how well the CNN was trained.
 
 \subsubsection{Generative Adversarial Network}
-A similar approach to the \gls{cnn} is a  \gls{gan} (GAN) setup. It describes two neural networks, which contest with each other in a cat-and-mouse game: The \textit{generative} network tries to imitate the training set by generating artifical photographs with many realistic characteristics, while the \textit{discriminative} network tries to tell wether the generated images are fake or not.
+A similar approach to the \gls{cnn} is a  \gls{gan} (GAN) setup. It describes two neural networks, which contest with each other in a cat-and-mouse game: The \textit{generative} network tries to imitate the training set by generating artificial photographs with many realistic characteristics, while the \textit{discriminative} network tries to tell whether the generated images are fake or not.
 \\
 With this method, the rendered cloud images could be passed through the discriminative neural network to see if at least the network thinks the images are of real clouds.
 
@@ -601,12 +601,12 @@ With this method, the rendered cloud images could be passed through the discrimi
 The \textit{\gls{histogram}} is a graphical representation of data like brightness or color distribution of a given photograph.
 When extracting the color \gls{histogram}s of the real photograph and the one of the rendered image, they could be compared and rated how different in color they are.
 
-\subsubsection{Professional Meterological Assessment}
+\subsubsection{Professional Meteorological Assessment}
 Another viable solution is to let a professional meteorologist inspect and rate the rendered images and judge the realism of the depicted scenarios, which should reveal if the rendered clouds could actually form and exist in reality.
 
 \clearpage
 \subsection{Performance}
-With the current implementations of \gls{raymarching} and \gls{lightmarching}, the performance of the shader is heavily dependant on the number of samples $N$ and $L$ taken along the rays.
+With the current implementations of \gls{raymarching} and \gls{lightmarching}, the performance of the shader is heavily dependent on the number of samples $N$ and $L$ taken along the rays.
 With a container cube the size of 400x200 pixel in screen-space (which is a relatively small box of clouds), the \gls{gpu} load is already enormously large. 
 Here, the number of noise samplings $N_{total}$ is calculated as follows. The values for $N$ and $L$ are both set to a minimum of 25, since it seemed to achieve the best looking results during prototyping.
 $$ 
