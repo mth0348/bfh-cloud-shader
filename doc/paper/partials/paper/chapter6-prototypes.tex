@@ -592,12 +592,12 @@ Given there is a \gls{cnn} (CNN) that is able to classify images of the sky, the
 Of course, this is heavily dependant of how well the CNN was trained.
 
 \subsubsection{Generative Adversarial Network}
-A similar approach to the \gls{cnn} is a  \gls{gan} (GAN) setup. It describes two neural networks, which contest with each other in a cat-and-mouse game: The \textit{generative} network tries to imitate the training set by generating artifical photographs with many realistic characteristics, while the \textit{discriminative} network tries to tell wether the generated image is fake or not.
+A similar approach to the \gls{cnn} is a  \gls{gan} (GAN) setup. It describes two neural networks, which contest with each other in a cat-and-mouse game: The \textit{generative} network tries to imitate the training set by generating artifical photographs with many realistic characteristics, while the \textit{discriminative} network tries to tell wether the generated images are fake or not.
 \\
 With this method, the rendered cloud images could be passed through the discriminative neural network to see if at least the network thinks the images are of real clouds.
 
 \subsubsection{Professional Meterological Assessment}
-Another viable solution is to let a professional meteorologist inspect and rate the rendered images and judge the realism of the depicted scenarios, which should at least reveal if the rendered images could even exist in reality.
+Another viable solution is to let a professional meteorologist inspect and rate the rendered images and judge the realism of the depicted scenarios, which should reveal if the rendered clouds could actually form and exist in reality.
 
 \clearpage
 \subsection{Performance}
@@ -622,10 +622,10 @@ Therefore, the idea arose to precalculate the 3D noise volume and feed it to the
 \\
 For this, a \gls{computeshader} was created with the attempt to generate said texture.
 Unfortunately, all experiments with \gls{computeshader}s were unsuccessful, as there is only very little documentation about 3D texture-generating \gls{computeshader}s for Unity Editor.
-This approach was therefore abandoned.
+This attempt was therefore abandoned.
 
 \paragraph{Early Exits}
-For some functions and loops, early exit conditions can speed up the run time. As an example in \autoref{lst:shader:prototype:raylightmarching}, which describes \gls{raymarching} combined with \gls{lightmarching}, the light does not need to be calculated when there is no cloud.
+For some functions and loops, early exit conditions can speed up the shader. As an example in \autoref{lst:shader:prototype:raylightmarching}, which describes \gls{raymarching} combined with \gls{lightmarching}, the light does not need to be calculated when there is no cloud.
 The following little extension should fix that issue.
 \begin{lstlisting}[language=HLSL]
 if (density <= 0) {

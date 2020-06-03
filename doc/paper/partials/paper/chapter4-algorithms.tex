@@ -91,15 +91,15 @@ When using the fragment coordinates as the vector \lstinline[language=HLSL]{co} 
 \end{figure}
 
 \noindent
-This method of procedural randomness still has one major flaw: It has no patterns. Contratictory to the word \textit{random}, a certain pattern is required in order to generate \textit{random} clouds. Luckily, there is more to random generation than just a highly sped up sine wave.
+This method of \gls{procedural} randomness still has one major flaw: It has no patterns. Contratictory to the word \textit{random}, a certain pattern is required in order to generate \textit{random} clouds. Luckily, there is more to random generation than just a highly sped up sine wave.
 
 \clearpage
 \subsection{Procedural Noise Patterns}
 Now that the concept of random numbers in the world of shaders is no longer a mystery, more advanced noise generation algorithms can be introduced.
-When using the word \textit{\gls{noise}} in this context, usually procedural pattern generation is meant.
+When using the word \textit{\gls{noise}} in this context, usually \gls{procedural} pattern generation is meant.
 
 \subsubsection{Perlin Noise}
-One of the most commonly used procedural pattern generation algorithms is that of Ken Perlin. Named after him, the algorithm works with the gradient, which was already introduced in \sectionref{section:rendering:surfacenormalestimation}.
+One of the most commonly used \gls{procedural} pattern generation algorithms is that of Ken Perlin. Named after him, the algorithm works with the gradient, which was already introduced in \sectionref{section:rendering:surfacenormalestimation}.
 \\
 It consists of the following three steps: 
 \begin{enumerate}
@@ -737,10 +737,10 @@ Since the Voronoi noise algorithm creates a cellular pattern, it is well suitabl
 
 \clearpage
 \subsubsection{Fractal Brownian Motion}
-In the world of shaders, the term \textit{fractal Brownian motion} (fBm) is often described as adding different levels of noise together, thus creating a self-similar pattern across different scales \cite{online:thebookofshaders:fractal}.
+In the world of shaders, the term \textit{\gls{fbm}} (fBm) is often described as adding different levels of noise together, thus creating a self-similar pattern across different scales \cite{online:thebookofshaders:fractal}.
 This simplified description meets the required level of detail for this section, a complete explanation and derivation of the fractal Brownian motion is beyond the scope of this paper.
 \emptyline
-In shaders, fBms are also called \textit{fractal noise}. They are usually implemented by adding different iterations of noise (called \textit{octaves}), while successively incrementing the frequencies in regular steps (\textit{lacunarity}) and decreasing the amplitude (\textit{gain}) of the noise.
+In shaders, fBms are also called \textit{\gls{fractalnoise}}. They are usually implemented by adding different iterations of noise (called \textit{octaves}), while successively incrementing the frequencies in regular steps (\textit{lacunarity}) and decreasing the amplitude (\textit{gain}) of the noise.
 This results in a more detailed noise, meaning a finer granularity of the pattern in the noise.
 
 \begin{lstlisting}[language=HLSL, caption=Implementation of fractal Brownian motion function., label=lst:shader:fbm]
@@ -793,7 +793,7 @@ Here are some example images of the fractal Brownian motion with different octav
 \end{figure}
 
 \noindent
-It is understandable that with every additional octave, the algorithm has to evaluate the noise at the given point again, making it worth considering the impact on performance fractal noise has.
+It is understandable that with every additional octave, the algorithm has to evaluate the noise at the given point again, making it worth considering the impact on performance \gls{fractalnoise} has.
 However, the final renders look convincingly "cloudy".
 
 \begin{figure}[H]
