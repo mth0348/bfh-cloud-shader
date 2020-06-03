@@ -36,6 +36,9 @@ To actually render the volume data, a method called \textit{\gls{raymarching}} i
     \captionof{figure}{Ray marching concept visualized.}
 \end{figure}
 
+\noindent
+The ray-surface intersection is not directly calculated because it is too complex for volumes like clouds, which is why the surface distance is approximated instead.
+
 \pagebreak
 \noindent
 In \gls{raymarching}, the algorithm only knows when it has reached the surface, or to be precise when it is inside the actual object volume.
