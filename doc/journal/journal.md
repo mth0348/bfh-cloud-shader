@@ -220,7 +220,6 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 | Added prototype results | 8h |
 | Added prototype results | 4h |
 |||
-
 &nbsp;
 
 &nbsp;
@@ -237,9 +236,9 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
     * Future work?
 
 * Open ToDos:
-    * (&nbsp;&nbsp; ) How does built-in Mathf.PerlinNoise() work?
-    * (&nbsp;&nbsp; ) Better reality check?
-    * (&nbsp;&nbsp; ) 3D gradient in section 3.1.5.1
+    * (--) How does built-in Mathf.PerlinNoise() work?
+    * (✔) Better reality check?
+    * (✔) 3D gradient in section 3.1.5.1
 
 ### Meeting discussions
 * Presentation
@@ -261,7 +260,7 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
     * (✔) Add "Sebstian Lague" as a reference
     * (✔) Document tricks and tuning of parameters and shader files (Code is documented)
     * (✔) 3D gradient in section 3.1.5.1
-    * (&nbsp;&nbsp; ) Abstract
+    * (✔) Abstract
     * (✔) GANs
     * (✔) Instead of screen-space position for light forwarding, maybe just compare angle (like in Phong)
     * (✔) Other measureable realism: evaluation by meteorologist
@@ -271,6 +270,7 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 | Task | time spent |
 |----|---|
 | Added project managemeent section | 4h |
+| Finalized document | 4h |
 |||
 &nbsp;
 
