@@ -522,6 +522,7 @@ This is done by feeding a mask texture into the shader, for which the cube's UV 
 
 \clearpage
 \subsection{Realism Check}
+\label{section:prototypes:realismcheck}
 While the prototypes in \autoref{img:captures:prototype_final:day} to \autoref{img:captures:prototype_final:stormy} do look realistically to a certain degree, it is still essential to have some sort of measurable factor with which the rendered images can be compared to real clouds.
 Some factor that ultimately shows how \textit{real} the rendered clouds actually are, apart from the human eye interpretation.
 
@@ -595,6 +596,10 @@ Of course, this is heavily dependant of how well the CNN was trained.
 A similar approach to the \gls{cnn} is a  \gls{gan} (GAN) setup. It describes two neural networks, which contest with each other in a cat-and-mouse game: The \textit{generative} network tries to imitate the training set by generating artifical photographs with many realistic characteristics, while the \textit{discriminative} network tries to tell wether the generated images are fake or not.
 \\
 With this method, the rendered cloud images could be passed through the discriminative neural network to see if at least the network thinks the images are of real clouds.
+
+\subsubsection{Histogram Comparison}
+The \textit{\gls{histogram}} is a graphical representation of data like brightness or color distribution of a given photograph.
+When extracting the color \gls{histogram}s of the real photograph and the one of the rendered image, they could be compared and rated how different in color they are.
 
 \subsubsection{Professional Meterological Assessment}
 Another viable solution is to let a professional meteorologist inspect and rate the rendered images and judge the realism of the depicted scenarios, which should reveal if the rendered clouds could actually form and exist in reality.
