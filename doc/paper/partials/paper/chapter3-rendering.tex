@@ -3,7 +3,7 @@
 
 \subsection{Definition}
 \Gls{volumetricrendering} describes a technique for generating a visual representation of data that is stored in a 3D volume. 
-This especially comes to use for visual effects that are volumetric in nature, like fluids, clouds, fire, smoke, fog and dust, which all are extremely difficult or even impossible to model with geometric primitives.
+This especially comes to use for visual effects that are volumetric in nature, like fluids, clouds, fire, smoke, fog and dust, which are all extremely difficult or even impossible to model with geometric primitives.
 \\
 In addition to rendering such effects, volumetric rendering has become essential to scientific applications like medical imaging, for which a typical 3D data volume is a set of 2D slice images acquired by a CT (computed tomography) or MRI (magnetic resonance imaging) scanner.
 \emptyline
@@ -11,7 +11,7 @@ The data volume is also called a \textit{\gls{scalarfield}} or \textit{\gls{vect
 For a scalar field, it can be imagined like a 3D grid, where each point holds a single number. This number could, for example, represent the density of a cloud at that very point.
 
 \subsection{Constant Step Ray Marching}
-To actually render the volume data, a method called \textit{\gls{raymarching}} is used. With it, the surface distance of the volumetric data is approximated by creating a ray from the camera to the object for each fragment processed in the fragment shader. The ray is then extended into the volume of the object and stepped forward until the surface is reached.
+To actually render the volume data, a method called \textit{\gls{raymarching}} is used. With it, the surface distance of the volumetric data is approximated by creating a ray from the camera to the object for each fragment. The ray is then extended into the volume of the object and stepped forward until the surface is reached.
 
 \begin{figure}[H]
     \centering
@@ -32,6 +32,9 @@ To actually render the volume data, a method called \textit{\gls{raymarching}} i
     \end{tikzpicture}
     \captionof{figure}{Ray marching concept visualized.}
 \end{figure}
+
+\subsubsection{Disclaimer}
+Most of the figures in the upcoming subsections depict only a single ray. However, this is only for explanatory purposes. The process has to be executed not once, but for each fragment processed by the fragment shader.
 
 \pagebreak
 \noindent
@@ -78,16 +81,6 @@ Once the ray is inside the actual volume, the functions returns the distance for
 
 \noindent
 An implementation of this algorithm can be seen in \autoref{lst:shader:raymarch:constantstep}. Note that the volume to be rendered in this example is just a simple sphere.
-So in order to check if the ray is inside the volume, the function \lstinline[language=HLSL]{sphereHit()} is used.
-\begin{lstlisting}[language=HLSL, numbers=left, caption=Implementation of a volume distance function for a sphere.,captionpos=b, label=lst:shader:raymarch:spherehit]
-bool sphereHit(float3 position) {
-    float4 sphere = float4(0, 1, 0, 1);
-    return distance(sphere.xyz, position) < sphere.w;
-}
-\end{lstlisting}
-
-\noindent
-With that given, the raymarch function is implemented like so:
 
 \begin{lstlisting}[language=HLSL, numbers=left, caption=Implementation of a ray march function with constant step.,captionpos=b, label=lst:shader:raymarch:constantstep]
 fixed4 raymarch(float3 position, float3 direction)
@@ -104,6 +97,15 @@ fixed4 raymarch(float3 position, float3 direction)
 }
 \end{lstlisting}
 
+\noindent
+In order to check if the ray is inside the volume, the function \lstinline[language=HLSL]{sphereHit()} is used.
+
+\begin{lstlisting}[language=HLSL, numbers=left, caption=Implementation of a volume distance function for a sphere.,captionpos=b, label=lst:shader:raymarch:spherehit]
+bool sphereHit(float3 position) {
+    float4 sphere = float4(0, 1, 0, 1);
+    return distance(sphere.xyz, position) < sphere.w;
+}
+\end{lstlisting}
 
 \pagebreak
 \subsection{Traditional Ray Marching}
