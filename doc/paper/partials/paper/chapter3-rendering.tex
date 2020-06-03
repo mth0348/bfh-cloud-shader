@@ -10,6 +10,9 @@ In addition to rendering such effects, volumetric rendering has become essential
 The data volume is also called a \textit{\gls{scalarfield}} or \textit{\gls{vectorfield}}, which associates a scalar or vector value, called \textit{\gls{voxel}} (short for \textit{volume element}), to every point in the defined space.
 For a scalar field, it can be imagined like a 3D grid, where each point holds a single number. This number could, for example, represent the density of a cloud at that very point.
 
+\subsection{Preliminary Notes}
+Most of the figures in the upcoming subsections depict only a single ray. However, this is only for explanatory purposes. The process has to be executed not once, but for each fragment processed by the fragment shader.
+
 \subsection{Constant Step Ray Marching}
 To actually render the volume data, a method called \textit{\gls{raymarching}} is used. With it, the surface distance of the volumetric data is approximated by creating a ray from the camera to the object for each fragment. The ray is then extended into the volume of the object and stepped forward until the surface is reached.
 
@@ -32,9 +35,6 @@ To actually render the volume data, a method called \textit{\gls{raymarching}} i
     \end{tikzpicture}
     \captionof{figure}{Ray marching concept visualized.}
 \end{figure}
-
-\subsubsection{Preliminary Notes}
-Most of the figures in the upcoming subsections depict only a single ray. However, this is only for explanatory purposes. The process has to be executed not once, but for each fragment processed by the fragment shader.
 
 \pagebreak
 \noindent
