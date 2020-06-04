@@ -268,7 +268,7 @@ fixed3 sunColor = sunTransmittance * _LightColor0.xyz * cloudDensity;
 \end{lstlisting}
 
 \noindent
-Like in other prototype code listings, there are some \gls{parameters} to play with. The sunlight strength or the sunlight range (in screen space) can both be adjusted, for example.
+Like in other prototype code listings, there are some \gls{parameters} to play with. The sunlight strength and the its range in screen-space can both be adjusted, for example.
 \\
 The idea of multiplying by \lstinline[language=HLSL]{cloudDensity} on line 9 was to fix the previously described flaw of clouds being too bright. 
 
@@ -339,7 +339,7 @@ Along its path, the density is sampled again $L$ times in constant steps. With t
 It is clearly visible that in \autoref{img:tikz:prototypes:lightmarching1}, a lot of density samples return a high value, resulting in a dark fragment color for this ray.
 To simplify, there is a lot of cloud mass in front of that sample point, so the fragment will not receive a lot of sunlight color.
 \\
-On the other hand, in \autoref{img:tikz:prototypes:lightmarching2}, only very few samples are even inside the cloud, resulting in a low value overall. This leads to a higher influence of the sun's color for that fragment, meaning the samples are more exposed to the sun.
+On the other hand, in \autoref{img:tikz:prototypes:lightmarching2}, only very few samples are even inside a cloud, resulting in a low value overall. This leads to a higher influence of the sun's color for that fragment, meaning the samples are more exposed to the sun.
 
 \begin{figure}[H]
     \centering
@@ -535,12 +535,10 @@ In the following subsection, each rendered image is compared to a real-life phot
 \clearpage
 \subsubsection{Real Life Comparison}
 In all the following comparison images, the left images are photographic references and the right side images are rendered in Unity Engine.
-\emptyline
-\autoref{img:captures:prototype_final:day} and \autoref{img:captures:prototype_final:puffy} both resemble cirrocumulus and altocumulus clouds.
-The cirrocumulus clouds are similar to altocumulus clouds, but they form at higher altitude and are significantly smaller, yet equally puffy.
 \\
+As for the cloud genera, \autoref{img:captures:prototype_final:day} and \autoref{img:captures:prototype_final:puffy} both resemble cirrocumulus and altocumulus clouds.
+The cirrocumulus clouds are similar to altocumulus clouds, but they form at higher altitude and are significantly smaller, yet equally puffy.
 \autoref{img:captures:prototype_final:night} and \autoref{img:captures:prototype_final:sunset} also show the distinctive cotton-like pattern of the altocumulus genus.
-When comparing to an actual photograph, there are only few differences.
 \emptyline
 By adjusting the scale of the shader, the clouds can be made smaller. In the following comparison, the directional \gls{lightmarching} has been turned down to a minimum so the light would look more wan. 
 
@@ -607,7 +605,7 @@ Another viable solution is to let a professional meteorologist inspect and rate 
 \clearpage
 \subsection{Performance}
 With the current implementations of \gls{raymarching} and \gls{lightmarching}, the performance of the shader is heavily dependent on the number of samples $N$ and $L$ taken along the rays.
-With a container cube the size of 400x200 pixel in screen-space (which is a relatively small box of clouds), the \gls{gpu} load is already enormously large. 
+With a container cube the size of 400x200 pixels in screen-space (which is a relatively small box of clouds), the \gls{gpu} load is already enormously large. 
 Here, the number of noise samplings $N_{total}$ is calculated as follows. The values for $N$ and $L$ are both set to a minimum of 25, since it seemed to achieve the best looking results during prototyping.
 $$ 
 \begin{array}{l}
@@ -618,12 +616,13 @@ $$
 $$
 
 \noindent
-So for a single frame, the number of times the noise function is called for this example is just about fifty million times. This inconceivably high number makes the current implementation desperately needy of optimization.
+So for a single frame, the number of times the noise function is called for this example is just about fifty million times.
+This inconceivably large number makes the current implementation desperately needy of optimization.
 
 \subsubsection{Optimization Attempts}
 \paragraph{Compute Shader}
 The fact that the noise function needs to be sampled so often may not even be the issue, but rather that the noise texture needs to be calculated again each time.
-Therefore, the idea arose to precalculate the 3D noise volume and feed it to the shader at runtime, in the form of a 3D texture cube.
+Therefore, the idea arose to precalculate the 3D noise volume and feed it to the shader at runtime in the form of a 3D texture cube, hoping that when sampling the same position twice, the noise would only be calculated once.
 \\
 For this, a \gls{computeshader} was created with the attempt to generate said texture.
 Unfortunately, all experiments with \gls{computeshader}s were unsuccessful, as there is only very little documentation about 3D texture-generating \gls{computeshader}s for Unity Editor.
