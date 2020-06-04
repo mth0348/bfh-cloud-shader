@@ -112,7 +112,7 @@ bool sphereHit(float3 position) {
 
 \pagebreak
 \subsection{Traditional Ray Marching}
-It is obvious to see that, for a constant step ray march to result in an accurate approximation of the surface distance, the step size is required to be relatively small.
+It is obvious to see that for a constant step ray march to result in an accurate approximation of the surface distance, the step size is required to be relatively small.
 This has a direct impact on performance and thus, is not a viable solution for the problem.
 \\
 In traditional \gls{raymarching}, an optimization for that has been developed. The algorithm does not blindly step forward, but instead tries to get as close to the real distance as possible.
@@ -156,7 +156,7 @@ Once the step size falls below a certain threshold, the distance approximation i
 \end{figure}
 
 \noindent
-As clearly visible, the traditional \gls{raymarching} ends up with a more precise result and the amount of steps per ray could be relatively lower, ultimately saving performance. 
+As clearly visible, the traditional \gls{raymarching} ends up with a more accurate result and the amount of steps per ray could be relatively lower, ultimately saving performance. 
 \\
 However, there is still an issue. The algorithm may jump in and out of the volume, even if it would already be precise enough, essentially taking unnecessary steps.
 
@@ -192,7 +192,7 @@ Instead of evaluating if the ray is inside the volume or not, an exact distance 
 For that, a function group called \textit{\gls{sdf}s} is used.
 
 \subsubsection{Signed Distance Functions}
-A \gls{sdf} (SDF) returns the shortest distance from that a given point in space to some surface.
+A \gls{sdf} (SDF) returns the shortest distance from a given point in space to some surface.
 The sign of the returned value indicates whether that point is inside the surface or outside, hence the name.
 \\
 For example, the \gls{sdf} $f(p)$ for a point $p=(p_1, p_2, p_3)$ to the surface of a sphere $s=(s_1, s_2, s_3)$ with radius $R$ looks like this:
@@ -335,9 +335,7 @@ Because of that, it is not possible to explicitly calculate the normals and ther
 \subsubsection{Surface Normal Estimation}
 \label{section:rendering:surfacenormalestimation}
 To approximate the normal vectors in a 3D data volume, the \textit{\gls{gradient}} is used. The \gls{gradient} represents the direction of greatest change of a scalar function.
-In \autoref{img:tikz:rendering:gradient}, the red arrows indicate the gradient for the points at the start of the arrows. 
-
-
+In \autoref{img:tikz:rendering:gradient}, the red arrows visualize the gradient. It is similar in 3D, where the gradient can be described as the path a ball would follow rolling downwards when dropped from the top of a corner. 
 
 \begin{figure}[H]
     \centering
@@ -488,8 +486,9 @@ In \gls{raymarching}, rendering cast shadows  proves to be rather easy. Naturall
 Since only a minute fraction of those rays actually reach the observer (the camera), a huge amount of rays would be calculated for nothing.
 Consequently, the rays are not traced from the light source to the camera but the other way around instead.
 \\
-As defined in \autoref{lst:shader:raymarch:spheretracing}, the \lstinline[language=HLSL]{raymarch()} function moves along the given ray and returns the distance to the nearest intersection of ray and volume.
-Therefore, when a surface point has been determined, a second ray march can be started from the newly found point in the opposite direction the primary light source is facing. If anything is hit on the way, the surface point lies in the shadow of the second hit object and should be darkened.
+As defined in \autoref{lst:shader:raymarch:spheretracing}, the \lstinline[language=HLSL]{raymarch()} function moves along the given ray and returns the distance to the intersection point of ray and volume.
+Therefore, when a surface point has been determined, a second ray march can be started from the newly found point in the opposite direction of the primary light source's direction.
+If anything is hit on the way, the surface point lies in the shadow of the second hit object and should be darkened.
 
 \begin{figure}[H]
     \centering
@@ -622,7 +621,7 @@ float sceneSDF(float3 position)
 \end{lstlisting}
 
 \noindent
-The following image displays the two blended shapes. Due to the fact that the shadow is calculated live, no additional changes have to be made in this regard.
+The following image displays the two blended shapes. Due to the fact that the shadow calculation is based on the same SDFs, no additional changes have to be made in this regard.
 \begin{figure}[H]
     \includegraphics[width=\linewidth]{unity captures/shape blending 1}
     \captionof{figure}{A blended sphere and box SDF with $k = 0.5$.}
@@ -630,11 +629,11 @@ The following image displays the two blended shapes. Due to the fact that the sh
 \end{figure}
 
 \clearpage
-\subsubsection{Solid Primitive Operators}
-To create more interesting figures than a rounded box, solid primitive operators can be used. As seen in \autoref{img:captures:shapeblending2}, "holes" are cut into the geometry. This is done by taking the difference (or intersection) of the box and a cylinder that goes through the box.
-Like the \lstinline[language=HLSL]{blend()} function takes in two \gls{sdf} results, the following methods also compare the distances.
+\subsubsection{Constructive Solid Geometry}
+To create more interesting figures than a rounded box, \gls{csg} (CSG) operators can be used. As seen in \autoref{img:captures:shapeblending2}, "holes" are cut into the geometry. This is done by taking the difference (or intersection) of the box and a cylinder that goes through the box.
+Like the \lstinline[language=HLSL]{blend()} function takes in two \gls{sdf} results, the following methods are also based on those values.
 
-\begin{lstlisting}[language=HLSL, caption=Implementation of solid primitive operations., label=lst:shader:shapeblending:primitiveoperations]
+\begin{lstlisting}[language=HLSL, caption=Implementation of constructive sold geometry., label=lst:shader:shapeblending:primitiveoperations]
 float intersection(float d1, float d2)
 {
     return max(d1, d2);
@@ -684,9 +683,9 @@ float ambientOcclusion(float3 p, float3 direction) {
 \noindent
 This comes close to the constant step ray marching algorithm, since it is marched along the ray in a predefined step size.
 On line 7, the scene SDF is substracted from the total distance and then divided by it. This just puts the scene distance in relation to the total distance.
-Also, \lstinline[language=HLSL]{max()} is used because the SDF can return a negative number for points inside the surface, so in order to not brighten the scene at point \lstinline[language=HLSL]{p} when this is the case, 0 is added instead.
+Also, \lstinline[language=HLSL]{max()} is used because the SDF can return a negative number for points inside the surface, so in order to not brighten the scene at point \lstinline[language=HLSL]{p} when this is the case, 0 is used instead.
 \\
-With \lstinline[language=HLSL]{AO_STEP_SIZE = 0.1}, \lstinline[language=HLSL]{AO_ITERATIONS = 3} and \lstinline[language=HLSL]{AO_INTENSITY = 0.2}, the following output is produced.
+With \lstinline[language=HLSL]{AO_STEP_SIZE = 0.1}, \lstinline[language=HLSL]{AO_ITERATIONS = 3} and \lstinline[language=HLSL]{AO_INTENSITY = 0.2}, the following output is produced:
 
 \begin{figure}[H]
     \centering

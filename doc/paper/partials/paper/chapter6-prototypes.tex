@@ -15,7 +15,7 @@ They are from here on out referred to as \textit{\gls{parameters}}.
 \clearpage
 \subsection{First Draft}
 The first drafts of prototypes created during this project all revolve around volumetric rendering. 
-Instead of using a \gls{sdf} and evaluating the distance each step, a noise function was used to simulate the \textit{mass} of the cloud. 
+Instead of using a \gls{sdf} and evaluating the distance to a 3D data volume, a noise function was used to simulate the \textit{mass} of the cloud. 
 The primary issue was to get the cube transparent where the noise function would return a number close to 0.0 and to color it where the number would be close to 1.0.
 The approach for solving this issue is done by sampling the cloud's density.
 
@@ -68,7 +68,7 @@ To account for that, the ray does not stop until the end of the container cube i
 Understandably, the bigger clouds in \autoref{img:tikz:prototypes:densitysampling} represent higher return values of the noise function, meaning denser areas.
 For the displayed ray, the values for points $p_1, p_3, p_4$ and $p_5$ are accumulated and used as a qualifier to color the fragment. In this case, a rather dark tone would be used.
 \\
-It is notable that $N$ has a linear impact on the performance, so it should be chosen carefully.
+It is notable that $N$ has an exponential impact on the performance, so it should be chosen carefully.
 \emptyline
 While marching along the ray, the step size is not constant but instead calculated: \\
 $ d_{step} = \frac{d_{box}}{N}$, where $d_{box}$ is equal to the total distance the ray travels while inside the box. To determine $d_{box}$, an \gls{aabb} (AABB) intersection test \cite{online:aabb} has to be done with the container cube and the ray.
