@@ -55,7 +55,7 @@ Material:
     - _SubSurfaceScatteringFade: 1.03
     - _SunIllumninenceStrength: 0.647
     - _SunLightScattering: 0.211
-    - _SunLightStrength: 2.47
+    - _SunLightStrength: 2
     - _SunLightTransmittance: 0.15
     - _T: 0.217
     - _VoronoiAmplitude: 1

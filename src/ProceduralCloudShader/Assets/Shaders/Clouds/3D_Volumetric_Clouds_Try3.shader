@@ -37,13 +37,14 @@
         _MaxLightSamples ("Max Light Samples", Range(0,40)) = 25
         _MaxLightSteps ("Max Light Steps", Range(0,10)) = 5
         _LightStepSize ("Light Step Size", Range(0,2)) = 0.1
-        _SubSurfaceScatteringFade ("Subsurface Scattering Fade", Range(0,4)) = 1
         [Space]
         _SunLightScattering ("Sunlight Forward Scattering", Range(0.1,0.5)) = 0.2
-        _DirectionalColor ("Sun Directional Color", Color) = (1,1,1,1)
-        [Enum(Subtractive,0,Additive,2)] _DirectionalFactor ("Directional Mode", int) = 0
         _SunLightStrength ("Sun Light Strength", Range(0.01,5)) = 1
-        _ShineThroughColor ("Sun Shine Through Color", Color) = (1,1,1,1)
+        [HDR]_ShineThroughColor ("Sun Shine Through Color", Color) = (1,1,1,1)
+        [HDR]_DirectionalColor ("Sun Directional Color", Color) = (1,1,1,1)
+        [Enum(Subtractive,0,Additive,2)] _DirectionalFactor ("Directional Mode", int) = 0
+        _SubSurfaceScatteringFade ("Subsurface Scattering Fade", Range(0,4)) = 1
+
         
         [Header(Clouds)]
         _CloudColor ("Cloud Color", Color) = (1,1,1,1)

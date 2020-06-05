@@ -7881,7 +7881,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   m_LocalRotation: {x: 0.8681599, y: 0.1606439, z: -0.40948722, w: 0.22980891}
-  m_LocalPosition: {x: 34.54, y: 30.88, z: 37.68}
+  m_LocalPosition: {x: 36.9, y: 36, z: 34.7}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
@@ -16707,31 +16707,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sun: {fileID: 705507995}
-  noiseComputeShader: {fileID: 7200000, guid: 3f54d2669c497ed469fc308ee8a1125c, type: 3}
-  renderTextureSlicer: {fileID: 0}
-  _PerlinScale: {x: 1, y: 1, z: 1}
-  _PerlinOffset: {x: 0, y: 0, z: 0}
-  _PerlinOctaves: 1
-  _PerlinPersistance: 0.5
-  _PerlinFrequency: 1
-  _PerlinAmplitude: 1
-  _PerlinMin: 0
-  _PerlinMax: 1
-  _PerlinBoost: 0
-  _PerlinDensityThreshold: 0.2
-  _PerlinDensityMultiplier: 1
-  _VoronoiScale: {x: 1, y: 1, z: 1}
-  _VoronoiOffset: {x: 0, y: 0, z: 0}
-  _VoronoiOctaves: 1
-  _VoronoiPersistance: 0.5
-  _VoronoiFrequency: 1
-  _VoronoiAmplitude: 1
-  _VoronoiMin: 0
-  _VoronoiMax: 1
-  _VoronoiBoost: 0
-  _VoronoiDensityThreshold: 0.2
-  _VoronoiDensityMultiplier: 1
-  updateNoise: 0
 --- !u!1 &1734497759
 GameObject:
   m_ObjectHideFlags: 0
