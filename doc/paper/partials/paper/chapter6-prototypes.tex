@@ -19,7 +19,7 @@ Instead of using a \gls{sdf} and evaluating the distance to a 3D data volume, a 
 The primary issue was to get the cube transparent where the noise function would return a number close to 0.0 and to color it where the number would be close to 1.0.
 The approach for solving this issue is done by sampling the cloud's density.
 
-\subsubsection{Density sampling}
+\subsubsection{Density Sampling}
 Like in \gls{volumetricrendering}, for each pixel fragment, a ray is cast from the fragment into the cube and extended along the view direction for that fragment.
 Usually, the algorithm can stop for a given ray if the \gls{sdf} returns a small enough distance, meaning the ray has hit a surface of the volume. However, it is different in the case with clouds, where the volume is \textit{\gls{translucent}} at most points.
 \\
@@ -526,7 +526,7 @@ This is done by feeding a mask texture into the shader, for which the cube's UV 
 While the prototypes in \autoref{img:captures:prototype_final:day} to \autoref{img:captures:prototype_final:stormy} do look realistically to a certain degree, it is still essential to have some sort of measurable factor with which the rendered images can be compared to real clouds.
 Some factor that ultimately shows how \textit{real} the rendered clouds actually are, apart from the human eye interpretation.
 
-\subsubsection{Objective interpretation}
+\subsubsection{Objective Interpretation}
 Before expanding on how to measure the realism of the cloud shader's output, it seems important to objectively identify the capabilities of it first.
 As originally stated in \sectionref{section:clouds-in-games}, the desired look of the clouds was that of the genus \textit{cumulus}.
 \\

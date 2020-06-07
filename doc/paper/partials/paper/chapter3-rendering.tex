@@ -41,7 +41,7 @@ The ray-surface intersection is not directly calculated because it is too comple
 
 \pagebreak
 \noindent
-In \gls{raymarching}, the algorithm only knows when it has reached the surface, or to be precise when it is inside the actual object volume.
+In \gls{raymarching}, the algorithm only knows when it has reached the surface, or to be precise, when it is inside the actual object volume.
 \\
 With this information, it is only possible to extend the ray in steps of a predefined length until the inside of the object is reached.
 With a constant step, the approximation of the surface distance is exactly as precise as the size of the constant step.
@@ -327,7 +327,7 @@ Another example why this check is important can be seen in the next figure. The 
 \clearpage
 \subsection{Surface Normals and Lighting}
 As it is the case for many other lighting models, the \gls{surfacenormal}s are used to calculate lighting in \gls{volumetricrendering}. 
-if the object is defined with a \gls{polymesh}, the \gls{surfacenormal}s are usually specified for each vertex. The normals for any given point on the surface can then be calculated by interpolating the adjacent vertex normals. 
+If the object is defined with a \gls{polymesh}, the \gls{surfacenormal}s are usually specified for each vertex. The normals for any given point on the surface can then be calculated by interpolating the adjacent vertex normals. 
 \\
 Since there is no \gls{polymesh} in \gls{volumetricrendering}, another solution has to be found for calculating the \gls{surfacenormal}s for a scene defined by \gls{sdf}s.
 Because of that, it is not possible to explicitly calculate the normals and therefore, an approximation is used. 
