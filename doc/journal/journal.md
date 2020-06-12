@@ -283,3 +283,43 @@ Next meeting is scheduled for March 17, 2020 at 2:30pm.
 
 ### Meeting discussions
 \-
+
+* genus einführen bevor genera
+* figure 4: bodenaufnahme
+AAA -major publisher
+comments for first use of params
+
+3.4 reword first sentence
+
+
+constants: variables in purple are constants, konkrete grösse erst bei prototypen ermittelt
+(bei erstem code listing)
+
+Figure 19 weglassen
+
+Soft shadows rework algorithm so that k=0 means hard shadows, and k = 100 means soft shadows
+
+4.1 "and rigid code environment" -> "determinstic execution environment
+0
+
+Due to more development time available
+
+moist -> humidity
+
+
+
+
+*Project fazit* ()
+viel gelernt,
+schedule eingehalten,
+corona egal gewesen,
+
+*Consclusion and critical discussion* (end of prototype)
+Technische conclusion?
+Was haben wir realisiert? (vorallem finaler prototype)
+vergleich mit anderen state-of-the-art?
+schwachstellen?
+\nocites dorthin schieben
+
+
+HDR colors added -> colors
