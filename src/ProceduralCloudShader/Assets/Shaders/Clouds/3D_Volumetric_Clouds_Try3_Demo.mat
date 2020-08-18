@@ -25,25 +25,25 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _CloudBorderGlow: 0.035
-    - _CloudDensityFactor: 5
+    - _CloudDensityFactor: 0.57
     - _CloudGapSize: 1
     - _DarkenHorizon: 0
     - _DensityMultiplier: 1
     - _DensityThreshold: 0.4
     - _DirectionalFactor: 2
-    - _HorizonMaxDistance: 147
-    - _HorizonMinDistance: 1
-    - _HorzionAddFactor: 0
+    - _HorizonMaxDistance: 125
+    - _HorizonMinDistance: 26
+    - _HorzionAddFactor: 2
     - _IlluminationFactor: 2
-    - _LightScatteringStrength: 0
+    - _LightScatteringStrength: 0.74
     - _LightStepSize: 1
     - _Mask: 1
     - _MaxLightSamples: 20
     - _MaxLightSteps: 2
-    - _MaxSteps: 30
+    - _MaxSteps: 20
     - _PerlinAmplitude: 1
     - _PerlinBoost: 0
-    - _PerlinDensityMultiplier: 1
+    - _PerlinDensityMultiplier: 2
     - _PerlinDensityThreshold: 0
     - _PerlinFrequency: 0.1
     - _PerlinMax: 1
@@ -52,15 +52,15 @@ Material:
     - _PerlinPersistance: 0.7
     - _PerlinScale: 1
     - _StepSize: 0.001
-    - _SubSurfaceScatteringFade: 1.03
+    - _SubSurfaceScatteringFade: 4
     - _SunIllumninenceStrength: 0.647
-    - _SunLightScattering: 0.211
-    - _SunLightStrength: 2
+    - _SunLightScattering: 0.141
+    - _SunLightStrength: 5
     - _SunLightTransmittance: 0.15
     - _T: 0.217
     - _VoronoiAmplitude: 1
     - _VoronoiBoost: 0
-    - _VoronoiDensityMultiplier: 1.2
+    - _VoronoiDensityMultiplier: 2.5
     - _VoronoiDensityThreshold: 0
     - _VoronoiFrequency: 1
     - _VoronoiMax: 1
@@ -72,15 +72,15 @@ Material:
     - _BoundsMax: {r: 55, g: 24, b: 85, a: 0}
     - _BoundsMin: {r: -25, g: 20, b: 15, a: 0}
     - _CamPos: {r: 2, g: 2, b: -5, a: 0}
-    - _CloudColor: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 1}
-    - _DirectionalColor: {r: 1, g: 0.78079355, b: 0, a: 1}
-    - _HorizonColor: {r: 0, g: 0.2006404, b: 0.5754717, a: 1}
-    - _IlluminationColor: {r: 1, g: 0.8549945, b: 0.4481132, a: 1}
+    - _CloudColor: {r: 0.7655686, g: 0.83482635, b: 0.8431372, a: 1}
+    - _DirectionalColor: {r: 5.992157, g: 4.7058825, b: 0, a: 1}
+    - _HorizonColor: {r: 0.667, g: 0.5676039, b: 0.32957646, a: 1}
+    - _IlluminationColor: {r: 1, g: 0.8549945, b: 0.44811308, a: 1}
     - _Offy: {r: 0, g: 0, b: 0, a: 0}
     - _PerlinOffset: {r: 4, g: -5, b: 0, a: 0}
     - _PerlinScale: {r: 1, g: 1, b: 1, a: 0}
     - _PhaseParams: {r: 0, g: 0, b: 0, a: 0}
-    - _ShineThroughColor: {r: 1, g: 0.78354603, b: 0, a: 1}
-    - _SunPosition: {r: 34.54, g: 30.88, b: 37.68, a: 0}
+    - _ShineThroughColor: {r: 2.9960785, g: 2.3529413, b: 0, a: 1}
+    - _SunPosition: {r: 36.9, g: 36, b: 34.7, a: 0}
     - _VoronoiOffset: {r: 8, g: 2, b: 0, a: 0}
     - _VoronoiScale: {r: 1, g: 1, b: 1, a: 0}

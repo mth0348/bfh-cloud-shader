@@ -27,9 +27,9 @@ Material:
     - _Amplitude: 0.5
     - _Boost: 0
     - _Frequency: 1.35
-    - _Max: 0.529
-    - _Min: 0.229
-    - _Octaves: 10
+    - _Max: 1
+    - _Min: 0
+    - _Octaves: 5
     - _Persistence: 0.5
     - _Scale: 1.2
     m_Colors:

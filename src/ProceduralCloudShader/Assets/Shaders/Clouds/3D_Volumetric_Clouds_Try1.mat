@@ -33,9 +33,9 @@ Material:
     - _PerlinMin: 0
     - _PerlinOctaves: 5
     - _PerlinPersistance: 0.5
-    - _PerlinScale: 1.07
+    - _PerlinScale: 1
     - _StepSize: 0.001
-    - _T: 0.5
+    - _T: 1
     - _VoronoiAmplitude: 1
     - _VoronoiBoost: 0
     - _VoronoiDensityMultiplier: 2
@@ -45,10 +45,10 @@ Material:
     - _VoronoiMin: 0
     - _VoronoiOctaves: 2
     - _VoronoiPersistance: 0.1
-    - _VoronoiScale: 0.41
+    - _VoronoiScale: 1
     m_Colors:
-    - _BoundsMax: {r: 4, g: 4, b: 4, a: 0}
-    - _BoundsMin: {r: 0, g: 0, b: 0, a: 0}
+    - _BoundsMax: {r: 2, g: 3, b: 2, a: 1}
+    - _BoundsMin: {r: -2, g: -1, b: -2, a: 1}
     - _CamPos: {r: 2, g: 2, b: -5, a: 0}
-    - _PerlinOffset: {r: 1, g: 0, b: 0, a: 0}
-    - _VoronoiOffset: {r: 0.3, g: 0, b: 0, a: 0}
+    - _PerlinOffset: {r: 0, g: 1, b: 0, a: 0}
+    - _VoronoiOffset: {r: 0, g: 1, b: 0, a: 0}

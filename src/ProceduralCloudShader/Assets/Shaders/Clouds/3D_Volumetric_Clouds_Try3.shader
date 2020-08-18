@@ -47,7 +47,7 @@
 
         
         [Header(Clouds)]
-        _CloudColor ("Cloud Color", Color) = (1,1,1,1)
+        [HSV]_CloudColor ("Cloud Color", Color) = (1,1,1,1)
         _CloudDensityFactor ("Cloud Density Factor", Range(0,5)) = 1
         _CloudGapSize ("Cloud Gap Size", Range(1,10)) = 1
         _LightScatteringStrength ("Light Scattering Strength", Range(0,2)) = 0.5
@@ -496,10 +496,12 @@
 
                 // apply horizon  distance coloring.
                 float horizonFading = smoothstep(_HorizonMinDistance, _HorizonMaxDistance, camDistance);
-                c += (_HorzionAddFactor - 1) * _HorizonColor * horizonFading * _HorizonColor.a;
+                c = lerp(c, _HorizonColor, horizonFading * _HorizonColor.a);
+                //c += (_HorzionAddFactor - 1) * _HorizonColor * horizonFading * _HorizonColor.a;
 
                 // combine.
                 fixed4 col = fixed4(c.x, c.y, c.z, saturate(a * _CloudColor.a * mask));
+                //fixed4 col = fixed4(1,1,1,1);
                 return col;
             }
             ENDCG
